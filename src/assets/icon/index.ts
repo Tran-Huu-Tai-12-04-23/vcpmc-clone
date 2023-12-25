@@ -1,0 +1,15 @@
+export { default as Logo } from './vcpmc_logo';
+export { default as SettingIcon } from './setting';
+export { default as StoreIcon } from './store';
+export { default as SupportIcon } from './support';
+export { default as RevenueIcon } from './revenue';
+export { default as PlaylistIcon } from './playlist';
+export { default as ManagerIcon } from './manager';
+export { default as CalenderIcon } from './calender';
+export { default as DotMenuVerIcon } from './dot_menu_vertical';
+export { default as SearchIcon } from './search';
+export { default as ViLanguageIcon } from './vi_language';
+export { default as CameraIcon } from './camera';
+export { default as EditIcon } from './edit';
+export { default as LogoutIcon } from './logout';
+export { default as LockIcon } from './lock';

@@ -1,13 +1,76 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*,
+html {
+    font-family: 'Montserrat', sans-serif;
+    user-select: none;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@import 'antd/dist/reset.css';
+:root {
+    --primary-color: transparent;
+    --text-color: #ff7506;
+    --text-color-hover: #ff7506;
+    --primary-color-darken: var(--primary-color);
+    --border-hover-color: transparent;
+    --border-color: transparent;
+    --primary-hover-color: var(--primary-color);
+    --text-size-primary: 16px;
+    --text-color-primar: white;
+    --bg-modal: #3e3e5b;
+}
+
+@primary-color: transparent;
+@primary-hover-color: transparent;
+
+.ant-btn.ant-btn-primary,
+.ant-btn-primary {
+    letter-spacing: 0.5%;
+    box-shadow: none;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    border-color: var(--border-color);
+}
+..ant-btn-primary:hover,
+.ant-btn.ant-btn-primary:hover {
+    background-color: var(--primary-hover-color) !important;
+    border-color: var(--border-hover-color) !important;
+    color: var(--text-color-hover) !important;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-btn-primary:not(:disabled):not(.ant-btn-disabled) {
+    background-color: var(--primary-hover-color) !important;
+    border-color: var(--border-hover-color) !important;
+    color: var(--text-color-hover) !important;
+}
+
+.main-app {
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: #1e1e2e;
+}
+
+.ant-input,
+.ant-input-password,
+.ant-checkbox-input {
+    /* Add additional styling to the ant-input class */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #2b2b3f;
+    /* border-color: transparent; */
+    color: white;
+}
+
+.space {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.center-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

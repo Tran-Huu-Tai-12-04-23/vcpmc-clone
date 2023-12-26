@@ -1,17 +1,16 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Avatar } from 'antd';
-import { CameraIcon } from '../../assets/icon';
+import { CameraIcon, SuccessIcon } from '../../assets/icon';
 import { Input, DatePicker, Button } from '../../Component';
 import FloatingActionButton from '../../Component/UI/FloatingActionButton';
 import { EditIcon, LockIcon, LogoutIcon } from '../../assets/icon';
+
 import dayjs from 'dayjs';
 import ModalResetPassword from './ModalResetPassword';
 
 function View() {
-    const [isEdit, setIsEdit] = useState<boolean>(false);
-    const [isResetPassword, setIsResetPassword] = useState(false);
-
     const user = {
         firstName: 'Tran',
         lastName: 'Tai',
@@ -21,6 +20,11 @@ function View() {
         username: 'xxxxtaik2300',
         role: 'ADMIN',
     };
+
+    const [isNotification, setIsNotification] = useState<boolean>(false);
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [isResetPassword, setIsResetPassword] = useState(false);
+
     const showModalResetPassword = () => {
         setIsResetPassword(!isResetPassword);
     };
@@ -47,6 +51,14 @@ function View() {
         },
     ];
 
+    const handleResetPassword = () => {
+        setIsNotification(true);
+
+        setTimeout(() => {
+            setIsNotification(false);
+        }, 8000);
+    };
+
     return (
         <div className="mt-header  pl-[38px]">
             <h5 className="text-white text-size-header font-semibold">Thông tin cơ bản</h5>
@@ -69,8 +81,8 @@ function View() {
                 </div>
                 <form className="flex items-start flex-col gap-10 ">
                     <div className="flex justify-start gap-8">
-                        <Input value={user.firstName} isEdit={true} width={300} height={48} label="Họ:" />
-                        <Input value={user.lastName} isEdit={true} width={300} height={48} label="Tên:" />
+                        <Input value={user.firstName} isEdit={!isEdit} width={300} height={48} label="Họ:" />
+                        <Input value={user.lastName} isEdit={!isEdit} width={300} height={48} label="Tên:" />
                     </div>
                     <div className="flex justify-start gap-8 ">
                         {isEdit ? (
@@ -81,9 +93,15 @@ function View() {
                                 label="Ngày sinh:"
                             />
                         ) : (
-                            <Input value={user.dateOfBirth} isEdit={true} width={300} height={48} label="Ngày sinh:" />
+                            <Input value={user.dateOfBirth} width={300} height={48} label="Ngày sinh:" />
                         )}
-                        <Input value={user.phoneNumber} isEdit={true} width={300} height={48} label="Số điện thoại:" />
+                        <Input
+                            value={user.phoneNumber}
+                            isEdit={!isEdit}
+                            width={300}
+                            height={48}
+                            label="Số điện thoại:"
+                        />
                     </div>
 
                     <Input
@@ -134,9 +152,17 @@ function View() {
             <FloatingActionButton floatingActionButtonConfig={floatingActionButtonConfig} />
             <ModalResetPassword
                 centered
+                onOk={handleResetPassword}
                 isOpen={isResetPassword}
                 onCancel={() => setIsResetPassword((prevState) => !prevState)}
             />
+
+            {isNotification && (
+                <div className="fixed z-[200000] transition-all flex justify-center items-center bg-toast bottom-10 left-1/2 -translate-x-1/2 w-[] pl-[24px] pr-[24px] pt-[16px] pb-[16px] rounded-[12px]">
+                    <SuccessIcon />
+                    <h6 className="text-[18px] ml-[16px] font-medium">Đổi mật khẩu thành công!</h6>
+                </div>
+            )}
         </div>
     );
 }

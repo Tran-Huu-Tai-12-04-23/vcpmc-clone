@@ -15,6 +15,7 @@ module.exports = {
                 input: '#2b2b3f',
                 'input-readonly': '#3e3e50',
                 modal: '#3e3e5b',
+                toast: '#727288',
             },
             borderColor: {
                 primary: '#ff7506',

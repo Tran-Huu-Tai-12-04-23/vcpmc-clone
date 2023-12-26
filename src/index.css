@@ -60,7 +60,12 @@ html {
     /* border-color: transparent; */
     color: white;
 }
-
+.ant-notification-notice.ant-notification-notice-success.ant-notification-notice-closable {
+    @apply border-none bg-menu rounded-md overflow-hidden text-white shadow-none;
+}
+.ant-notification-notice-wrapper {
+    @apply bg-transparent shadow-none border-none;
+}
 .space {
     display: flex;
     align-items: center;

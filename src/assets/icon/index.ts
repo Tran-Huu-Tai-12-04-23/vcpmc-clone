@@ -13,3 +13,4 @@ export { default as CameraIcon } from './camera';
 export { default as EditIcon } from './edit';
 export { default as LogoutIcon } from './logout';
 export { default as LockIcon } from './lock';
+export { default as SuccessIcon } from './success';

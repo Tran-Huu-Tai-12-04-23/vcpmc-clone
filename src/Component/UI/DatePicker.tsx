@@ -1,6 +1,7 @@
 import { DatePicker as DatePickerAntd, DatePickerProps, Typography } from 'antd';
 import styled from 'styled-components';
 import { CalenderIcon } from '../../assets/icon';
+import { UseFormRegister } from 'react-hook-form';
 
 const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
     width: '100%';
@@ -32,6 +33,7 @@ type DatePickerCustomProps = DatePickerProps & {
     isPassword?: boolean;
     readOnly?: boolean;
     isEdit?: boolean;
+    name?: string;
 };
 
 function DatePicker(props: DatePickerCustomProps) {

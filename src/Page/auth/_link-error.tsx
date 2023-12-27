@@ -14,7 +14,7 @@ function LinkError() {
                 đặt lại mật khẩu của bạn.
             </h6>
             <div className="flex flex-col justify-center items-center gap-6">
-                <Button typebtn="outline" sizeType="hug">
+                <Button typebtn="outline" sizetype="hug">
                     Yêu cầu gửi lại link
                 </Button>
             </div>

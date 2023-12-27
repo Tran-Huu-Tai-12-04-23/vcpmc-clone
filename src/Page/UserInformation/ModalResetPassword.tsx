@@ -37,15 +37,15 @@ function ModalResetPassword(props: ModalPropsCustom) {
             <div className="flex flex-col p-[2px] w-full gap-10 justify-center items-center">
                 <h5 className="text-white text-[24px] font-[700]">Thay đổi mật khẩu</h5>
                 <div className="flex flex-col p-[2px] w-full gap-5 justify-center items-center">
-                    <Input isPassword height={48} width={500} label="Mật khẩu hiện tại" />
-                    <Input isPassword height={48} width={500} label="Mật khẩu mới" />
-                    <Input isPassword height={48} width={500} label="Nhập lại mật khẩu mới" />
+                    <Input type="password" height={48} width={500} label="Mật khẩu hiện tại" />
+                    <Input type="password" height={48} width={500} label="Mật khẩu mới" />
+                    <Input type="password" height={48} width={500} label="Nhập lại mật khẩu mới" />
                 </div>
                 <div className="w-full flex justify-center items-center gap-10">
-                    <Button onClick={props.onCancel} typebtn="outline" sizeType="hug">
+                    <Button onClick={props.onCancel} typebtn="outline" sizetype="hug">
                         Hủy
                     </Button>
-                    <Button onClick={props.onOk} typebtn="primary" sizeType="hug">
+                    <Button onClick={props.onOk} typebtn="primary" sizetype="hug">
                         Lưu
                     </Button>
                 </div>

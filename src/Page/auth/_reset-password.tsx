@@ -16,10 +16,10 @@ function ResetPassword() {
                 >
                     Đặt lại mật khẩu
                 </Typography.Title>
-                <Input height={48} width={471} label="Mật khẩu mới" isPassword={true} />
-                <Input height={48} width={471} label="Nhập lại mật khẩu mới" isPassword={true} />
+                <Input height={48} width={471} label="Mật khẩu mới" type="password" />
+                <Input height={48} width={471} label="Nhập lại mật khẩu mới" type="password" />
                 {/* <a className="font-normal text-[16px] text-error w-full ">Hãy nhập tài khoản và mật khẩu</a> */}
-                <Button typebtn="primary" sizeType="hug">
+                <Button typebtn="primary" sizetype="hug">
                     Lưu mật khẩu
                 </Button>
             </div>

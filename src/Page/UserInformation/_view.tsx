@@ -138,10 +138,10 @@ function View() {
 
                     {isEdit && (
                         <div className="flex justify-center w-full mt-[90px] items-center gap-10">
-                            <Button typebtn="outline" sizeType="hug" onClick={() => setIsEdit(!isEdit)}>
+                            <Button typebtn="outline" sizetype="hug" onClick={() => setIsEdit(!isEdit)}>
                                 Hủy
                             </Button>
-                            <Button typebtn="primary" sizeType="hug">
+                            <Button typebtn="primary" sizetype="hug">
                                 Lưu
                             </Button>
                         </div>

@@ -5,15 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './State';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <React.StrictMode>
-        <Suspense>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </Suspense>
+        <Provider store={store}>
+            <Suspense>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </Suspense>
+        </Provider>
     </React.StrictMode>,
 );
 

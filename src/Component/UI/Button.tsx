@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { Button as BtnAnt, ButtonProps } from 'antd';
 
-const getSizeStyles = (size: CustomButtonProps['sizeType']) => {
+const getSizeStyles = (size: CustomButtonProps['sizetype']) => {
     switch (size) {
         case 'small':
             return css`
@@ -91,12 +91,12 @@ const getStyleTypeBtn = (type: CustomButtonProps['typebtn']) => {
 type CustomButtonSize = 'medium' | 'small' | 'ex-hug' | 'hug';
 type CustomButtonType = 'primary' | 'default' | 'outline' | 'disable';
 interface CustomButtonProps extends ButtonProps {
-    sizeType?: CustomButtonSize;
+    sizetype?: CustomButtonSize;
     typebtn?: CustomButtonType;
 }
 
 const CustomButton = styled(BtnAnt)<CustomButtonProps>`
-    ${(props) => getSizeStyles(props.sizeType || 'small')};
+    ${(props) => getSizeStyles(props.sizetype || 'small')};
     ${(props) => getStyleTypeBtn(props.typebtn || 'default')};
 `;
 
@@ -107,7 +107,7 @@ function Button(props: CustomButtonProps) {
             type="primary"
             onClick={props.onClick}
             typebtn={props.typebtn}
-            sizeType={props.sizeType}
+            sizetype={props.sizetype}
         >
             {props.children}
         </CustomButton>

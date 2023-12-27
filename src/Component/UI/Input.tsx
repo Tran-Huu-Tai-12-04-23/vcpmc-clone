@@ -34,7 +34,6 @@ const CustomInputPassword = styled(InputAntd.Password)<InputPropsCustom>`
 interface InputPropsCustom extends InputProps {
     label?: string;
     isError?: boolean;
-    isPassword?: boolean;
     readOnly?: boolean;
     isEdit?: boolean;
 }
@@ -55,7 +54,7 @@ function Input(props: InputPropsCustom) {
                     {props.label}
                 </Typography.Title>
             )}
-            {props.isPassword ? (
+            {props.type === 'password' ? (
                 <CustomInputPassword {...props} placeholder={props.placeholder} isError={props.isError} />
             ) : (
                 <CustomInput {...props} placeholder={props.placeholder} isError={props.isError} />

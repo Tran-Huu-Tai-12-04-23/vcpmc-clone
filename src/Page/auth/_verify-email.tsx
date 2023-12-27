@@ -32,7 +32,7 @@ function Login() {
                         </h6>
                         <div className="flex flex-col gap-8 items-center">
                             <Input height={48} width={600} label="Email" />
-                            <Button onClick={handleVerifyEmail} typebtn="primary" sizeType="hug">
+                            <Button onClick={handleVerifyEmail} typebtn="primary" sizetype="hug">
                                 Xác nhận
                             </Button>
                         </div>

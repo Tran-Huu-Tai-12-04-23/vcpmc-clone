@@ -6,7 +6,8 @@ function FloatingActionButton(props: FloatingActionButtonProps) {
         return props.floatingActionButtonConfig?.map((ac, index) => {
             return (
                 <div
-                    className="pt-2 pb-2 flex flex-col justify-center items-center rounded-full mt-2 mb-2"
+                    key={index}
+                    className="pt-2 cursor-pointer pb-2 flex flex-col justify-center items-center rounded-full mt-2 mb-2"
                     onClick={ac.action}
                 >
                     <div className="flex text-primary bg-[#505064] w-[52px] h-[52px] justify-center items-center p-2 rounded-full">

@@ -1,29 +1,45 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
-import { Avatar } from 'antd';
+import { Avatar, DatePickerProps } from 'antd';
 import { CameraIcon, SuccessIcon } from '../../assets/icon';
 import { Input, DatePicker, Button } from '../../Component';
 import FloatingActionButton from '../../Component/UI/FloatingActionButton';
 import { EditIcon, LockIcon, LogoutIcon } from '../../assets/icon';
 
-import dayjs from 'dayjs';
+import dayJs, { Dayjs } from 'dayjs';
 import ModalResetPassword from './ModalResetPassword';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { RootState, actionAuthenticate, actionUserDetail } from '../../State';
+import { IUserDetail } from '../../Model/userDetail.model';
+
+const initUserDetail: IUserDetail = {
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    email: '',
+    dateOfBirth: dayJs(new Date()),
+    userId: '',
+    id: '',
+};
 function View() {
-    const user = {
-        firstName: 'Tran',
-        lastName: 'Tai',
-        phoneNumber: '+84376100XXX',
-        dateOfBirth: '12/04/2003',
-        email: 'huutaiXX@gmail.com',
-        username: 'xxxxtaik2300',
-        role: 'ADMIN',
-    };
+    const dispatch = useDispatch();
+    const userDetailState = useSelector((state: RootState) => state.userDetail);
+    const user = useSelector((state: RootState) => state.authenticate.user);
+    const data = userDetailState.userDetail ? userDetailState.userDetail : initUserDetail;
+    const { logout } = bindActionCreators(actionAuthenticate, dispatch);
+    const { loadUserDetail, updateUserDetail } = bindActionCreators(actionUserDetail, dispatch);
 
     const [isNotification, setIsNotification] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [isResetPassword, setIsResetPassword] = useState(false);
+
+    // state user detail
+    const [firstName, setFirstName] = useState<string>(data.firstName);
+    const [lastName, setLastName] = useState<string>(data.lastName);
+    const [phoneNumber, setPhoneNumber] = useState<string>(data.phoneNumber);
+    const [dateOfBirth, setDateOfBirth] = useState<Dayjs>(data.dateOfBirth);
 
     const showModalResetPassword = () => {
         setIsResetPassword(!isResetPassword);
@@ -47,7 +63,10 @@ function View() {
         {
             name: 'Đăng xuất',
             icon: <LogoutIcon />,
-            action: () => {},
+            action: () => {
+                sessionStorage.clear();
+                logout();
+            },
         },
     ];
 
@@ -58,6 +77,45 @@ function View() {
             setIsNotification(false);
         }, 8000);
     };
+
+    const handleUpdateUserDetail = async () => {
+        if (firstName === '' || lastName === '' || phoneNumber === '' || dateOfBirth === undefined) return;
+        const newData = {
+            ...data,
+            firstName,
+            lastName,
+            dateOfBirth,
+            phoneNumber,
+        };
+
+        await updateUserDetail(data.id, newData);
+
+        if (userDetailState.error === undefined) setIsEdit(false);
+    };
+
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+        if (date) setDateOfBirth(date);
+    };
+
+    useEffect(() => {
+        const fetchUserDetails = async (userId: string) => {
+            await loadUserDetail(userId);
+        };
+
+        if (user && user.id) {
+            fetchUserDetails(user.id);
+        }
+        // eslint-disable-next-line
+    }, [user]);
+
+    useEffect(() => {
+        if (data) {
+            setFirstName(data.firstName);
+            setLastName(data.lastName);
+            setPhoneNumber(data.phoneNumber);
+            setDateOfBirth(dayJs(data.dateOfBirth));
+        }
+    }, [data]);
 
     return (
         <div className="mt-header  pl-[38px]">
@@ -81,22 +139,44 @@ function View() {
                 </div>
                 <form className="flex items-start flex-col gap-10 ">
                     <div className="flex justify-start gap-8">
-                        <Input value={user.firstName} isEdit={!isEdit} width={300} height={48} label="Họ:" />
-                        <Input value={user.lastName} isEdit={!isEdit} width={300} height={48} label="Tên:" />
+                        <Input
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            isEdit={!isEdit}
+                            width={300}
+                            height={48}
+                            label="Họ:"
+                        />
+                        <Input
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            isEdit={!isEdit}
+                            width={300}
+                            height={48}
+                            label="Tên:"
+                        />
                     </div>
                     <div className="flex justify-start gap-8 ">
                         {isEdit ? (
                             <DatePicker
-                                value={dayjs(new Date(user.dateOfBirth))}
+                                value={dateOfBirth}
                                 width={278}
                                 height={40}
                                 label="Ngày sinh:"
+                                onChange={onChange}
                             />
                         ) : (
-                            <Input value={user.dateOfBirth} width={300} height={48} label="Ngày sinh:" />
+                            <Input
+                                readOnly={true}
+                                value={dateOfBirth.format('YYYY-MM-DD')}
+                                width={300}
+                                height={48}
+                                label="Ngày sinh:"
+                            />
                         )}
                         <Input
-                            value={user.phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            value={phoneNumber}
                             isEdit={!isEdit}
                             width={300}
                             height={48}
@@ -109,7 +189,7 @@ function View() {
                             background: '#3E3E50',
                             color: '#878890',
                         }}
-                        value={user.email}
+                        value={data.email}
                         readOnly={true}
                         height={48}
                         label="Email:"
@@ -119,7 +199,7 @@ function View() {
                             background: '#3E3E50',
                             color: '#878890',
                         }}
-                        value={user.username}
+                        value={user?.username}
                         readOnly={true}
                         height={48}
                         label="Tên đăng nhập:"
@@ -129,7 +209,7 @@ function View() {
                             background: '#3E3E50',
                             color: '#878890',
                         }}
-                        value={user.role}
+                        value={data?.role}
                         readOnly={true}
                         height={48}
                         width={300}
@@ -141,7 +221,7 @@ function View() {
                             <Button typebtn="outline" sizetype="hug" onClick={() => setIsEdit(!isEdit)}>
                                 Hủy
                             </Button>
-                            <Button typebtn="primary" sizetype="hug">
+                            <Button onClick={handleUpdateUserDetail} typebtn="primary" sizetype="hug">
                                 Lưu
                             </Button>
                         </div>

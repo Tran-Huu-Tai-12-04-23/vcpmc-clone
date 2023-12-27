@@ -3,7 +3,7 @@ import { rootReducers, RootState } from '../reducers';
 import { thunk } from 'redux-thunk';
 
 // Create store using Redux Toolkit
-export const store = configureStore<RootState, any, any>({
+export const store = configureStore({
     reducer: rootReducers,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

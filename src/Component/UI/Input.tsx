@@ -37,7 +37,7 @@ interface InputPropsCustom extends InputProps {
     readOnly?: boolean;
     isEdit?: boolean;
 }
-function Input(props: InputPropsCustom) {
+function Input({ isEdit, ...props }: InputPropsCustom) {
     return (
         <div className={`relative w-full `}>
             {props.label && (
@@ -60,7 +60,7 @@ function Input(props: InputPropsCustom) {
                 <CustomInput {...props} placeholder={props.placeholder} isError={props.isError} />
             )}
 
-            {(props.readOnly || props.isEdit) && <div className="absolute left-0 right-0 top-0 bottom-0 "></div>}
+            {(props.readOnly || isEdit) && <div className="absolute left-0 right-0 top-0 bottom-0 "></div>}
         </div>
     );
 }

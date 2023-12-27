@@ -4,7 +4,13 @@ import { IUser } from '../Model/user.model';
 
 const db = getFirestore(app);
 
-export const login = async (user: IUser) => {
+type ResponseType = {
+    data: IUser | null;
+    message: string;
+    status: boolean;
+};
+
+export const login = async (user: IUser): Promise<ResponseType | null> => {
     try {
         const usersCollection = collection(db, 'user');
         const userQuery = query(usersCollection, where('username', '==', user.username));
@@ -12,14 +18,17 @@ export const login = async (user: IUser) => {
         if (!querySnapshot.empty) {
             const userData = querySnapshot.docs[0].data() as IUser;
             if (userData.password === user.password) {
-                // Password matches, perform login logic here
                 return {
                     status: true,
                     message: 'Login successful!',
-                    data: userData,
+                    data: {
+                        id: querySnapshot.docs[0].id,
+                        ...userData,
+                    },
                 };
             } else {
                 return {
+                    data: null,
                     status: false,
                     message: 'Invalid password!',
                 };
@@ -34,5 +43,6 @@ export const login = async (user: IUser) => {
         }
     } catch (error: any) {
         console.error('Error fetching data from Firestore:', error.message);
+        return null;
     }
 };

@@ -2,39 +2,69 @@ import { Link } from 'react-router-dom';
 import { Button, Checkbox, Input } from '../../Component';
 import { Logo } from '../../assets/icon';
 import RouteConstant from '../../Constant/_route';
-import { useEffect } from 'react';
-import { actionAuthenticate } from '../../State';
+import { useEffect, useState } from 'react';
+import { actionAuthenticate, RootState } from '../../State';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { IAuthenticateInfo } from '../../Model/authenticateInfo.model';
+import { IUser } from '../../Model/user.model';
 
 function Login() {
     const dispatch = useDispatch();
     const { login } = bindActionCreators(actionAuthenticate, dispatch);
-    const data = useSelector((state: any) => state.authenticate);
+    const data = useSelector((state: RootState) => state.authenticate);
+    //
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [isRememberLogin, setIsRememberLogin] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+
+    const handleLogin = async () => {
+        const user: IUser = {
+            username,
+            password,
+        };
+        if (user.username === '' || user.password === '') {
+            setError('Hãy nhập tài khoản và mật khẩu!');
+            return;
+        }
+        await login(user, isRememberLogin);
+    };
 
     useEffect(() => {
-        login({
-            username: 'huutai',
-            password: 'huutai',
-        });
-    }, []);
-
-    useEffect(() => {
-        console.log(data);
+        if (data.error) {
+            setError(data.error);
+        }
     }, [data]);
+
     return (
         <form className="flex flex-col gap-16 justify-center items-center">
             <Logo width={240} height={240} />
             <div className="flex flex-col justify-center items-center gap-6">
                 <h5 className="text-white text-size-header font-semibold">Đăng nhập</h5>
-                <Input height={48} width={471} label="Tên đăng nhập" />
-                <Input height={48} width={471} label="Mật khẩu" type="password" />
-                <h6 className="font-normal text-[16px] text-error w-full ">Hãy nhập tài khoản và mật khẩu</h6>
+                <Input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    height={48}
+                    width={471}
+                    label="Tên đăng nhập"
+                />
+                <Input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    height={48}
+                    width={471}
+                    label="Mật khẩu"
+                    type="password"
+                />
+                <h6 className="font-normal text-[16px] text-error w-full ">{error}</h6>
                 <div className="flex w-full justify-start items-center">
-                    <Checkbox label="Ghi nhớ mật khẩu" />
+                    <Checkbox
+                        value={isRememberLogin}
+                        onChange={(e) => setIsRememberLogin(e.target.checked)}
+                        label="Ghi nhớ mật khẩu"
+                    />
                 </div>
-                <Button typebtn="primary" sizetype="hug">
+                <Button onClick={handleLogin} loading={data.loading} typebtn="primary" sizetype="hug">
                     Đăng nhập
                 </Button>
             </div>

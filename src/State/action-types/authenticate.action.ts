@@ -2,10 +2,10 @@
 import { IUser } from '../../Model/user.model';
 
 export enum AuthenTicationActionType {
-    LOGIN = 'LOG_IN',
-    LOGOUT = 'LOG_OUT',
-    LOG_ERROR = 'LOG_ERROR',
-    LOADING = 'LOADING',
+    LOGIN = 'AUTHENTICATE/LOG_IN',
+    LOGOUT = 'AUTHENTICATE/LOG_OUT',
+    LOG_ERROR = 'AUTHENTICATE/LOG_ERROR',
+    LOADING = 'AUTHENTICATE/LOADING',
 }
 
 interface Login {

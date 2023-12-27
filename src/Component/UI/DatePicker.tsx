@@ -1,7 +1,6 @@
 import { DatePicker as DatePickerAntd, DatePickerProps, Typography } from 'antd';
 import styled from 'styled-components';
 import { CalenderIcon } from '../../assets/icon';
-import { UseFormRegister } from 'react-hook-form';
 
 const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
     width: '100%';
@@ -53,7 +52,12 @@ function DatePicker(props: DatePickerCustomProps) {
                     {props.label}
                 </Typography.Title>
             )}
-            <DatePickerCustom suffixIcon={<CalenderIcon color={'#ff7506'} />} placeholder="" {...props} />
+            <DatePickerCustom
+                onChange={props.onChange}
+                suffixIcon={<CalenderIcon color={'#ff7506'} />}
+                placeholder=""
+                {...props}
+            />
             {(props.readOnly || props.isEdit) && <div className="absolute left-0 right-0 top-0 bottom-0 "></div>}
         </div>
     );

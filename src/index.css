@@ -3,23 +3,23 @@
 @tailwind utilities;
 *,
 html {
-    font-family: 'Montserrat', sans-serif;
-    user-select: none;
+  font-family: "Montserrat", sans-serif;
+  user-select: none;
 }
 
-@import 'antd/dist/reset.css';
+@import "antd/dist/reset.css";
 :root {
-    --primary-color: transparent;
-    --text-color: #ff7506;
-    --text-color-hover: #ff7506;
-    --primary-color-darken: var(--primary-color);
-    --border-hover-color: transparent;
-    --border-color: transparent;
-    --primary-hover-color: var(--primary-color);
-    --text-size-primary: 16px;
-    --text-color-primar: white;
-    --bg-modal: #3e3e5b;
-    --primary: #ff7506;
+  --primary-color: transparent;
+  --text-color: #ff7506;
+  --text-color-hover: #ff7506;
+  --primary-color-darken: var(--primary-color);
+  --border-hover-color: transparent;
+  --border-color: transparent;
+  --primary-hover-color: var(--primary-color);
+  --text-size-primary: 16px;
+  --text-color-primar: white;
+  --bg-modal: #3e3e5b;
+  --primary: #ff7506;
 }
 
 @primary-color: transparent;
@@ -27,71 +27,143 @@ html {
 
 .ant-btn.ant-btn-primary,
 .ant-btn-primary {
-    letter-spacing: 0.5%;
-    box-shadow: none;
-    color: var(--text-color);
-    background-color: var(--primary-color);
-    border-color: var(--border-color);
+  letter-spacing: 0.5%;
+  box-shadow: none;
+  color: var(--text-color);
+  background-color: var(--primary-color);
+  border-color: var(--border-color);
 }
 ..ant-btn-primary:hover,
 .ant-btn.ant-btn-primary:hover {
-    background-color: var(--primary-hover-color) !important;
-    border-color: var(--border-hover-color) !important;
-    color: var(--text-color-hover) !important;
+  background-color: var(--primary-hover-color) !important;
+  border-color: var(--border-hover-color) !important;
+  color: var(--text-color-hover) !important;
 }
-:where(.css-dev-only-do-not-override-gzal6t).ant-btn-primary:not(:disabled):not(.ant-btn-disabled) {
-    background-color: var(--primary-hover-color) !important;
-    border-color: var(--border-hover-color) !important;
-    color: var(--text-color-hover) !important;
+:where(.css-dev-only-do-not-override-gzal6t).ant-btn-primary:not(:disabled):not(
+    .ant-btn-disabled
+  ) {
+  background-color: var(--primary-hover-color) !important;
+  border-color: var(--border-hover-color) !important;
+  color: var(--text-color-hover) !important;
 }
 
 .main-app {
-    min-height: 100vh;
-    min-width: 100vw;
-    background-color: #1e1e2e;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: #1e1e2e;
 }
 
 .ant-input,
 .ant-input-password,
 .ant-checkbox-input {
-    /* Add additional styling to the ant-input class */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #2b2b3f;
-    /* border-color: transparent; */
-    color: white;
+  /* Add additional styling to the ant-input class */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #2b2b3f;
+  /* border-color: transparent; */
+  color: white;
 }
 .ant-notification-notice.ant-notification-notice-success.ant-notification-notice-closable {
-    @apply border-none bg-menu rounded-md overflow-hidden text-white shadow-none;
+  @apply overflow-hidden rounded-md border-none bg-menu text-white shadow-none;
 }
 .ant-notification-notice-wrapper {
-    @apply bg-transparent shadow-none border-none;
+  @apply border-none bg-transparent shadow-none;
 }
 .space {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .center-item {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* custom class tailwind css  */
 .box-start {
-    @apply flex justify-start items-center;
+  @apply flex items-center justify-start;
 }
 .box-center {
-    @apply flex justify-center items-center;
+  @apply flex items-center justify-center;
 }
 .box-end {
-    @apply flex justify-end items-center;
+  @apply flex items-center justify-end;
 }
 
 .border-type-primary {
-    @apply border-[1px] border-solid border-primary;
+  @apply border-[1px] border-solid border-primary;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-input-affix-wrapper {
+  background-color: #2b2b3f;
+  color: #fff;
+  border: none;
+  padding: 0 1rem 0 1rem;
+}
+
+.ant-input::placeholder {
+  color: #65657a !important;
+}
+
+/*  tabke cust */
+.ant-table {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #2a2a3b;
+  color: white;
+  border: none !important;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th,
+:where(.css-dev-only-do-not-override-gzal6t).ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > td,
+.ant-table-cell {
+  background-color: #2a2a3b !important;
+  color: #f2a466;
+  border: none !important;
+}
+.ant-table-tbody > tr > td {
+  background-color: #2a2a3b !important;
+  color: white;
+  border: none !important;
+  font-size: 14px;
+  font-weight: 400;
+  border-bottom: 1px solid #404052 !important;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-table-wrapper
+  .ant-table-tbody
+  > tr.ant-table-placeholder {
+  background-color: #2a2a3b;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-table-wrapper
+  .ant-table.ant-table-bordered
+  > .ant-table-container {
+  border: none !important;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-empty-normal
+  .ant-empty-description {
+  color: white;
+}
+
+:where(.css-dev-only-do-not-override-gzal6t).ant-spin-nested-loading
+  .ant-spin-container {
+  background-color: #2a2a3b;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem 0.8rem 1.5rem;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-table-wrapper
+  .ant-table.ant-table-bordered
+  > .ant-table-footer {
+  border: none;
+  background-color: transparent;
 }

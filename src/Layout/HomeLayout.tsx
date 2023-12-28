@@ -1,19 +1,19 @@
-import { Header } from '../Component';
-import SideBar from '../Component/shared/SideBar';
+import { Header } from "../Component";
+import SideBar from "../Component/shared/SideBar";
 type HomeProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 function HomeLayout(props: HomeProps) {
-    return (
-        <main className="main-app w-[100vh] text-white h-[100vh] overflow-x-hidden">
-            <Header></Header>
-            <div className="flex justify-start h-full ">
-                <SideBar />
-                <div className="mt-header pl-[70px]">{props.children}</div>
-            </div>
-        </main>
-    );
+  return (
+    <main className="main-app h-[100vh] w-[100vh] overflow-x-hidden text-white">
+      <Header></Header>
+      <div className="flex h-full justify-start ">
+        <SideBar />
+        <div className="mt-header w-full pl-[70px]">{props.children}</div>
+      </div>
+    </main>
+  );
 }
 
 export default HomeLayout;

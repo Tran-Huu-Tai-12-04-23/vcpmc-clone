@@ -16,3 +16,4 @@ export { default as LogoutIcon } from './logout';
 export { default as LockIcon } from './lock';
 export { default as SuccessIcon } from './success';
 export { default as AddIcon } from './add_icon';
+export { default as ArrowDownIcon } from './arrow-down';

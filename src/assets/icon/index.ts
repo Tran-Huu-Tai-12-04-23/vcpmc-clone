@@ -1,4 +1,5 @@
 export { default as Logo } from './vcpmc_logo';
+export { default as ArrowIcon } from './arrow_right_active';
 export { default as SettingIcon } from './setting';
 export { default as StoreIcon } from './store';
 export { default as SupportIcon } from './support';
@@ -14,3 +15,4 @@ export { default as EditIcon } from './edit';
 export { default as LogoutIcon } from './logout';
 export { default as LockIcon } from './lock';
 export { default as SuccessIcon } from './success';
+export { default as AddIcon } from './add_icon';

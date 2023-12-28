@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Button } from '../../Component';
 import { Logo } from '../../assets/icon';
-import RouteConstant from '../../Constant/_route';
+import PathUrl from '../../Routes/path-url';
 
 function LinkError() {
     return (
@@ -20,7 +20,7 @@ function LinkError() {
             </div>
 
             <Link
-                to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+                to={`${window.location.origin}/${PathUrl.URL_AUTH}/${PathUrl.LOGIN}`}
                 className="font-semibold mb-10 text-primary underline cursor-pointer hover:brightness-125 text-[16px] mt-[40%]"
             >
                 Quay lại đăng nhập

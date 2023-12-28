@@ -1,3 +1,4 @@
+import PathUrl from '../../Routes/path-url';
 import {
     StoreIcon,
     PlaylistIcon,
@@ -9,17 +10,17 @@ import {
 } from '../../assets/icon';
 export const navSidebarConfig = [
     {
-        path: '',
+        path: PathUrl.URL_STORE_RECORD,
         name: 'Kho bản ghi',
         icon: <StoreIcon></StoreIcon>,
     },
     {
-        path: '',
+        path: PathUrl.URL_PLAYLIST,
         name: 'Playlist',
         icon: <PlaylistIcon></PlaylistIcon>,
     },
     {
-        path: '',
+        path: PathUrl.URL_SCHEDULE,
         name: 'Lập lịch phát',
         icon: <CalenderIcon></CalenderIcon>,
     },
@@ -29,19 +30,19 @@ export const navSidebarConfig = [
         icon: <ManagerIcon></ManagerIcon>,
         subMenu: [
             {
-                path: '',
+                path: PathUrl.URL_MANAGER + '/' + PathUrl.MANAGER_CONTRACT,
                 name: 'Quản lý hợp đồng',
             },
             {
-                path: '',
+                path: PathUrl.URL_MANAGER + '/' + PathUrl.MANAGER_DEVICES,
                 name: 'Quản lý thiết bị',
             },
             {
-                path: '',
+                path: PathUrl.URL_MANAGER + '/' + PathUrl.MANAGER_AUTHORITY,
                 name: 'Đơn vị ủy quyền',
             },
             {
-                path: '',
+                path: PathUrl.URL_MANAGER + '/' + PathUrl.MANAGER_UNIT_USED,
                 name: 'Đơn vị sử dụng',
             },
         ],
@@ -52,15 +53,15 @@ export const navSidebarConfig = [
         icon: <RevenueIcon></RevenueIcon>,
         subMenu: [
             {
-                path: '',
+                path: PathUrl.URL_REVENUE + '/' + PathUrl.REVENUE_REPORT,
                 name: 'Báo cáo doanh thu',
             },
             {
-                path: '',
+                path: PathUrl.URL_REVENUE + '/' + PathUrl.REVENUE_HISTORY_FOR_CONTROL,
                 name: 'Lịch sử dối soát',
             },
             {
-                path: '',
+                path: PathUrl.URL_REVENUE + '/' + PathUrl.REVENUE_DISTRIBUTION,
                 name: 'Phân phối doanh thu',
             },
         ],
@@ -71,23 +72,23 @@ export const navSidebarConfig = [
         icon: <SettingIcon></SettingIcon>,
         subMenu: [
             {
-                path: '',
+                path: PathUrl.URL_SETTING + '/' + PathUrl.SETTING_USER_AUTHORIZATION,
                 name: 'Phân quyên người dùng',
             },
             {
-                path: '',
+                path: PathUrl.URL_SETTING + '/' + PathUrl.SETTING_CONFIG,
                 name: 'Cấu hình',
             },
             {
-                path: '',
+                path: PathUrl.URL_SETTING + '/' + PathUrl.MANAGER_CONTRACT,
                 name: 'Quản lý hợp đồng',
             },
             {
-                path: '',
+                path: PathUrl.URL_SETTING + '/' + PathUrl.SETTING_INFORMATION_CREATION,
                 name: 'Thông tin tác phẩm',
             },
             {
-                path: '',
+                path: PathUrl.URL_SETTING + '/' + PathUrl.SETTING_CONTROL_CYCLE,
                 name: 'Chu kỳ đối soát',
             },
         ],
@@ -98,15 +99,15 @@ export const navSidebarConfig = [
         icon: <SupportIcon></SupportIcon>,
         subMenu: [
             {
-                path: '',
+                path: PathUrl.URL_SUPPORT + '/' + PathUrl.SUPPORT_APP_GUIDE,
                 name: 'Hướng dẫn sử dụng',
             },
             {
-                path: '',
+                path: PathUrl.URL_SUPPORT + '/' + PathUrl.SUPPORT_DOWNLOAD_APP,
                 name: 'Tải app',
             },
             {
-                path: '',
+                path: PathUrl.URL_SUPPORT + '/' + PathUrl.SUPPORT_FEEDBACK,
                 name: 'Feedback',
             },
         ],

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Typography } from 'antd';
 import { Button, Input } from '../../Component';
 import { Logo } from '../../assets/icon';
-import RouteConstant from '../../Constant/_route';
+import PathUrl from '../../Routes/path-url';
 
 function Login() {
     const [isVerifyEmail, setIsVerifyEmail] = useState<Boolean>(false);
@@ -49,7 +49,7 @@ function Login() {
                 )}
 
                 <Link
-                    to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+                    to={`/${PathUrl.URL_AUTH}/${PathUrl.LOGIN}`}
                     className="font-semibold mb-10 text-primary underline cursor-pointer hover:brightness-125 text-[16px] mt-[40%]"
                 >
                     Quay lại đăng nhập

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Avatar, DatePickerProps } from 'antd';
 import { CameraIcon, SuccessIcon } from '../../assets/icon';
-import { Input, DatePicker, Button } from '../../Component';
+import { Input, DatePicker, Button, TextHeader } from '../../Component';
 import FloatingActionButton from '../../Component/UI/FloatingActionButton';
 import { EditIcon, LockIcon, LogoutIcon } from '../../assets/icon';
 
@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState, actionAuthenticate, actionUserDetail } from '../../State';
 import { IUserDetail } from '../../Model/userDetail.model';
+import dayjs from 'dayjs';
 
 const initUserDetail: IUserDetail = {
     firstName: '',
@@ -39,7 +40,7 @@ function View() {
     const [firstName, setFirstName] = useState<string>(data.firstName);
     const [lastName, setLastName] = useState<string>(data.lastName);
     const [phoneNumber, setPhoneNumber] = useState<string>(data.phoneNumber);
-    const [dateOfBirth, setDateOfBirth] = useState<Dayjs>(data.dateOfBirth);
+    const [dateOfBirth, setDateOfBirth] = useState<Dayjs>(dayjs(data.dateOfBirth));
 
     const showModalResetPassword = () => {
         setIsResetPassword(!isResetPassword);
@@ -69,14 +70,6 @@ function View() {
             },
         },
     ];
-
-    const handleResetPassword = () => {
-        setIsNotification(true);
-
-        setTimeout(() => {
-            setIsNotification(false);
-        }, 8000);
-    };
 
     const handleUpdateUserDetail = async () => {
         if (firstName === '' || lastName === '' || phoneNumber === '' || dateOfBirth === undefined) return;
@@ -117,10 +110,23 @@ function View() {
         }
     }, [data]);
 
-    return (
-        <div className="mt-header  pl-[38px]">
-            <h5 className="text-white text-size-header font-semibold">Thông tin cơ bản</h5>
+    useEffect(() => {
+        let countNotification: NodeJS.Timeout;
 
+        if (isNotification) {
+            countNotification = setTimeout(() => {
+                setIsNotification(false);
+            }, 8000);
+        }
+
+        return () => {
+            clearTimeout(countNotification);
+        };
+    }, [isNotification]);
+
+    return (
+        <div>
+            <TextHeader>Thông tin cơ bản</TextHeader>
             <div className="flex justify-start mt-[62px] ml-[32px]">
                 <div className="mr-24 w-[270px]">
                     <div className="relative">
@@ -231,14 +237,18 @@ function View() {
 
             <FloatingActionButton floatingActionButtonConfig={floatingActionButtonConfig} />
             <ModalResetPassword
+                userId={user?.id}
                 centered
-                onOk={handleResetPassword}
                 isOpen={isResetPassword}
+                onOk={() => {
+                    setIsNotification(true);
+                    setIsResetPassword(false);
+                }}
                 onCancel={() => setIsResetPassword((prevState) => !prevState)}
             />
 
             {isNotification && (
-                <div className="fixed z-[200000] transition-all flex justify-center items-center bg-toast bottom-10 left-1/2 -translate-x-1/2 w-[] pl-[24px] pr-[24px] pt-[16px] pb-[16px] rounded-[12px]">
+                <div className="fixed h-fit transition-all flex justify-center items-center bg-toast bottom-10 left-1/2 -translate-x-1/2 w-[] pl-[24px] pr-[24px] pt-[16px] pb-[16px] rounded-[12px]">
                     <SuccessIcon />
                     <h6 className="text-[18px] ml-[16px] font-medium">Đổi mật khẩu thành công!</h6>
                 </div>

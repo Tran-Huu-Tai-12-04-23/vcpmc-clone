@@ -19,6 +19,7 @@ html {
     --text-size-primary: 16px;
     --text-color-primar: white;
     --bg-modal: #3e3e5b;
+    --primary: #ff7506;
 }
 
 @primary-color: transparent;
@@ -78,4 +79,19 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* custom class tailwind css  */
+.box-start {
+    @apply flex justify-start items-center;
+}
+.box-center {
+    @apply flex justify-center items-center;
+}
+.box-end {
+    @apply flex justify-end items-center;
+}
+
+.border-type-primary {
+    @apply border-[1px] border-solid border-primary;
 }

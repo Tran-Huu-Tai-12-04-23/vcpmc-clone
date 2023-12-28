@@ -1,10 +1,10 @@
 import { app } from '../config/firebase';
-import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { IUser } from '../Model/user.model';
 
 const db = getFirestore(app);
 
-type ResponseType = {
+export type ResponseType = {
     data: IUser | null;
     message: string;
     status: boolean;
@@ -44,5 +44,40 @@ export const login = async (user: IUser): Promise<ResponseType | null> => {
     } catch (error: any) {
         console.error('Error fetching data from Firestore:', error.message);
         return null;
+    }
+};
+
+export const resetPassword = async (
+    userId: string,
+    oldPassword: string,
+    newPassword: string,
+): Promise<ResponseType> => {
+    const response: ResponseType = {
+        data: null,
+        message: '',
+        status: false,
+    };
+    try {
+        const userDocRef = doc(db, 'user', userId);
+        const userDoc = await getDoc(userDocRef);
+
+        if (!userDoc.exists()) {
+            response.message = 'Người dùng không tồn tại!';
+        } else if (userDoc.data().password !== oldPassword) {
+            response.message = 'Mật khẩu của bạn không chính xác!';
+        } else {
+            await updateDoc(userDocRef, {
+                password: newPassword,
+            });
+            response.message = 'Đổi mật khẩu thành công!';
+            response.status = true;
+            response.data = userDoc.data() as IUser;
+        }
+
+        return response;
+    } catch (error: any) {
+        console.error('Reset password failed:', error.message);
+        response.message = 'Đổi mật khẩu không thành công!';
+        return response;
     }
 };

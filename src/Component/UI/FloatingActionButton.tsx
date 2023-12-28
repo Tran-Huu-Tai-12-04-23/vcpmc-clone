@@ -1,5 +1,5 @@
 type FloatingActionButtonProps = {
-    floatingActionButtonConfig?: { icon: React.ReactNode; name: string; action: () => void }[] | undefined;
+    floatingActionButtonConfig: { icon: React.ReactNode; name: string; action: () => void }[] | undefined;
 };
 function FloatingActionButton(props: FloatingActionButtonProps) {
     const renderAction = () => {

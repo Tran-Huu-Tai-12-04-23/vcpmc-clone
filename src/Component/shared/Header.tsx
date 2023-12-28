@@ -4,7 +4,7 @@ import { Dropdown, Button, MenuProps, message, Avatar } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { ViLanguageIcon } from '../../assets/icon';
 import { useRouter } from '../../Routes/hooks';
-import RouteConstant from '../../Constant/_route';
+import PathUrl from '../../Routes/path-url';
 
 const handleMenuClick: MenuProps['onClick'] = (e) => {
     message.info('Click on menu item.');
@@ -43,7 +43,6 @@ const StyledHeader = styled.header`
     gap: 20px;
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
 `;
 const StyledDropDown = styled(Dropdown)`
@@ -81,7 +80,7 @@ function Header() {
             {isAuthenticated && (
                 <div
                     onClick={() => {
-                        route.push(RouteConstant.USER);
+                        route.push(PathUrl.URL_USER);
                     }}
                     className="flex justify-center items-center gap-2 "
                 >

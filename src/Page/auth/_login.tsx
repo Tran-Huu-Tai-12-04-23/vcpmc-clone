@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Button, Checkbox, Input } from '../../Component';
 import { Logo } from '../../assets/icon';
-import RouteConstant from '../../Constant/_route';
 import { useEffect, useState } from 'react';
 import { actionAuthenticate, RootState } from '../../State';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { IUser } from '../../Model/user.model';
+import PathUrl from '../../Routes/path-url';
 
 function Login() {
     const dispatch = useDispatch();
@@ -70,7 +70,7 @@ function Login() {
             </div>
 
             <Link
-                to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.VERIFY_EMAIL}`}
+                to={`/${PathUrl.URL_AUTH}/${PathUrl.VERIFY_EMAIL}`}
                 className="font-semibold mb-10 text-primary underline cursor-pointer hover:brightness-125 text-[16px] mt-16"
             >
                 Quên mật khẩu?

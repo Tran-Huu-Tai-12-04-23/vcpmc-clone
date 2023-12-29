@@ -3,6 +3,8 @@ import { Paging, SwitchTab, TextHeader } from "../../../Component";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import { AddIcon } from "../../../assets/icon";
 import ContractAuthority from "./contract-authority";
+import { useRouter } from "../../../Routes/hooks";
+import PathUrl from "../../../Routes/path-url";
 const pagingItems = [
   {
     name: "Quản lý",
@@ -15,9 +17,22 @@ const pagingItems = [
 ];
 
 function ManagerContract() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const floatingButtons = [
-    { name: "Thêm hợp đồng", icon: <AddIcon />, action: () => {} },
+    {
+      name: "Thêm hợp đồng",
+      icon: <AddIcon />,
+      action: () => {
+        router.push(
+          PathUrl.URL_MANAGER +
+            "/" +
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.ADD,
+        );
+      },
+    },
   ];
 
   return (

@@ -1,10 +1,11 @@
-import { Input as InputAntd, InputProps, Typography } from "antd";
+import { v4 as uuid } from "uuid";
+import { Input as InputAntd, InputProps } from "antd";
 import styled from "styled-components";
 import { SearchIcon } from "../../assets/icon";
 
 const CustomInput = styled(InputAntd)<InputPropsCustom>`
   width: ${(props) => (props.width ? +props.width + "px" : "100%")};
-  height: ${(props) => (props.height ? props.height + "px" : "100%")};
+  height: ${(props) => (props.height ? props.height + "px" : "48px")};
   font-weight: 400;
   font-size: var(--text-size-primary);
   border-color: ${(props) => (props.isError ? "#FF4747" : "transparent")};
@@ -18,10 +19,15 @@ const CustomInput = styled(InputAntd)<InputPropsCustom>`
 `;
 const CustomInputPassword = styled(InputAntd.Password)<InputPropsCustom>`
   width: ${(props) => (props.width ? +props.width + "px" : "100%")};
-  height: ${(props) => (props.height ? props.height + "px" : "100%")};
+  height: ${(props) => (props.height ? props.height + "px" : "48px")};
   font-weight: 400;
   font-size: var(--text-size-primary);
   border-color: ${(props) => (props.isError ? "#FF4747" : "#727288")};
+  border-radius: 8px;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent;
 
   & .ant-input-affix-wrapper {
     background-color: transparent;
@@ -32,9 +38,10 @@ const CustomInputPassword = styled(InputAntd.Password)<InputPropsCustom>`
     height: 24px;
     width: 24px;
   }
+
   &:focus,
   &:hover {
-    border-color: #347aff;
+    border-color: #347aff !important;
   }
 `;
 
@@ -46,12 +53,14 @@ interface InputPropsCustom extends InputProps {
   search?: boolean;
 }
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
+  const id = uuid();
   return (
     <div className={`relative w-full `}>
       {props.label && (
-        <Typography.Title
-          level={5}
+        <label
+          htmlFor={id}
           style={{
+            display: "block",
             margin: 0,
             fontSize: "var(--text-size-primary)",
             color: "#94949b",
@@ -60,17 +69,20 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
           }}
         >
           {props.label}
-        </Typography.Title>
+        </label>
       )}
 
       {props.type === "password" ? (
         <CustomInputPassword
+          id={props.id ? props.id : id}
           {...props}
           placeholder={props.placeholder}
           isError={props.isError}
+          name={props.name}
         />
       ) : (
         <CustomInput
+          id={props.id ? props.id : id}
           suffix={search && <SearchIcon />}
           {...props}
           placeholder={props.placeholder}

@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "../../Routes/hooks";
-import { DotMenuVerIcon, Logo } from "../../assets/icon";
+import { ArrowIcon, DotMenuVerIcon, Logo } from "../../assets/icon";
 import { navSidebarConfig } from "./_config-layout";
 import PathUrl from "../../Routes/path-url";
+import { Drawer } from "antd";
+import styled from "styled-components";
 
-function SideBar() {
+const DrawerCustom = styled(Drawer)``;
+
+type SideBarProps = {
+  floating?: boolean;
+};
+
+function SideBar(props: SideBarProps) {
+  const [open, setOpen] = useState(false);
+
   const route = useRouter();
   const pathname = usePathname();
   const [active, setActive] = useState<number>(-1);
@@ -60,6 +70,14 @@ function SideBar() {
     );
   };
 
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (
       pathname.includes(PathUrl.URL_USER) ||
@@ -84,22 +102,57 @@ function SideBar() {
   }, [pathname]);
 
   return (
-    <div className="w-[170px] ">
-      <div className="fixed   bottom-0 left-0 top-0 z-[9000000] flex h-full w-[170px] flex-col items-center rounded-r-[24px] bg-sidebar">
-        <div
-          className="mt-[40px]"
-          onClick={() => {
-            route.push("");
-          }}
-        >
-          <Logo width={96} height={96} />
-        </div>
+    <>
+      {props.floating ? (
+        <>
+          <div
+            className="center-item h-screen w-[40px] cursor-pointer rounded-r-[24px] bg-sidebar "
+            onClick={showDrawer}
+          >
+            <ArrowIcon className="text-primary " />
+          </div>
+          <DrawerCustom
+            placement="left"
+            closable={false}
+            onClose={onClose}
+            open={open}
+            key="left"
+          >
+            <div className="fixed   bottom-0 left-0 top-0 z-[9000000] flex h-full w-[170px] flex-col items-center rounded-r-[24px] bg-sidebar">
+              <div
+                className="mt-[40px]"
+                onClick={() => {
+                  route.push("");
+                }}
+              >
+                <Logo width={96} height={96} />
+              </div>
 
-        <div className="flex h-full w-full flex-col items-center justify-center gap-[32px]">
-          {renderSidebar()}
+              <div className="flex h-full w-full flex-col items-center justify-center gap-[32px]">
+                {renderSidebar()}
+              </div>
+            </div>
+          </DrawerCustom>
+        </>
+      ) : (
+        <div className="w-[170px] ">
+          <div className="fixed   bottom-0 left-0 top-0 z-[9000000] flex h-full w-[170px] flex-col items-center rounded-r-[24px] bg-sidebar">
+            <div
+              className="mt-[40px]"
+              onClick={() => {
+                route.push("");
+              }}
+            >
+              <Logo width={96} height={96} />
+            </div>
+
+            <div className="flex h-full w-full flex-col items-center justify-center gap-[32px]">
+              {renderSidebar()}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

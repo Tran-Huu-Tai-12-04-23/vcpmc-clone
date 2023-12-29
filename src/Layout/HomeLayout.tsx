@@ -7,10 +7,12 @@ type HomeProps = {
 function HomeLayout(props: HomeProps) {
   return (
     <main className="main-app h-[100vh] w-[100vh] overflow-x-hidden text-white">
-      <Header></Header>
       <div className="flex h-full justify-start ">
         <SideBar />
-        <div className="mt-header w-full pl-[70px]">{props.children}</div>
+        <div className="w-full pl-[70px]">
+          <Header></Header>
+          <div className="mt-header">{props.children}</div>
+        </div>
       </div>
     </main>
   );

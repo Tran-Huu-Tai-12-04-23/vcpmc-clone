@@ -4,7 +4,7 @@ import { ArrowIcon } from "../../assets/icon";
 type PagingType = {
   items: {
     name: string;
-    path: string;
+    path?: string;
   }[];
 };
 function Paging(props: PagingType) {
@@ -12,18 +12,17 @@ function Paging(props: PagingType) {
     <div className="box-start">
       {props.items.map((it, index) => {
         return (
-          <>
+          <div key={index} className="box-start">
             <Link
               className="text-size-primary font-semibold text-[#898997]"
-              key={index}
-              to={it.path}
+              to={it.path ? it.path : ""}
             >
               {it.name}
             </Link>
             {index < props.items.length - 1 && (
               <ArrowIcon color="#8e654b"></ArrowIcon>
             )}
-          </>
+          </div>
         );
       })}
     </div>

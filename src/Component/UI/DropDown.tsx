@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { ArrowIcon, ArrowDownIcon } from "../../assets/icon";
+import { ArrowDownIcon } from "../../assets/icon";
 import { useEffect, useState } from "react";
 
 type DropdownType = {
@@ -12,6 +11,7 @@ type DropdownType = {
     name: string;
   }[];
   onSelect: (value: { name: string; key: number }) => void;
+  className?: string;
 };
 function Dropdown(props: DropdownType) {
   const [active, setActive] = useState<boolean>(false);
@@ -33,9 +33,9 @@ function Dropdown(props: DropdownType) {
         e.stopPropagation();
         setActive(!active);
       }}
-      className=" relative w-fit  min-w-[200px] cursor-pointer  "
+      className={`relative w-fit  min-w-[200px] cursor-pointer  ${props.className}`}
     >
-      <div className="border-type-primary bg-main relative z-10 flex h-[40px] w-full items-center justify-between rounded-[8px] p-2 pl-[20px] pr-[20px]">
+      <div className="border-type-primary relative z-10 flex h-[40px] w-full items-center justify-between rounded-[8px] bg-main p-2 pl-[20px] pr-[20px]">
         <h5 className="text-size-primary font-normal">{props.active.name}</h5>
         <ArrowDownIcon className="text-primary" />
       </div>

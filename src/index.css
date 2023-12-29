@@ -284,3 +284,17 @@ html {
   background-color: transparent;
   box-shadow: none;
 }
+
+/* radio */
+.ant-radio-wrapper.css-dev-only-do-not-override-gzal6t span {
+  color: white;
+  font-size: 16px;
+}
+.ant-radio.ant-wave-target {
+  margin-right: 4px;
+}
+.ant-radio-inner {
+  background-color: transparent !important;
+  width: 24px !important;
+  height: 24px !important;
+}

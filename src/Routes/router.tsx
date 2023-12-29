@@ -15,7 +15,7 @@ export const ResetPasswordPage = lazy(
 export const LinkErrorPage = lazy(() => import("../Page/auth/_link-error"));
 //----------------------------------------------------------------
 export const ViewUserDetailPage = lazy(
-  () => import("../Page/UserInformation/_view"),
+  () => import("../Page/userInformation/_view"),
 );
 //----------------------------------------------------------------
 export const ManagerContractPage = lazy(

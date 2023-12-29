@@ -3,6 +3,21 @@ import { Input as InputAntd, InputProps } from "antd";
 import styled from "styled-components";
 import { SearchIcon } from "../../assets/icon";
 
+const CustomInputArea = styled(InputAntd.TextArea)<InputPropsCustom>`
+  width: ${(props) => (props.width ? +props.width + "px" : "100%")};
+  height: ${(props) => (props.height ? props.height + "px" : "100px")};
+  font-weight: 400;
+  font-size: var(--text-size-primary);
+  border-color: ${(props) => (props.isError ? "#FF4747" : "transparent")};
+  border-radius: 8px;
+  color: white;
+
+  &:focus,
+  &:hover {
+    border-color: #347aff;
+  }
+`;
+
 const CustomInput = styled(InputAntd)<InputPropsCustom>`
   width: ${(props) => (props.width ? +props.width + "px" : "100%")};
   height: ${(props) => (props.height ? props.height + "px" : "48px")};
@@ -51,6 +66,7 @@ interface InputPropsCustom extends InputProps {
   readOnly?: boolean;
   isEdit?: boolean;
   search?: boolean;
+  type?: string;
 }
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
   const id = uuid();
@@ -71,8 +87,15 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
           {props.label}
         </label>
       )}
-
-      {props.type === "password" ? (
+      {props.type === "area" ? (
+        <CustomInputArea
+          id={props.id ? props.id : id}
+          {...props}
+          placeholder={props.placeholder}
+          isError={props.isError}
+          name={props.name}
+        />
+      ) : props.type === "password" ? (
         <CustomInputPassword
           id={props.id ? props.id : id}
           {...props}

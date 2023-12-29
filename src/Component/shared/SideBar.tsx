@@ -105,12 +105,15 @@ function SideBar(props: SideBarProps) {
     <>
       {props.floating ? (
         <>
-          <div
-            className="center-item h-screen w-[40px] cursor-pointer rounded-r-[24px] bg-sidebar "
-            onClick={showDrawer}
-          >
-            <ArrowIcon className="text-primary " />
+          <div className="center-item fixed bottom-0 left-0 top-0 h-screen w-[40px] cursor-pointer rounded-r-[24px] bg-sidebar ">
+            <div
+              className="center-item h-screen w-[40px] cursor-pointer rounded-r-[24px] bg-sidebar "
+              onClick={showDrawer}
+            >
+              <ArrowIcon className="text-primary " />
+            </div>
           </div>
+
           <DrawerCustom
             placement="left"
             closable={false}

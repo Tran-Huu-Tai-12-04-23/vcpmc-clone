@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { DropDown, Input } from "../../../Component";
-import Table from "../../../Component/UI/Table";
-
+import { DropDown, Input } from "../../../../Component";
+import Table from "../../../../Component/UI/Table";
+import { ConfigColTale, data as dataTest } from "./_config";
 type Ownership = {
   key: number;
   name: string;
@@ -30,6 +30,7 @@ function ContractAuthority() {
           <div className="flex items-center justify-start gap-5">
             <h5 className="text-size-primary font-semibold">Quyền sở hữu:</h5>
             <DropDown
+              classDropItem=" border-primary"
               active={ownershipActive}
               dropItems={ownerships}
               onSelect={(value) => setOwnershipActive(value)}
@@ -40,6 +41,7 @@ function ContractAuthority() {
               Hiệu lực hợp đồng:
             </h5>
             <DropDown
+              classDropItem=" border-primary"
               active={ownershipActive}
               dropItems={ownerships}
               onSelect={(value) => setOwnershipActive(value)}
@@ -56,7 +58,7 @@ function ContractAuthority() {
         </div>
       </div>
 
-      <Table />
+      <Table col={ConfigColTale} data={dataTest} />
     </div>
   );
 }

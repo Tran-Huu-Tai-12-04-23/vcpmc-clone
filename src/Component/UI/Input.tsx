@@ -8,9 +8,12 @@ const CustomInputArea = styled(InputAntd.TextArea)<InputPropsCustom>`
   height: ${(props) => (props.height ? props.height + "px" : "100px")};
   font-weight: 400;
   font-size: var(--text-size-primary);
-  border-color: ${(props) => (props.isError ? "#FF4747" : "transparent")};
   border-radius: 8px;
   color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  ${(props) => (props.isError ? "border-color:#FF4747" : "")};
 
   &:focus,
   &:hover {
@@ -23,9 +26,13 @@ const CustomInput = styled(InputAntd)<InputPropsCustom>`
   height: ${(props) => (props.height ? props.height + "px" : "48px")};
   font-weight: 400;
   font-size: var(--text-size-primary);
-  border-color: ${(props) => (props.isError ? "#FF4747" : "transparent")};
+
   border-radius: 8px;
   color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  ${(props) => (props.isError ? "border-color:#FF4747" : "")};
 
   &:focus,
   &:hover {
@@ -37,12 +44,11 @@ const CustomInputPassword = styled(InputAntd.Password)<InputPropsCustom>`
   height: ${(props) => (props.height ? props.height + "px" : "48px")};
   font-weight: 400;
   font-size: var(--text-size-primary);
-  border-color: ${(props) => (props.isError ? "#FF4747" : "#727288")};
-  border-radius: 8px;
-
   border-style: solid;
   border-width: 1px;
-  border-color: transparent;
+  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  ${(props) => (props.isError ? "border-color:#FF4747" : "")};
+  border-radius: 8px;
 
   & .ant-input-affix-wrapper {
     background-color: transparent;
@@ -67,6 +73,7 @@ interface InputPropsCustom extends InputProps {
   isEdit?: boolean;
   search?: boolean;
   type?: string;
+  bordered?: boolean;
 }
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
   const id = uuid();

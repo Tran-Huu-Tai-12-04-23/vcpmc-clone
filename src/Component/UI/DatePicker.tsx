@@ -11,13 +11,15 @@ const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
   background: #2b2b3f;
   border-style: solid;
   border-width: 1px;
-  border-color: transparent;
+  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+
   .anticon-close-circle {
     display: none;
   }
   .ant-picker-input {
     width: ${(props) => (props.width ? +props.width + "px" : "100%")};
     height: ${(props) => (props.height ? props.height + "px" : "40px")};
+
     input {
       color: white;
     }
@@ -61,8 +63,9 @@ function DatePicker(props: DatePickerCustomProps) {
         id={props.id ? props.id : id}
         name={props.name}
         onChange={props.onChange}
+        format={"DD/MM/YYYY"}
         suffixIcon={<CalenderIcon color={"#ff7506"} />}
-        placeholder=""
+        placeholder={props.placeholder ? props.placeholder : "dd/mm/yy"}
         {...props}
       />
       {(props.readOnly || props.isEdit) && (

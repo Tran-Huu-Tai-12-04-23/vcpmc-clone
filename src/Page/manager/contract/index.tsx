@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Paging, SwitchTab, TextHeader } from "../../../Component";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import { AddIcon } from "../../../assets/icon";
-import ContractAuthority from "./contract-authority";
+import ContractAuthority from "./authority";
 import { useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
 const pagingItems = [
@@ -25,11 +25,9 @@ function ManagerContract() {
       icon: <AddIcon />,
       action: () => {
         router.push(
-          PathUrl.URL_MANAGER +
-            "/" +
-            PathUrl.MANAGER_CONTRACT +
-            "/" +
-            PathUrl.ADD,
+          `${PathUrl.URL_MANAGER}/${PathUrl.MANAGER_CONTRACT}${
+            activeTab === 1 ? `/${PathUrl.AUTHORITY}` : `/${PathUrl.EXPLOIT}`
+          }${activeTab === 1 ? `/${PathUrl.ADD}` : ""}`,
         );
       },
     },

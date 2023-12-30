@@ -12,6 +12,7 @@ type DropdownType = {
   }[];
   onSelect: (value: { name: string; key: number }) => void;
   className?: string;
+  classDropItem?: string;
 };
 function Dropdown(props: DropdownType) {
   const [active, setActive] = useState<boolean>(false);
@@ -33,9 +34,11 @@ function Dropdown(props: DropdownType) {
         e.stopPropagation();
         setActive(!active);
       }}
-      className={`relative w-fit  min-w-[200px] cursor-pointer  ${props.className}`}
+      className={`relative w-fit min-w-[200px] cursor-pointer ${props.className} `}
     >
-      <div className="border-type-primary relative z-10 flex h-[40px] w-full items-center justify-between rounded-[8px] bg-main p-2 pl-[20px] pr-[20px]">
+      <div
+        className={`${props.classDropItem} relative z-10 flex h-[40px] w-full items-center justify-between rounded-[8px] border-[1px] border-solid bg-main p-2 pl-[20px] pr-[20px]`}
+      >
         <h5 className="text-size-primary font-normal">{props.active.name}</h5>
         <ArrowDownIcon className="text-primary" />
       </div>

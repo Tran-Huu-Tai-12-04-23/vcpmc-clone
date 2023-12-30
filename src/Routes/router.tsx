@@ -22,7 +22,10 @@ export const ManagerContractPage = lazy(
   () => import("../Page/manager/contract"),
 );
 export const AddContractPage = lazy(
-  () => import("../Page/manager/contract/add"),
+  () => import("../Page/manager/contract/authority/add"),
+);
+export const DetailContractPage = lazy(
+  () => import("../Page/manager/contract/authority/detail"),
 );
 // ----------------------------------------------------------------------
 type RouterProps = {
@@ -69,7 +72,7 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_MANAGER,
       element: (
-        <>
+        <Suspense fallback={<div>Loading...</div>}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
@@ -78,7 +81,7 @@ export default function Router(props: RouterProps) {
               replace
             />
           )}
-        </>
+        </Suspense>
       ),
       children: [
         {
@@ -94,10 +97,23 @@ export default function Router(props: RouterProps) {
           ),
         },
         {
-          path: PathUrl.MANAGER_CONTRACT + "/" + PathUrl.ADD,
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.ADD,
           element: (
             <DetailLayout>
               <AddContractPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.MANAGER_CONTRACT + "/" + PathUrl.AUTHORITY + "/:id",
+          element: (
+            <DetailLayout>
+              <DetailContractPage />
             </DetailLayout>
           ),
         },

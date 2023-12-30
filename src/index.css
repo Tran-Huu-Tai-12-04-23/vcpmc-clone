@@ -298,3 +298,25 @@ html {
   width: 24px !important;
   height: 24px !important;
 }
+
+input::placeholder {
+  color: #65657a !important;
+}
+
+textarea:where(.css-dev-only-do-not-override-gzal6t).ant-input {
+  min-height: 100px;
+}
+
+:where(.css-dev-only-do-not-override-gzal6t).ant-select:not(
+    .ant-select-customize-input
+  )
+  .ant-select-selector {
+  @apply border-[#67677d] bg-input text-white;
+}
+
+.custom-autocomplete-dropdown {
+  @apply bg-menu text-white;
+}
+.custom-autocomplete-dropdown .ant-select-item-option-content {
+  @apply text-white;
+}

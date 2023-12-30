@@ -9,3 +9,4 @@ export { default as SwitchTab } from "./UI/SwitchTab";
 export { default as DropDown } from "./UI/DropDown";
 export { default as TextLabel } from "./UI/TextLabel";
 export { default as ButtonUpload } from "./UI/ButtonUpload";
+export { default as AutoComplete } from "./UI/AutoComplete";

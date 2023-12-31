@@ -7,6 +7,7 @@ module.exports = {
         primary: "#ff7506",
         error: "#FF4747",
         second: "#ffac69",
+        third: "#bbbbc0 ",
       },
       backgroundColor: {
         primary: "#ff7506",

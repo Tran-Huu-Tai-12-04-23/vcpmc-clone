@@ -4,7 +4,6 @@ import {
   Button,
   ButtonUpload,
   DatePicker,
-  DropDown,
   Input,
   Paging,
   TextHeader,
@@ -35,34 +34,34 @@ function AddContract() {
       <Paging items={pagingItems} />
       <TextHeader>Thêm hợp đồng ủy quyền mới</TextHeader>
       <div className="mt-6 flex items-start justify-between gap-24 ">
-        <div className="flex w-1/3 flex-shrink-0 flex-col items-start gap-5">
+        <div className="flex w-1/3 flex-col items-start gap-5">
           <div className=" flex w-full items-center justify-between">
-            <TextLabel idInput="number-contract">
+            <TextLabel width={200} idInput="number-contract">
               Số hợp đồng:<span className="text-error">*</span>
             </TextLabel>
             <Input bordered id="number-contract" />
           </div>
           <div className="flex w-full items-center justify-between">
-            <TextLabel idInput="name-contract">
+            <TextLabel width={200} idInput="name-contract">
               Tên hợp đồng:<span className="text-error">*</span>
             </TextLabel>
             <Input bordered id="name-contract" />
           </div>
           <div className="flex w-full items-center justify-between">
-            <TextLabel idInput="date-effect">
+            <TextLabel width={200} idInput="date-effect">
               Ngày hiệu lực:<span className="text-error">*</span>
             </TextLabel>
             <DatePicker bordered id="date-effect" />
           </div>
           <div className="flex w-full items-center justify-between">
-            <TextLabel idInput="date-validity">
+            <TextLabel width={200} idInput="date-validity">
               Ngày hết hạn:<span className="text-error">*</span>
             </TextLabel>
             <DatePicker bordered id="date-validity" />
           </div>
         </div>
         <div className="box-start w-1/3">
-          <TextLabel>Đính kèm tệp</TextLabel>
+          <TextLabel width={200}>Đính kèm tệp</TextLabel>
           <ButtonUpload />
         </div>
         <div className=" flex w-1/3 flex-col  items-start justify-start gap-4 ">
@@ -110,7 +109,7 @@ function AddContract() {
               </div>
             </div>
             <div className="flex items-center ">
-              <TextLabel idInput="name-user-authority">
+              <TextLabel width={200} idInput="name-user-authority">
                 Tên người ủy quyền:<span className="text-error">*</span>
               </TextLabel>
               <AutoComplete />
@@ -125,7 +124,7 @@ function AddContract() {
               </div>
             </div>
             <div className="flex items-center ">
-              <TextLabel idInput="date-of-birth">
+              <TextLabel width={200} idInput="date-of-birth">
                 Ngày sinh:<span className="text-error">*</span>
               </TextLabel>
               <DatePicker
@@ -136,7 +135,7 @@ function AddContract() {
               />
             </div>
             <div className="flex items-center ">
-              <TextLabel>
+              <TextLabel width={200}>
                 Quốc tịch:<span className="text-error">*</span>
               </TextLabel>
               <Dropdown
@@ -148,7 +147,9 @@ function AddContract() {
               />
             </div>
             <div className="flex items-center ">
-              <TextLabel idInput="phone-number">Số diện thoại:</TextLabel>
+              <TextLabel width={200} idInput="phone-number">
+                Số diện thoại:
+              </TextLabel>
               <Input bordered id="phone-number" />
             </div>
           </div>
@@ -156,31 +157,31 @@ function AddContract() {
           {/* -------- */}
           <div className="flex w-1/3 flex-col gap-3">
             <div className="flex items-center justify-start">
-              <TextLabel idInput="cmnd-cccd">
+              <TextLabel width={200} idInput="cmnd-cccd">
                 CMDD/CCCD:<span className="text-error">*</span>
               </TextLabel>
               <Input bordered id="cmnd-cccd" />
             </div>
             <div className="flex items-center ">
-              <TextLabel idInput="date-provided">
+              <TextLabel width={200} idInput="date-provided">
                 Ngày cấp:<span className="text-error">*</span>
               </TextLabel>
               <DatePicker id="date-provided" bordered className="w-full" />
             </div>
             <div className="flex items-center justify-start">
-              <TextLabel idInput="place-provided">
+              <TextLabel width={200} idInput="place-provided">
                 Nơi cấp:<span className="text-error">*</span>
               </TextLabel>
               <Input bordered id="place-provided" />
             </div>
             <div className="flex items-center justify-start">
-              <TextLabel idInput="code-">
+              <TextLabel width={200} idInput="code-">
                 Mã số thuế:<span className="text-error">*</span>
               </TextLabel>
               <Input bordered id="code-" />
             </div>
             <div className="flex justify-start">
-              <TextLabel idInput="place-lived">
+              <TextLabel width={200} idInput="place-lived">
                 Nơi cư trú:<span className="text-error">*</span>
               </TextLabel>
               <Input type="area" height={200} bordered id="place-lived" />
@@ -190,29 +191,33 @@ function AddContract() {
           {/* -------- */}
           <div className="flex w-1/3 flex-col gap-3">
             <div className="flex items-center justify-start">
-              <TextLabel idInput="email">
+              <TextLabel width={200} idInput="email">
                 Email:<span className="text-error">*</span>
               </TextLabel>
               <Input bordered id="email" />
             </div>
             <div className="flex items-center ">
-              <TextLabel idInput="username">
+              <TextLabel width={200} idInput="username">
                 Tên đăng nhập:<span className="text-error">*</span>
               </TextLabel>
               <Input bordered id="username" />
             </div>
             <div className="flex items-center justify-start">
-              <TextLabel idInput="password">
+              <TextLabel width={200} idInput="password">
                 Mật khẩu:<span className="text-error">*</span>
               </TextLabel>
               <Input bordered id="password" />
             </div>
             <div className="flex items-center justify-start">
-              <TextLabel idInput="number-bank">Số tài khoản:</TextLabel>
+              <TextLabel width={200} idInput="number-bank">
+                Số tài khoản:
+              </TextLabel>
               <Input bordered id="number-bank" />
             </div>
             <div className="flex items-center justify-start">
-              <TextLabel idInput="name-bank">Ngân hàng:</TextLabel>
+              <TextLabel width={200} idInput="name-bank">
+                Ngân hàng:
+              </TextLabel>
               <Input bordered id="name-bank" />
             </div>
           </div>

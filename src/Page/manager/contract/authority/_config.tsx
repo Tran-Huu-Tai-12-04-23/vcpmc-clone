@@ -1,5 +1,7 @@
 import { ColumnsType } from "antd/es/table";
 import PathUrl from "../../../../Routes/path-url";
+import UseStatusContract from "../../../../Hook/useStatusContract";
+import dayjs from "dayjs";
 
 const generateDummyData = (count: number): ColDataType[] => {
   const data: ColDataType[] = [];
@@ -28,6 +30,18 @@ export interface ColDataType {
   validityContract: number;
   isCancel: boolean;
   key: number;
+}
+
+export interface ColDataTypeListSongAuthority {
+  id: string;
+  index: number;
+  singer: string;
+  author: string;
+  codeISRC: string;
+  nameRecord: string;
+  dateUpload: Date;
+  key: number;
+  status: number;
 }
 
 export const ConfigColTale: ColumnsType<ColDataType> = [
@@ -96,3 +110,87 @@ export const ConfigColTale: ColumnsType<ColDataType> = [
   },
 ];
 export const data: ColDataType[] = generateDummyData(100);
+
+export const ConfigColTaleListSongInContractAuthority: ColumnsType<ColDataTypeListSongAuthority> =
+  [
+    {
+      title: "STT",
+      dataIndex: "index",
+      key: "index",
+    },
+    {
+      title: "Tên bản ghi",
+      dataIndex: "nameRecord",
+      key: "nameRecord",
+    },
+    {
+      title: "Mã ISRC",
+      dataIndex: "codeISRC",
+      key: "codeISRC",
+    },
+    {
+      title: "Ca sĩ",
+      key: "singer",
+      dataIndex: "singer",
+    },
+    {
+      title: "Tác giả",
+      key: "author",
+      dataIndex: "author",
+    },
+    {
+      title: "Ngày tải",
+      key: "dateUpload",
+      dataIndex: "dateUpload",
+      render: (_, { dateUpload }) => (
+        <div className="box-start gap-4">
+          {dayjs(dateUpload).format("DD/MM/YYYY")}
+        </div>
+      ),
+    },
+    {
+      title: "Trạng thái",
+      key: "status",
+      dataIndex: "status",
+      render: (_, { status }) => (
+        <div className="box-start w-fit gap-4">
+          {<UseStatusContract statusIndex={status} />}
+        </div>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: (_, { id }) => (
+        <a
+          href={PathUrl.MANAGER_CONTRACT + "/" + PathUrl.AUTHORITY + "/" + id}
+          className="text-primary hover:text-primary hover:underline hover:brightness-110"
+        >
+          Nghe
+        </a>
+      ),
+    },
+  ];
+
+const generateDummyDataListSongAuthority = (
+  count: number,
+): ColDataTypeListSongAuthority[] => {
+  const data: ColDataTypeListSongAuthority[] = [];
+  for (let i = 1; i <= count; i++) {
+    data.push({
+      id: `id_${i}`,
+      index: i,
+      singer: `Singer_${i}`,
+      author: `Author_${i}`,
+      codeISRC: `ISRC_${i}`,
+      nameRecord: `RecordName_${i}`,
+      dateUpload: new Date(),
+      key: i,
+      status: i % 4,
+    });
+  }
+  return data;
+};
+
+export const dataExampleListSong = generateDummyDataListSongAuthority(100);

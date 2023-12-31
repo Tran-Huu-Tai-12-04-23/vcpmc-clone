@@ -10,6 +10,9 @@ const TableCustom = (props: TableProps) => {
   const size = 13;
   return (
     <Table
+      style={{
+        width: "100%",
+      }}
       bordered
       columns={props.col}
       dataSource={props.data.slice(

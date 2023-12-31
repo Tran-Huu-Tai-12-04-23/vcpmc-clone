@@ -19,3 +19,5 @@ export { default as AddIcon } from "./add_icon";
 export { default as ArrowDownIcon } from "./arrow-down";
 export { default as UploadIcon } from "./upload";
 export { default as WarningIcon } from "./warning";
+export { default as ContractIcon } from "./contract";
+export { default as RecoveryIcon } from "./recovery";

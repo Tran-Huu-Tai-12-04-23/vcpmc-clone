@@ -81,7 +81,7 @@ function SideBar(props: SideBarProps) {
   useEffect(() => {
     if (
       pathname.includes(PathUrl.URL_USER) ||
-      pathname.includes(PathUrl.URL_AUTH)
+      pathname.includes(PathUrl.URL_AUTH + "/")
     ) {
       setActive(-1);
     } else if (pathname.includes(PathUrl.URL_STORE_RECORD)) {
@@ -139,7 +139,7 @@ function SideBar(props: SideBarProps) {
         </>
       ) : (
         <div className="w-[170px] ">
-          <div className="fixed   bottom-0 left-0 top-0 z-[9000000] flex h-full w-[170px] flex-col items-center rounded-r-[24px] bg-sidebar">
+          <div className="fixed  bottom-0 left-0 top-0 z-[9000000] flex h-full w-[170px] flex-col items-center rounded-r-[24px] bg-sidebar">
             <div
               className="mt-[40px]"
               onClick={() => {

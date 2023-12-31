@@ -9,7 +9,7 @@ function FloatingActionButton(props: FloatingActionButtonProps) {
       return (
         <div
           key={index}
-          className="mb-2 mt-2 flex cursor-pointer flex-col items-center justify-center rounded-full pb-2 pt-2"
+          className=" mb-2 mt-2 flex cursor-pointer flex-col items-center justify-center rounded-full pb-2 pt-2"
           onClick={ac.action}
         >
           <div className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#505064] p-2 text-primary">

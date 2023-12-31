@@ -34,7 +34,7 @@ function Dropdown(props: DropdownType) {
         e.stopPropagation();
         setActive(!active);
       }}
-      className={`relative w-fit min-w-[200px] cursor-pointer ${props.className} `}
+      className={`relative w-fit min-w-[150px] cursor-pointer ${props.className} `}
     >
       <div
         className={`${props.classDropItem} relative z-10 flex h-[40px] w-full items-center justify-between rounded-[8px] border-[1px] border-solid bg-main p-2 pl-[20px] pr-[20px]`}

@@ -15,7 +15,7 @@ export const ResetPasswordPage = lazy(
 export const LinkErrorPage = lazy(() => import("../Page/auth/_link-error"));
 //----------------------------------------------------------------
 export const ViewUserDetailPage = lazy(
-  () => import("../Page/userInformation/_view"),
+  () => import("../Page/UserInformation/_view"),
 );
 //----------------------------------------------------------------
 export const ManagerContractPage = lazy(
@@ -26,6 +26,12 @@ export const AddContractPage = lazy(
 );
 export const DetailContractPage = lazy(
   () => import("../Page/manager/contract/authority/detail"),
+);
+export const EditWorkAuthorityPage = lazy(
+  () => import("../Page/manager/contract/authority/workAuthority/edit"),
+);
+export const EditContractPage = lazy(
+  () => import("../Page/manager/contract/authority/edit"),
 );
 // ----------------------------------------------------------------------
 type RouterProps = {
@@ -114,6 +120,34 @@ export default function Router(props: RouterProps) {
           element: (
             <DetailLayout>
               <DetailContractPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.WORK +
+            "/:id",
+          element: (
+            <DetailLayout>
+              <EditWorkAuthorityPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.EDIT +
+            "/:id",
+          element: (
+            <DetailLayout>
+              <EditContractPage />
             </DetailLayout>
           ),
         },

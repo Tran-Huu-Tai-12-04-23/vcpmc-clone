@@ -25,7 +25,7 @@ const pagingItems = [
   },
 ];
 
-function AddContract() {
+function EditContract() {
   const [country, setCountry] = useState<{ name: string; key: number }>(
     countryItems[0],
   );
@@ -242,4 +242,4 @@ function AddContract() {
   );
 }
 
-export default AddContract;
+export default EditContract;

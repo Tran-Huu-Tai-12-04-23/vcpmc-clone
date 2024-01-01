@@ -41,7 +41,9 @@ class PathUrl {
   //
   static ADD = "add";
   static AUTHORITY = "authority";
+  static WORK = "work";
   static EXPLOIT = "exploit";
+  static EDIT = "edit";
 }
 
 export default PathUrl;

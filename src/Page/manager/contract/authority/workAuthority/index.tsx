@@ -1,20 +1,37 @@
-import { useState } from "react";
-import { DropDown, Input, TextLabel } from "../../../../Component";
-import FloatingActionButton from "../../../../Component/UI/FloatingActionButton";
-import UseStatusContract from "../../../../Hook/useStatusContract";
-import { AddIcon, ContractIcon, EditIcon } from "../../../../assets/icon";
-import TableCustom from "../../../../Component/UI/Table";
+import { Input } from "../../../../../Component";
+import { TextLabel, DropDown } from "../../../../../Component";
+import FloatingActionButton from "../../../../../Component/UI/FloatingActionButton";
+import TableCustom from "../../../../../Component/UI/Table";
+import { useRouter } from "../../../../../Routes/hooks";
+import PathUrl from "../../../../../Routes/path-url";
+import { EditIcon, ContractIcon, AddIcon } from "../../../../../assets/icon";
 import {
-  ConfigColTaleListSongInContractAuthority,
   dataExampleListSong,
-} from "./_config";
+  ConfigColTaleListSongInContractAuthority,
+} from "../_config";
 
-function ListContractAuthority() {
+type WorkAuthorityProps = {
+  id?: string;
+};
+function WorkAuthority(props: WorkAuthorityProps) {
+  const router = useRouter();
   const floatingAction = [
     {
       name: "Chỉnh sửa tác phẩm",
       icon: <EditIcon className="text-primary" />,
-      action: () => {},
+      action: () => {
+        router.push(
+          PathUrl.URL_MANAGER +
+            "/" +
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.WORK +
+            "/" +
+            props.id,
+        );
+      },
     },
     {
       name: "Gia hạn hợp đồng",
@@ -65,6 +82,7 @@ function ListContractAuthority() {
             />
           </div>
           <Input
+            className="float-end"
             search
             width={400}
             placeholder="Tên bản ghi, tên ca sĩ, tác giả,..."
@@ -83,4 +101,4 @@ function ListContractAuthority() {
   );
 }
 
-export default ListContractAuthority;
+export default WorkAuthority;

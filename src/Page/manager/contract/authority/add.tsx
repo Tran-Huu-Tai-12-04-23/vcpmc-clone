@@ -15,13 +15,13 @@ import { countryItems } from "../../../../assets/_mock";
 import { useState } from "react";
 const pagingItems = [
   {
-    name: "Quan ly",
+    name: "Quản lý",
   },
   {
-    name: "Quan ly hop dong",
+    name: "Quản lý hợp đồng",
   },
   {
-    name: "Them hop dong",
+    name: "Thêm hợp đồng",
   },
 ];
 
@@ -29,8 +29,9 @@ function AddContract() {
   const [country, setCountry] = useState<{ name: string; key: number }>(
     countryItems[0],
   );
+
   return (
-    <div className="">
+    <div className="pr-[70px]">
       <Paging items={pagingItems} />
       <TextHeader>Thêm hợp đồng ủy quyền mới</TextHeader>
       <div className="mt-6 flex items-start justify-between gap-24 ">

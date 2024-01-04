@@ -78,7 +78,7 @@ interface InputPropsCustom extends InputProps {
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
   const id = uuid();
   return (
-    <div className={`relative`}>
+    <div className={`relative w-full`}>
       {props.label && (
         <label
           htmlFor={id}

@@ -65,6 +65,7 @@ function ListContractAuthority() {
             />
           </div>
           <Input
+            className="float-end"
             search
             width={400}
             placeholder="Tên bản ghi, tên ca sĩ, tác giả,..."

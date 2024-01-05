@@ -1,9 +1,8 @@
 import { Modal, ModalProps } from "antd";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { RootState, actionAuthenticate } from "../../../../State";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../State";
 import { Input, Button } from "../../../../Component";
 
 const StyleModalCustom = styled(Modal)<ModalPropsCustom>`
@@ -28,23 +27,11 @@ interface ModalPropsCustom extends ModalProps {
 }
 
 function ModalCancelContract(props: ModalPropsCustom) {
-  const dispatch = useDispatch();
   const data = useSelector((state: RootState) => state.authenticate);
 
-  const [currentPassword, setCurrentPassword] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleCancelContract = async () => {
-    if (password === "" || confirmPassword === "" || currentPassword === "") {
-      setError("Vui lòng nhập đầy đủ thông tin!");
-      return;
-    } else if (password !== confirmPassword) {
-      setError("Xác nhận mật khẩu không khớp!");
-      return;
-    }
-  };
+  const handleCancelContract = async () => {};
 
   useEffect(() => {
     if (data.error) setError(data.error);

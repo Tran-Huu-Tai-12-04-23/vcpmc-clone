@@ -320,3 +320,13 @@ textarea:where(.css-dev-only-do-not-override-gzal6t).ant-input {
 .custom-autocomplete-dropdown .ant-select-item-option-content {
   @apply text-white;
 }
+
+:where(.css-dev-only-do-not-override-gzal6t).ant-checkbox .ant-checkbox-inner {
+  background: transparent;
+}
+
+:where(.css-dev-only-do-not-override-gzal6t).ant-modal-root
+  .ant-modal-centered
+  .ant-modal {
+  width: unset !important;
+}

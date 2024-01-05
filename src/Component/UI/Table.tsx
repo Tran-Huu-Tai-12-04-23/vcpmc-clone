@@ -4,12 +4,36 @@ import { Pagination, Table } from "antd";
 type TableProps = {
   data: any[];
   col: any;
+  checked?: boolean;
 };
+
+const rowSelection = {
+  onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+    console.log(
+      `selectedRowKeys: ${selectedRowKeys}`,
+      "selectedRows: ",
+      selectedRows,
+    );
+  },
+  getCheckboxProps: (record: any) => ({
+    disabled: record.name === "Disabled User",
+    name: record.name,
+  }),
+};
+
 const TableCustom = (props: TableProps) => {
+  const [selectionType, setSelectionType] = useState<"checkbox">("checkbox");
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const size = 13;
   return (
     <Table
+      {...(props.checked && {
+        rowSelection: {
+          type: selectionType,
+          ...rowSelection,
+        },
+      })}
       style={{
         width: "100%",
       }}

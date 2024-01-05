@@ -30,7 +30,7 @@ function ContractAuthority() {
           <div className="flex items-center justify-start gap-5">
             <h5 className="text-size-primary font-semibold">Quyền sở hữu:</h5>
             <DropDown
-              classDropItem=" border-primary"
+              classDropItem="border-primary"
               active={ownershipActive}
               dropItems={ownerships}
               onSelect={(value) => setOwnershipActive(value)}
@@ -41,7 +41,7 @@ function ContractAuthority() {
               Hiệu lực hợp đồng:
             </h5>
             <DropDown
-              classDropItem=" border-primary"
+              classDropItem="border-primary"
               active={ownershipActive}
               dropItems={ownerships}
               onSelect={(value) => setOwnershipActive(value)}

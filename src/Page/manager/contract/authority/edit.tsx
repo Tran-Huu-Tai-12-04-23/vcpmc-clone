@@ -25,13 +25,12 @@ const pagingItems = [
   },
 ];
 
-function AddContract() {
+function EditContract() {
   const [country, setCountry] = useState<{ name: string; key: number }>(
     countryItems[0],
   );
-
   return (
-    <div className="pr-[70px]">
+    <div className="">
       <Paging items={pagingItems} />
       <TextHeader>Thêm hợp đồng ủy quyền mới</TextHeader>
       <div className="mt-6 flex items-start justify-between gap-24 ">
@@ -243,4 +242,4 @@ function AddContract() {
   );
 }
 
-export default AddContract;
+export default EditContract;

@@ -2,7 +2,8 @@ import { Paging, SwitchTab, TextHeader } from "../../../../Component";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import InformationContract from "./informationContract";
-import ListContractAuthority from "./ListContractAuthority";
+import WorkAuthority from "./workAuthority";
+
 const pagingItems = [
   {
     name: "Quản lý",
@@ -43,7 +44,11 @@ function DetailContract() {
           },
         ]}
       />
-      {activeTab === 1 ? <InformationContract /> : <ListContractAuthority />}
+      {activeTab === 1 ? (
+        <InformationContract id={id} />
+      ) : (
+        <WorkAuthority id={id} />
+      )}
     </div>
   );
 }

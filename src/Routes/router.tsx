@@ -27,6 +27,15 @@ export const AddContractPage = lazy(
 export const DetailContractPage = lazy(
   () => import("../Page/manager/contract/authority/detail"),
 );
+export const EditWorkAuthorityPage = lazy(
+  () => import("../Page/manager/contract/authority/workAuthority/edit"),
+);
+export const EditContractPage = lazy(
+  () => import("../Page/manager/contract/authority/edit"),
+);
+export const AddRecordPage = lazy(
+  () => import("../Page/manager/contract/authority/addRecord/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
@@ -114,6 +123,47 @@ export default function Router(props: RouterProps) {
           element: (
             <DetailLayout>
               <DetailContractPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.WORK +
+            "/:id",
+          element: (
+            <DetailLayout>
+              <EditWorkAuthorityPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.EDIT +
+            "/:id",
+          element: (
+            <DetailLayout>
+              <EditContractPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.ADD_RECORD,
+          element: (
+            <DetailLayout>
+              <AddRecordPage />
             </DetailLayout>
           ),
         },

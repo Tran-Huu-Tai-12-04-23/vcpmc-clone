@@ -21,3 +21,4 @@ export { default as UploadIcon } from "./upload";
 export { default as WarningIcon } from "./warning";
 export { default as ContractIcon } from "./contract";
 export { default as RecoveryIcon } from "./recovery";
+export { default as CheckIcon } from "./check_icon";

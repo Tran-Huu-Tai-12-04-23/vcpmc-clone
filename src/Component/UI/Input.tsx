@@ -22,7 +22,6 @@ const CustomInputArea = styled(InputAntd.TextArea)<InputPropsCustom>`
 `;
 
 const CustomInput = styled(InputAntd)<InputPropsCustom>`
-  width: ${(props) => (props.width ? +props.width + "px" : "100%")};
   height: ${(props) => (props.height ? props.height + "px" : "48px")};
   font-weight: 400;
   font-size: var(--text-size-primary);
@@ -78,7 +77,12 @@ interface InputPropsCustom extends InputProps {
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
   const id = uuid();
   return (
-    <div className={`relative w-full`}>
+    <div
+      className={`relative `}
+      style={{
+        width: props.width ? props.width : "100%",
+      }}
+    >
       {props.label && (
         <label
           htmlFor={id}
@@ -112,6 +116,9 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
         />
       ) : (
         <CustomInput
+          style={{
+            width: props.width ? props.width : "100%",
+          }}
           id={props.id ? props.id : id}
           suffix={search && <SearchIcon />}
           {...props}

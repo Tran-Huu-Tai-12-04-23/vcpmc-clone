@@ -5,21 +5,44 @@ import UseStatusContract from "../../../../Hook/useStatusContract";
 import { ContractIcon, EditIcon, WarningIcon } from "../../../../assets/icon";
 import CancelIcon from "../../../../assets/icon/cancel";
 import ModalCancelContract from "./ModalCancelContract";
+import ModalRenewalContract from "./ModalRenewalContract";
+import { useRouter } from "../../../../Routes/hooks";
+import PathUrl from "../../../../Routes/path-url";
 
-function InformationContract() {
+type InformationProps = {
+  id?: string;
+};
+function InformationContract(props: InformationProps) {
+  const router = useRouter();
   const [isOpenCancelContract, setIsOpenCancelContract] =
+    useState<boolean>(false);
+  const [isShowModalRenewalContract, setIsShowModalRenewalContract] =
     useState<boolean>(false);
 
   const floatingAction = [
     {
       name: "Chỉnh sửa hợp đồng",
       icon: <EditIcon className="text-primary" />,
-      action: () => {},
+      action: () => {
+        router.push(
+          PathUrl.URL_MANAGER +
+            "/" +
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.AUTHORITY +
+            "/" +
+            PathUrl.EDIT +
+            "/" +
+            props.id,
+        );
+      },
     },
     {
       name: "Gia hạn hợp đồng",
       icon: <ContractIcon className="text-primary" />,
-      action: () => {},
+      action: () => {
+        setIsShowModalRenewalContract(true);
+      },
     },
     {
       name: "Hủy hợp đồng",
@@ -38,6 +61,15 @@ function InformationContract() {
         onCancel={() => setIsOpenCancelContract(false)}
         contractId={""}
         isOpen={isOpenCancelContract}
+      />
+
+      <ModalRenewalContract
+        isOpen={isShowModalRenewalContract}
+        onOk={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+        onCancel={() => setIsShowModalRenewalContract(false)}
+        contractId={""}
       />
       <div className=" w-full">
         <div className="mt-6 flex items-start justify-between gap-24 ">
@@ -103,7 +135,6 @@ function InformationContract() {
             </div>
           </div>
         </div>
-
         {/* begin information  */}
         <div className="mt-24 flex flex-col ">
           <h5 className="mb-8 text-[18px] font-bold text-second">
@@ -176,7 +207,7 @@ function InformationContract() {
                 <TextLabel width={140} idInput="place-lived">
                   Nơi cư trú:
                 </TextLabel>
-                <h5 className="text-third w-[16rem]">
+                <h5 className="w-[16rem] text-third">
                   69/53, Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, Thành phố
                   Hồ Chí Minh
                 </h5>
@@ -189,35 +220,36 @@ function InformationContract() {
                 <TextLabel width={140} idInput="email">
                   Email:
                 </TextLabel>
-                <h5 className="text-third w-[16rem]">nguyenvana@gmail.com</h5>
+                <h5 className="w-[16rem] text-third">nguyenvana@gmail.com</h5>
               </div>
               <div className="flex ">
                 <TextLabel width={140} idInput="username">
                   Tên đăng nhập:
                 </TextLabel>
-                <h5 className="text-third w-[16rem]">nguyenvana@gmail.com</h5>
+                <h5 className="w-[16rem] text-third">nguyenvana@gmail.com</h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="password">
                   Mật khẩu:
                 </TextLabel>
-                <h5 className="text-third w-[16rem]">*********</h5>
+                <h5 className="w-[16rem] text-third">*********</h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="number-bank">
                   Số tài khoản:
                 </TextLabel>
-                <h5 className="text-third w-[16rem]">1231123312211223</h5>
+                <h5 className="w-[16rem] text-third">1231123312211223</h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="name-bank">
                   Ngân hàng:
                 </TextLabel>
-                <h5 className="text-third w-[16rem]">ACB - Ngân hàng Á Châu</h5>
+                <h5 className="w-[16rem] text-third">ACB - Ngân hàng Á Châu</h5>
               </div>
             </div>
           </div>
         </div>
+        M
       </div>
       <div className="-translate-y-20">
         <FloatingActionButton floatingActionButtonConfig={floatingAction} />

@@ -5,6 +5,7 @@ type TableProps = {
   data: any[];
   col: any;
   checked?: boolean;
+  numberCol?: number;
 };
 
 const rowSelection = {
@@ -25,7 +26,7 @@ const TableCustom = (props: TableProps) => {
   const [selectionType, setSelectionType] = useState<"checkbox">("checkbox");
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const size = 13;
+  const size = props.numberCol ? props.numberCol : 13;
   return (
     <Table
       {...(props.checked && {
@@ -45,11 +46,11 @@ const TableCustom = (props: TableProps) => {
       )}
       pagination={false}
       footer={() => (
-        <div className="flex items-center justify-between bg-transparent pt-4">
+        <div className="flex items-center justify-between bg-transparent">
           <div className="box-start gap-2 text-[#b9b9c4]">
             <h5> Hien thi</h5>
             <h5 className="border-type-primary center-item h-[32px] w-[50px]  rounded-[4px] text-white">
-              13
+              {size}
             </h5>
             <h5> hang trong moi hang</h5>
           </div>

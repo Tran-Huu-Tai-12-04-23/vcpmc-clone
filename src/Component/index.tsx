@@ -10,3 +10,6 @@ export { default as DropDown } from "./UI/DropDown";
 export { default as TextLabel } from "./UI/TextLabel";
 export { default as ButtonUpload } from "./UI/ButtonUpload";
 export { default as AutoComplete } from "./UI/AutoComplete";
+export { default as CardRecord } from "./UI/CardRecord";
+export { default as CardPlaylist } from "./UI/CardPlaylist";
+export { default as EnterTag } from "./UI/EnterTag";

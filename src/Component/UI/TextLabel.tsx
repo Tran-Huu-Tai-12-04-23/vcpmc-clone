@@ -2,6 +2,7 @@ type TextLabelProps = {
   idInput?: string;
   children: React.ReactNode;
   width?: number;
+  className?: string;
 };
 
 function TextLabel(props: TextLabelProps) {
@@ -10,7 +11,7 @@ function TextLabel(props: TextLabelProps) {
       style={{
         width: props.width,
       }}
-      className="block flex-shrink-0 text-size-primary font-bold"
+      className={`${props.className} block flex-shrink-0 text-size-primary font-bold`}
       htmlFor={props.idInput}
     >
       {props.children}

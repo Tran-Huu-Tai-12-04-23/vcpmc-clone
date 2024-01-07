@@ -59,8 +59,7 @@ html {
   /* Add additional styling to the ant-input class */
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #2b2b3f;
-  /* border-color: transparent; */
+  /* background-color: #2b2b3f; */
   color: white;
 }
 .ant-notification-notice.ant-notification-notice-success.ant-notification-notice-closable {
@@ -214,7 +213,10 @@ html {
   background: #2b2b3f;
   @apply flex h-[36px] items-center justify-center rounded-full border-[1px] border-solid border-[#727288];
 }
-
+:where(.css-dev-only-do-not-override-gzal6t).ant-input-affix-wrapper
+  > input.ant-input {
+  background: transparent;
+}
 :where(.css-dev-only-do-not-override-gzal6t).ant-picker-dropdown
   .ant-picker-content
   td {
@@ -323,6 +325,8 @@ textarea:where(.css-dev-only-do-not-override-gzal6t).ant-input {
 
 :where(.css-dev-only-do-not-override-gzal6t).ant-checkbox .ant-checkbox-inner {
   background: transparent;
+  width: 24px;
+  height: 24px;
 }
 
 :where(.css-dev-only-do-not-override-gzal6t).ant-modal-root

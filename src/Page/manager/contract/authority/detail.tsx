@@ -2,7 +2,7 @@ import { Paging, SwitchTab, TextHeader } from "../../../../Component";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import InformationContract from "./informationContract";
-import WorkAuthority from "./workAuthority";
+import WorkAuthority from "./work-authority";
 
 const pagingItems = [
   {

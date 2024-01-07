@@ -23,10 +23,10 @@ interface ModalPropsCustom extends ModalProps {
   isOpen?: boolean;
   onOk: () => void;
   onCancel?: () => void;
-  contractId: string;
+  recordId: string;
 }
 
-function ModalCancelContract(props: ModalPropsCustom) {
+function ModalRejectRecord(props: ModalPropsCustom) {
   const data = useSelector((state: RootState) => state.authenticate);
 
   const [error, setError] = useState<string>("");
@@ -50,7 +50,7 @@ function ModalCancelContract(props: ModalPropsCustom) {
       centered={true}
     >
       <h5 className="pb-6 text-center text-[24px] font-[700] text-white">
-        Hủy hợp đồng uỷ quyền
+        Lý do từ chối phê duyệt
       </h5>
       <div className="flex w-full flex-col items-center justify-center gap-5 p-[2px]">
         <Input
@@ -58,7 +58,7 @@ function ModalCancelContract(props: ModalPropsCustom) {
           width={500}
           height={200}
           label=""
-          placeholder="Cho chúng tôi biết lý do bạn muốn huỷ hợp đồng uỷ quyền này..."
+          placeholder="Cho chúng tôi biết lý do bạn muốn từ chối phê duyệt bản ghi này..."
         />
 
         <h5 className="text-[14px] text-error">{error}</h5>
@@ -71,7 +71,7 @@ function ModalCancelContract(props: ModalPropsCustom) {
             typebtn="primary"
             sizetype="hug"
           >
-            Hủy hợp đồng
+            Từ chối
           </Button>
         </div>
       </div>
@@ -79,4 +79,4 @@ function ModalCancelContract(props: ModalPropsCustom) {
   );
 }
 
-export default ModalCancelContract;
+export default ModalRejectRecord;

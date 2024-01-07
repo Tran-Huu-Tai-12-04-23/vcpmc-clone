@@ -8,7 +8,7 @@ import { EditIcon, ContractIcon, AddIcon } from "../../../../../assets/icon";
 import {
   dataExampleListSong,
   ConfigColTaleListSongInContractAuthority,
-} from "../_config";
+} from "../_configTable";
 
 type WorkAuthorityProps = {
   id?: string;

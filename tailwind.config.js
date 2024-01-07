@@ -22,6 +22,7 @@ module.exports = {
       },
       borderColor: {
         primary: "#ff7506",
+        second: "#727288",
       },
       margin: {
         header: "80px",

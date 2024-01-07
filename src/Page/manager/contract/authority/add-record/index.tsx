@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Paging, TextHeader } from "../../../../../Component";
 import { CheckIcon } from "../../../../../assets/icon";
-import ModalAddNewRecord from "../workAuthority/ModalAddNewRecord";
+import ModalAddNewRecord from "../work-authority/ModalAddNewRecord";
 
 const pagingItems = [
   {

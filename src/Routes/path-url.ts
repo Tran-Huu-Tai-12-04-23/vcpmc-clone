@@ -47,6 +47,8 @@ class PathUrl {
 
   ///
   static ADD_RECORD = "add-record";
+  static UPDATE_RECORD = "update-record";
+  static MANAGER_APPROVE = "manager-approve";
 }
 
 export default PathUrl;

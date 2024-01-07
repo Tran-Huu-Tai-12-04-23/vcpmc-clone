@@ -32,7 +32,10 @@ const CustomInput = styled(InputAntd)<InputPropsCustom>`
   border-width: 1px;
   border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
   ${(props) => (props.isError ? "border-color:#FF4747" : "")};
-
+  :where(.css-dev-only-do-not-override-gzal6t).ant-input-affix-wrapper
+    > input.ant-input {
+    background: transparent;
+  }
   &:focus,
   &:hover {
     border-color: #347aff;
@@ -73,6 +76,7 @@ interface InputPropsCustom extends InputProps {
   search?: boolean;
   type?: string;
   bordered?: boolean;
+  background?: string;
 }
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
   const id = uuid();
@@ -100,6 +104,11 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
       )}
       {props.type === "area" ? (
         <CustomInputArea
+          style={{
+            background: props.background || "#2b2b3f",
+            width: props.width ? props.width : "100%",
+            height: props.height ? props.height : "100%",
+          }}
           id={props.id ? props.id : id}
           {...props}
           placeholder={props.placeholder}
@@ -108,6 +117,10 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
         />
       ) : props.type === "password" ? (
         <CustomInputPassword
+          style={{
+            background: props.background || "#2b2b3f",
+            width: props.width ? props.width : "100%",
+          }}
           id={props.id ? props.id : id}
           {...props}
           placeholder={props.placeholder}
@@ -118,6 +131,7 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
         <CustomInput
           style={{
             width: props.width ? props.width : "100%",
+            background: props.background || "#2b2b3f",
           }}
           id={props.id ? props.id : id}
           suffix={search && <SearchIcon />}

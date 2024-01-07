@@ -5,7 +5,7 @@ import CancelIcon from "../../../../../assets/icon/cancel";
 import {
   dataExampleListSong,
   ConfigColTaleListSongInContractAuthority,
-} from "../_config";
+} from "../_configTable";
 
 const pagingItems = [
   {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DropDown, Input } from "../../../../Component";
 import Table from "../../../../Component/UI/Table";
-import { ConfigColTale, data as dataTest } from "./_config";
+import { ConfigColTale, data as dataTest } from "./_configTable";
 type Ownership = {
   key: number;
   name: string;

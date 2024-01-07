@@ -15,7 +15,7 @@ export const ResetPasswordPage = lazy(
 export const LinkErrorPage = lazy(() => import("../Page/auth/_link-error"));
 //----------------------------------------------------------------
 export const ViewUserDetailPage = lazy(
-  () => import("../Page/userInformation/_view"),
+  () => import("../Page/user-information/_view"),
 );
 //----------------------------------------------------------------
 export const ManagerContractPage = lazy(
@@ -28,13 +28,34 @@ export const DetailContractPage = lazy(
   () => import("../Page/manager/contract/authority/detail"),
 );
 export const EditWorkAuthorityPage = lazy(
-  () => import("../Page/manager/contract/authority/workAuthority/edit"),
+  () => import("../Page/manager/contract/authority/work-authority/edit"),
 );
 export const EditContractPage = lazy(
   () => import("../Page/manager/contract/authority/edit"),
 );
 export const AddRecordPage = lazy(
-  () => import("../Page/manager/contract/authority/addRecord/index"),
+  () => import("../Page/manager/contract/authority/add-record/index"),
+);
+
+// store
+export const StoreRecordPage = lazy(
+  () => import("../Page/manager/store/index"),
+);
+export const ManagerApprovePage = lazy(
+  () => import("../Page/manager/store/manager-approve/index"),
+);
+export const UpdateRecordPage = lazy(
+  () => import("../Page/manager/store/update-record/index"),
+);
+// playlist
+export const PlaylistPage = lazy(
+  () => import("../Page/manager/playlist/index"),
+);
+export const DetailPlaylistPage = lazy(
+  () => import("../Page/manager/playlist/detail/index"),
+);
+export const EditPlaylistPage = lazy(
+  () => import("../Page/manager/playlist/edit/index"),
 );
 // ----------------------------------------------------------------------
 type RouterProps = {
@@ -42,6 +63,92 @@ type RouterProps = {
 };
 export default function Router(props: RouterProps) {
   const routes = useRoutes([
+    // playlist
+    {
+      path: PathUrl.URL_PLAYLIST,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <HomeLayout>
+              <PlaylistPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: ":id",
+          element: (
+            <DetailLayout>
+              <DetailPlaylistPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.EDIT + "/:id",
+          element: (
+            <DetailLayout>
+              <EditPlaylistPage />
+            </DetailLayout>
+          ),
+        },
+      ],
+    },
+    // end playlist
+    /// store
+    {
+      path: PathUrl.URL_STORE_RECORD,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <HomeLayout>
+              <StoreRecordPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.MANAGER_APPROVE,
+          element: (
+            <DetailLayout>
+              <ManagerApprovePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.UPDATE_RECORD + "/:id",
+          element: (
+            <DetailLayout>
+              <UpdateRecordPage />
+            </DetailLayout>
+          ),
+        },
+      ],
+    },
+    //end store
     {
       path: RouteConstant.MAIN_ROUTE_AUTH,
       element: (

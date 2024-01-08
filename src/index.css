@@ -9,6 +9,7 @@ html {
 
 @import "antd/dist/reset.css";
 :root {
+  --min-height-table: 800px;
   --primary-color: transparent;
   --text-color: #ff7506;
   --text-color-hover: #ff7506;
@@ -143,7 +144,7 @@ html {
   .ant-table.ant-table-bordered
   > .ant-table-container {
   border: none !important;
-  min-height: 800px;
+  min-height: var(--min-height-table);
 }
 :where(.css-dev-only-do-not-override-gzal6t).ant-empty-normal
   .ant-empty-description {

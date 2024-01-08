@@ -13,3 +13,4 @@ export { default as AutoComplete } from "./UI/AutoComplete";
 export { default as CardRecord } from "./UI/CardRecord";
 export { default as CardPlaylist } from "./UI/CardPlaylist";
 export { default as EnterTag } from "./UI/EnterTag";
+export { default as Tag } from "./UI/Tag";

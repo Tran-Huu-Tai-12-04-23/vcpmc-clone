@@ -11,7 +11,7 @@ function HomeLayout(props: HomeProps) {
         <SideBar />
         <div className="w-full pl-[70px]">
           <Header></Header>
-          <div className="mt-header">{props.children}</div>
+          <div className="mt-header pb-20">{props.children}</div>
         </div>
       </div>
     </main>

@@ -6,6 +6,10 @@ type TableProps = {
   col: any;
   checked?: boolean;
   numberCol?: number;
+  locale?: {
+    emptyText: any;
+  };
+  minHeight?: string;
 };
 
 const rowSelection = {
@@ -27,6 +31,7 @@ const TableCustom = (props: TableProps) => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const size = props.numberCol ? props.numberCol : 13;
+
   return (
     <Table
       {...(props.checked && {
@@ -35,10 +40,14 @@ const TableCustom = (props: TableProps) => {
           ...rowSelection,
         },
       })}
-      style={{
-        width: "100%",
-      }}
+      style={
+        {
+          "--min-height-table": props.minHeight ? props.minHeight : "800px",
+          width: "100%",
+        } as React.CSSProperties
+      }
       bordered
+      locale={props.locale}
       columns={props.col}
       dataSource={props.data.slice(
         (currentPage - 1) * size,
@@ -46,7 +55,7 @@ const TableCustom = (props: TableProps) => {
       )}
       pagination={false}
       footer={() => (
-        <div className="flex items-center justify-between bg-transparent">
+        <div className="flex items-center justify-between bg-transparent pt-20">
           <div className="box-start gap-2 text-[#b9b9c4]">
             <h5> Hien thi</h5>
             <h5 className="border-type-primary center-item h-[32px] w-[50px]  rounded-[4px] text-white">

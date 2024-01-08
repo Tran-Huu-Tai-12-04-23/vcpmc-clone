@@ -5,15 +5,20 @@ import { ListIcon, ApplicationIcon, PlaylistIcon } from "../../../assets/icon";
 import TableCustom from "../../../Component/UI/Table";
 import { ConfigPlaylistColTale, dataExamplePlaylist } from "./_configTable";
 import ListCardPlaylist from "./ListCardPlaylist";
+import { useRouter } from "../../../Routes/hooks";
+import PathUrl from "../../../Routes/path-url";
 
 function Playlist() {
+  const router = useRouter();
   const [modeView, setModeView] = useState<"list" | "card">("list");
 
   const floatingAction = [
     {
-      name: "Quản lý phê duyệt",
+      name: "Thêm Playlist",
       icon: <PlaylistIcon />,
-      action: () => {},
+      action: () => {
+        router.push(PathUrl.URL_PLAYLIST + "/" + PathUrl.ADD);
+      },
     },
   ];
 

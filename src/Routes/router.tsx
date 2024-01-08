@@ -57,6 +57,12 @@ export const DetailPlaylistPage = lazy(
 export const EditPlaylistPage = lazy(
   () => import("../Page/manager/playlist/edit/index"),
 );
+export const AddPlaylistPage = lazy(
+  () => import("../Page/manager/playlist/add/index"),
+);
+export const AddRecordPlaylistPage = lazy(
+  () => import("../Page/manager/playlist/add-record/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
@@ -100,6 +106,22 @@ export default function Router(props: RouterProps) {
           element: (
             <DetailLayout>
               <EditPlaylistPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.ADD,
+          element: (
+            <DetailLayout>
+              <AddPlaylistPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.ADD_RECORD + "/:id",
+          element: (
+            <DetailLayout>
+              <AddRecordPlaylistPage />
             </DetailLayout>
           ),
         },

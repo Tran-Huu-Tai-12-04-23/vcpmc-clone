@@ -23,7 +23,7 @@ function FloatingActionButton(props: FloatingActionButtonProps) {
     });
   };
   return (
-    <div className="flex h-fit w-[110px] flex-col items-center justify-center rounded-l-lg bg-menu">
+    <div className="flex h-fit w-[110px] flex-col items-center justify-center rounded-l-2xl bg-menu">
       {props.floatingActionButtonConfig && renderAction()}
     </div>
   );

@@ -63,6 +63,19 @@ export const AddPlaylistPage = lazy(
 export const AddRecordPlaylistPage = lazy(
   () => import("../Page/manager/playlist/add-record/index"),
 );
+// schedule
+export const SchedulePage = lazy(
+  () => import("../Page/manager/schedule/index"),
+);
+export const DetailSchedulePage = lazy(
+  () => import("../Page/manager/schedule/detail/index"),
+);
+export const EditSchedulePage = lazy(
+  () => import("../Page/manager/schedule/edit/index"),
+);
+export const ApplyDevicePage = lazy(
+  () => import("../Page/manager/schedule/ApplyDevice/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
@@ -128,6 +141,57 @@ export default function Router(props: RouterProps) {
       ],
     },
     // end playlist
+    //start schedule
+    {
+      path: PathUrl.URL_SCHEDULE,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <HomeLayout>
+              <SchedulePage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: ":id",
+          element: (
+            <DetailLayout>
+              <DetailSchedulePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.EDIT + "/:id",
+          element: (
+            <DetailLayout>
+              <EditSchedulePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.APPLY_DEVICE + "/:id",
+          element: (
+            <DetailLayout>
+              <ApplyDevicePage />
+            </DetailLayout>
+          ),
+        },
+      ],
+    },
+    //end schedule
     /// store
     {
       path: PathUrl.URL_STORE_RECORD,

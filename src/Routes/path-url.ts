@@ -51,6 +51,10 @@ class PathUrl {
   static MANAGER_APPROVE = "manager-approve";
   //
   static APPLY_DEVICE = "apply-device";
+  // manager unit used
+  static ADD_USER = "add-user";
+  static INFO_USER = "info-user";
+  static EDIT_USER = "edit-user";
 }
 
 export default PathUrl;

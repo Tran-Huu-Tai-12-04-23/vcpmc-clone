@@ -35,3 +35,4 @@ export { default as ShuffleIcon } from "./shuffle";
 export { default as RepeatIcon } from "./repeat";
 export { default as CloseIcon } from "./close";
 export { default as TickIcon } from "./tick";
+export { default as GroupPersonIcon } from "./group_person";

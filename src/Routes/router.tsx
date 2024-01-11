@@ -76,6 +76,20 @@ export const EditSchedulePage = lazy(
 export const ApplyDevicePage = lazy(
   () => import("../Page/manager/schedule/ApplyDevice/index"),
 );
+// device
+export const UnitUsedPage = lazy(() => import("../Page/manager/unit/index"));
+export const DetailUnitUsedPage = lazy(
+  () => import("../Page/manager/unit/detail/index"),
+);
+export const AddUserPage = lazy(
+  () => import("../Page/manager/unit/add-user/index"),
+);
+export const InfoUserPage = lazy(
+  () => import("../Page/manager/unit/info-user/index"),
+);
+export const EditUserPage = lazy(
+  () => import("../Page/manager/unit/edit-user/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
@@ -192,6 +206,66 @@ export default function Router(props: RouterProps) {
       ],
     },
     //end schedule
+
+    // start unit used
+    {
+      path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_UNIT_USED,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <HomeLayout>
+              <UnitUsedPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: ":id",
+          element: (
+            <DetailLayout>
+              <DetailUnitUsedPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.ADD_USER,
+          element: (
+            <DetailLayout>
+              <AddUserPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.INFO_USER + "/:id",
+          element: (
+            <DetailLayout>
+              <InfoUserPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.EDIT_USER + "/:id",
+          element: (
+            <DetailLayout>
+              <EditUserPage />
+            </DetailLayout>
+          ),
+        },
+      ],
+    },
+    //end device
     /// store
     {
       path: PathUrl.URL_STORE_RECORD,

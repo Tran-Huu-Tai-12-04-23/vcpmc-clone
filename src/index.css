@@ -366,3 +366,9 @@ input::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+:where(.css-dev-only-do-not-override-gzal6t).ant-switch:hover:not(
+    .ant-switch-disabled
+  ),
+:where(.css-dev-only-do-not-override-gzal6t).ant-switch {
+  background: #727288;
+}

@@ -1,8 +1,8 @@
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import CancelIcon from "../../assets/icon/cancel";
-import ModalBroadcastSchedule from "../../Page/manager/schedule/edit/ModalBroadcastSchedule";
-import ModalRemoveSchedule from "../../Page/manager/schedule/edit/ModalRemoveSchedule";
+import ModalBroadcastSchedule from "../../Page/schedule/edit/ModalBroadcastSchedule";
+import ModalRemoveSchedule from "../../Page/schedule/edit/ModalRemoveSchedule";
 
 function CalenderCustom() {
   const [isModalBroadcastSchedule, setIsModalBroadcastSchedule] =

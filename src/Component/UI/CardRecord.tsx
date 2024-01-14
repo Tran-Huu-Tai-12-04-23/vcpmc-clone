@@ -1,5 +1,5 @@
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { RecordColDataType } from "../../Page/manager/store/_configTable";
+import { RecordColDataType } from "../../Page/store/_configTable";
 import { EditIcon, PlayIcon } from "../../assets/icon";
 import Checkbox from "./Checkbox";
 

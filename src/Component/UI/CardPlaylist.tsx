@@ -1,7 +1,7 @@
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { PlayIcon, WarningIcon } from "../../assets/icon";
 import Checkbox from "./Checkbox";
-import { PlaylistColDataType } from "../../Page/manager/playlist/_configTable";
+import { PlaylistColDataType } from "../../Page/playlist/_configTable";
 
 type CardPlaylistProps = {
   data?: PlaylistColDataType;

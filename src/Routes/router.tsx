@@ -38,43 +38,35 @@ export const AddRecordPage = lazy(
 );
 
 // store
-export const StoreRecordPage = lazy(
-  () => import("../Page/manager/store/index"),
-);
+export const StoreRecordPage = lazy(() => import("../Page/store/index"));
 export const ManagerApprovePage = lazy(
-  () => import("../Page/manager/store/manager-approve/index"),
+  () => import("../Page/store/manager-approve/index"),
 );
 export const UpdateRecordPage = lazy(
-  () => import("../Page/manager/store/update-record/index"),
+  () => import("../Page/store/update-record/index"),
 );
 // playlist
-export const PlaylistPage = lazy(
-  () => import("../Page/manager/playlist/index"),
-);
+export const PlaylistPage = lazy(() => import("../Page/playlist/index"));
 export const DetailPlaylistPage = lazy(
-  () => import("../Page/manager/playlist/detail/index"),
+  () => import("../Page/playlist/detail/index"),
 );
 export const EditPlaylistPage = lazy(
-  () => import("../Page/manager/playlist/edit/index"),
+  () => import("../Page/playlist/edit/index"),
 );
-export const AddPlaylistPage = lazy(
-  () => import("../Page/manager/playlist/add/index"),
-);
+export const AddPlaylistPage = lazy(() => import("../Page/playlist/add/index"));
 export const AddRecordPlaylistPage = lazy(
-  () => import("../Page/manager/playlist/add-record/index"),
+  () => import("../Page/playlist/add-record/index"),
 );
 // schedule
-export const SchedulePage = lazy(
-  () => import("../Page/manager/schedule/index"),
-);
+export const SchedulePage = lazy(() => import("../Page/schedule/index"));
 export const DetailSchedulePage = lazy(
-  () => import("../Page/manager/schedule/detail/index"),
+  () => import("../Page/schedule/detail/index"),
 );
 export const EditSchedulePage = lazy(
-  () => import("../Page/manager/schedule/edit/index"),
+  () => import("../Page/schedule/edit/index"),
 );
 export const ApplyDevicePage = lazy(
-  () => import("../Page/manager/schedule/ApplyDevice/index"),
+  () => import("../Page/schedule/ApplyDevice/index"),
 );
 // device
 export const UnitUsedPage = lazy(() => import("../Page/manager/unit/index"));
@@ -89,6 +81,23 @@ export const InfoUserPage = lazy(
 );
 export const EditUserPage = lazy(
   () => import("../Page/manager/unit/edit-user/index"),
+);
+// device manager
+export const DeviceManagerPage = lazy(
+  () => import("../Page/manager/device/index"),
+);
+export const DetailDevicePage = lazy(
+  () => import("../Page/manager/device/detail/index"),
+);
+export const AddDevicePage = lazy(
+  () => import("../Page/manager/device/add/index"),
+);
+//  begin authority manager
+export const AuthorityPage = lazy(
+  () => import("../Page/manager/authority/index"),
+);
+export const UpdateAuthorityPage = lazy(
+  () => import("../Page/manager/authority/update/index"),
 );
 // ----------------------------------------------------------------------
 type RouterProps = {
@@ -206,7 +215,84 @@ export default function Router(props: RouterProps) {
       ],
     },
     //end schedule
-
+    //start device manager
+    {
+      path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_DEVICES,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <HomeLayout>
+              <DeviceManagerPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: ":id",
+          element: (
+            <DetailLayout>
+              <DetailDevicePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.ADD,
+          element: (
+            <DetailLayout>
+              <AddDevicePage />
+            </DetailLayout>
+          ),
+        },
+      ],
+    },
+    //end device manager
+    // start authority manager
+    {
+      path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_AUTHORITY,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <HomeLayout>
+              <AuthorityPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.EDIT + "/:id",
+          element: (
+            <DetailLayout>
+              <UpdateAuthorityPage />
+            </DetailLayout>
+          ),
+        },
+      ],
+    },
+    // end authority manager
     // start unit used
     {
       path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_UNIT_USED,

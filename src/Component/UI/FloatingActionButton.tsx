@@ -1,6 +1,11 @@
 type FloatingActionButtonProps = {
   floatingActionButtonConfig:
-    | { icon: React.ReactNode; name: string; action: () => void }[]
+    | {
+        icon: React.ReactNode;
+        name: string;
+        action: () => void;
+        disable?: boolean;
+      }[]
     | undefined;
 };
 function FloatingActionButton(props: FloatingActionButtonProps) {
@@ -15,7 +20,11 @@ function FloatingActionButton(props: FloatingActionButtonProps) {
           <div className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#505064] p-2 text-primary">
             {ac.icon}
           </div>
-          <h6 className="leading-[18px mt-[14px] w-[78px] text-center text-[12px] font-medium">
+          <h6
+            className={`${
+              ac.disable && "text-third"
+            } leading-[18px mt-[14px] w-[78px] text-center text-[12px] font-medium`}
+          >
             {ac.name}
           </h6>
         </div>

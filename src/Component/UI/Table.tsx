@@ -5,45 +5,54 @@ type TableProps = {
   data: any[];
   col: any;
   checked?: boolean;
+  onSelect?: (value: any[]) => void;
   numberCol?: number;
   locale?: {
     emptyText: any;
   };
   minHeight?: string;
-};
-
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-    console.log(
-      `selectedRowKeys: ${selectedRowKeys}`,
-      "selectedRows: ",
-      selectedRows,
-    );
-  },
-  getCheckboxProps: (record: any) => ({
-    disabled: record.name === "Disabled User",
-    name: record.name,
-  }),
+  scroll?: boolean;
+  onRow?: any;
+  maxWidth?: string;
 };
 
 const TableCustom = (props: TableProps) => {
   const [selectionType, setSelectionType] = useState<"checkbox">("checkbox");
-
   const [currentPage, setCurrentPage] = useState<number>(1);
   const size = props.numberCol ? props.numberCol : 13;
 
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+      // console.log(
+      //   `selectedRowKeys: ${selectedRowKeys}`,
+      //   "selectedRows: ",
+      //   selectedRows,
+      // );
+      props.onSelect && props.onSelect(selectedRows);
+    },
+    getCheckboxProps: (record: any) => ({
+      disabled: record.name === "Disabled User",
+      name: record.name,
+    }),
+  };
+
   return (
     <Table
+      className="custom-scroll"
       {...(props.checked && {
         rowSelection: {
           type: selectionType,
           ...rowSelection,
         },
       })}
+      onRow={props.onRow}
+      scroll={{ x: props.scroll ? 600 : undefined }}
       style={
         {
           "--min-height-table": props.minHeight ? props.minHeight : "800px",
           width: "100%",
+          maxWidth: props.maxWidth ? props.maxWidth : "80vw",
+          // Enable vertical scrolling
         } as React.CSSProperties
       }
       bordered

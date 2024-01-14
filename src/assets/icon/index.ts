@@ -36,3 +36,5 @@ export { default as RepeatIcon } from "./repeat";
 export { default as CloseIcon } from "./close";
 export { default as TickIcon } from "./tick";
 export { default as GroupPersonIcon } from "./group_person";
+export { default as TurnIcon } from "./turn";
+export { default as AddOutlineIcon } from "./add_outline";

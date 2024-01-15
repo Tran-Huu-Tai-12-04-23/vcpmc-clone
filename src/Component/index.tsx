@@ -15,3 +15,4 @@ export { default as CardPlaylist } from "./UI/CardPlaylist";
 export { default as EnterTag } from "./UI/EnterTag";
 export { default as Tag } from "./UI/Tag";
 export { default as CalenderCustom } from "./UI/CalenderCustom";
+export { default as LineChart } from "./UI/line-chart";

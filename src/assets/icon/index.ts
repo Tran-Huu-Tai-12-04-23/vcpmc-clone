@@ -38,3 +38,5 @@ export { default as TickIcon } from "./tick";
 export { default as GroupPersonIcon } from "./group_person";
 export { default as TurnIcon } from "./turn";
 export { default as AddOutlineIcon } from "./add_outline";
+export { default as ExportIcon } from "./export";
+export { default as InvoiceIcon } from "./invoice";

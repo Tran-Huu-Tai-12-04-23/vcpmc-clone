@@ -18,7 +18,7 @@ function Authority() {
       <Input
         className="mb-5 mt-5"
         placeholder="Họ tên, tên đăng nhập, email..."
-        height={40}
+        height={48}
         width={700}
         search
       />

@@ -99,6 +99,24 @@ export const AuthorityPage = lazy(
 export const UpdateAuthorityPage = lazy(
   () => import("../Page/manager/authority/update/index"),
 );
+
+// revenue begin
+export const DistributeRevenuePage = lazy(
+  () => import("../Page/revenue/distribute/index"),
+);
+export const DetailDistributeRevenuePage = lazy(
+  () => import("../Page/revenue/distribute/detail/index"),
+);
+export const HistoryForControlPage = lazy(
+  () => import("../Page/revenue/forControl/index"),
+);
+export const DetailHistoryForControlPage = lazy(
+  () => import("../Page/revenue/forControl/detail/index"),
+);
+export const ReportRevenuePage = lazy(
+  () => import("../Page/revenue/report/index"),
+);
+
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
@@ -518,6 +536,64 @@ export default function Router(props: RouterProps) {
             <DetailLayout>
               <AddRecordPage />
             </DetailLayout>
+          ),
+        },
+      ],
+    },
+    // revenue
+    {
+      path: PathUrl.URL_REVENUE,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          path: PathUrl.REVENUE_DISTRIBUTION,
+          element: (
+            <HomeLayout>
+              <DistributeRevenuePage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.REVENUE_DISTRIBUTION + "/:id",
+          element: (
+            <DetailLayout>
+              <DetailDistributeRevenuePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.REVENUE_HISTORY_FOR_CONTROL,
+          element: (
+            <HomeLayout>
+              <HistoryForControlPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.REVENUE_HISTORY_FOR_CONTROL + "/:id",
+          element: (
+            <DetailLayout>
+              <DetailHistoryForControlPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.REVENUE_REPORT,
+          element: (
+            <HomeLayout>
+              <ReportRevenuePage />
+            </HomeLayout>
           ),
         },
       ],

@@ -41,6 +41,7 @@ type DatePickerCustomProps = DatePickerProps & {
   isEdit?: boolean;
   name?: string;
   borderPrimary?: boolean;
+  typePicker?: "week" | "month" | "quarter";
 };
 
 function DatePicker(props: DatePickerCustomProps) {
@@ -63,6 +64,7 @@ function DatePicker(props: DatePickerCustomProps) {
         </label>
       )}
       <DatePickerCustom
+        picker={props.typePicker && props.typePicker}
         id={props.id ? props.id : id}
         name={props.name}
         onChange={props.onChange}

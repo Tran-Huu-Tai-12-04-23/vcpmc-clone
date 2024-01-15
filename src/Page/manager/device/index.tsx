@@ -235,6 +235,7 @@ function DeviceManager() {
             />
           </div>
           <TableCustom
+            maxWidth="80vw"
             onRow={onRow}
             onSelect={(value) => {
               setDeviceSelected(value);

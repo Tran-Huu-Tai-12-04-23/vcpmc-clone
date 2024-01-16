@@ -44,6 +44,15 @@ type DatePickerCustomProps = DatePickerProps & {
   typePicker?: "week" | "month" | "quarter";
 };
 
+const CustomDatePickerHeader = () => {
+  return (
+    <div className="custom-header h-[10rem] bg-modal">
+      hello
+      <span>Custom Header</span>
+    </div>
+  );
+};
+
 function DatePicker(props: DatePickerCustomProps) {
   const id = uuid();
   return (
@@ -64,6 +73,7 @@ function DatePicker(props: DatePickerCustomProps) {
         </label>
       )}
       <DatePickerCustom
+        renderExtraFooter={() => <CustomDatePickerHeader />}
         picker={props.typePicker && props.typePicker}
         id={props.id ? props.id : id}
         name={props.name}

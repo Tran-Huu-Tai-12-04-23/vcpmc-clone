@@ -38,8 +38,12 @@ class PathUrl {
   static SUPPORT_DOWNLOAD_APP = "download-app";
   static SUPPORT_FEEDBACK = "feed-back";
 
+  /// sub domain setting
+  static DECENTRALIZED = "decentralized";
+
   //
   static ADD = "add";
+  static DETAIL = "detail";
   static AUTHORITY = "authority";
   static WORK = "work";
   static EXPLOIT = "exploit";
@@ -55,6 +59,7 @@ class PathUrl {
   static ADD_USER = "add-user";
   static INFO_USER = "info-user";
   static EDIT_USER = "edit-user";
+  static HISTORY_SYNCED_DEVICE = "history-synced-device";
 }
 
 export default PathUrl;

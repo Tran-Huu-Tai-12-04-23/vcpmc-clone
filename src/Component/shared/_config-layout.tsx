@@ -72,7 +72,7 @@ export const navSidebarConfig = [
     icon: <SettingIcon />,
     subMenu: [
       {
-        path: PathUrl.URL_SETTING + "/" + PathUrl.SETTING_USER_AUTHORIZATION,
+        path: PathUrl.URL_SETTING + "/" + PathUrl.DECENTRALIZED,
         name: "Phân quyên người dùng",
       },
       {

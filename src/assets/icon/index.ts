@@ -40,3 +40,7 @@ export { default as TurnIcon } from "./turn";
 export { default as AddOutlineIcon } from "./add_outline";
 export { default as ExportIcon } from "./export";
 export { default as InvoiceIcon } from "./invoice";
+export { default as CommitRevenueIcon } from "./commit_revenue";
+export { default as AddPersonIcon } from "./add_person";
+export { default as ArrowLeftIcon } from "./arrow_left";
+export { default as ArrowRightIcon } from "./arrow_right";

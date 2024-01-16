@@ -1,5 +1,4 @@
 import { ColumnsType } from "antd/es/table";
-import PathUrl from "../../../Routes/path-url";
 import dayjs, { Dayjs } from "dayjs";
 import { Switch } from "antd";
 import { Link } from "react-router-dom";

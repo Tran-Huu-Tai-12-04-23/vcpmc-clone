@@ -8,6 +8,8 @@ import {
 } from "../../../Component";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import { InvoiceIcon } from "../../../assets/icon";
+import { useRouter } from "../../../Routes/hooks";
+import PathUrl from "../../../Routes/path-url";
 
 const PagingItems = [
   {
@@ -95,6 +97,7 @@ const monthList = [
   },
 ];
 function ReportRevenue() {
+  const router = useRouter();
   const [typeReport, setTypeReport] = useState<{ name: string; key: number }>(
     TypeReportList[0],
   );
@@ -106,7 +109,15 @@ function ReportRevenue() {
     {
       name: "Báo cáo chi tiết",
       icon: <InvoiceIcon />,
-      action: () => {},
+      action: () => {
+        router.push(
+          PathUrl.URL_REVENUE +
+            "/" +
+            PathUrl.REVENUE_REPORT +
+            "/" +
+            PathUrl.DETAIL,
+        );
+      },
     },
   ];
   return (

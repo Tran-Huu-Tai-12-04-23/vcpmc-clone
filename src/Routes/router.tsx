@@ -116,13 +116,98 @@ export const DetailHistoryForControlPage = lazy(
 export const ReportRevenuePage = lazy(
   () => import("../Page/revenue/report/index"),
 );
+export const ReportRevenueDetailPage = lazy(
+  () => import("../Page/revenue/report/detail/index"),
+);
+export const DetailRevenuePage = lazy(
+  () => import("../Page/revenue/report/detail/detail-revenue/index"),
+);
+export const HistorySyncedDevicePage = lazy(
+  () => import("../Page/revenue/report/detail/history-synced-device/index"),
+);
 
+//   decentralized user
+export const DecentralizeUserPage = lazy(
+  () => import("../Page/setting/decentralize/index"),
+);
+export const AddUserRolePage = lazy(
+  () => import("../Page/setting/decentralize/add/index"),
+);
+export const EditUserRolePage = lazy(
+  () => import("../Page/setting/decentralize/edit/index"),
+);
+// setting config
+export const SettingConfigPage = lazy(
+  () => import("../Page/setting/config/index"),
+);
+export const InformationCreationPage = lazy(
+  () => import("../Page/setting/information-creation/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
 };
 export default function Router(props: RouterProps) {
   const routes = useRoutes([
+    // begin decentralized
+    {
+      path: PathUrl.URL_SETTING,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          path: PathUrl.DECENTRALIZED,
+          element: (
+            <HomeLayout>
+              <DecentralizeUserPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.DECENTRALIZED + "/" + PathUrl.ADD,
+          element: (
+            <DetailLayout>
+              <AddUserRolePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.DECENTRALIZED + "/:id",
+          element: (
+            <DetailLayout>
+              <EditUserRolePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.SETTING_CONFIG,
+          element: (
+            <HomeLayout>
+              <SettingConfigPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.SETTING_INFORMATION_CREATION,
+          element: (
+            <HomeLayout>
+              <InformationCreationPage />
+            </HomeLayout>
+          ),
+        },
+      ],
+    },
+    // end decentralized
     // playlist
     {
       path: PathUrl.URL_PLAYLIST,
@@ -594,6 +679,34 @@ export default function Router(props: RouterProps) {
             <HomeLayout>
               <ReportRevenuePage />
             </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.REVENUE_REPORT + "/" + PathUrl.DETAIL,
+          element: (
+            <DetailLayout>
+              <ReportRevenueDetailPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.REVENUE_REPORT + "/:id",
+          element: (
+            <DetailLayout>
+              <DetailRevenuePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.REVENUE_REPORT +
+            "/" +
+            PathUrl.HISTORY_SYNCED_DEVICE +
+            "/:id",
+          element: (
+            <DetailLayout>
+              <HistorySyncedDevicePage />
+            </DetailLayout>
           ),
         },
       ],

@@ -1,14 +1,17 @@
 import {
-  DatePicker,
-  Input,
   Paging,
   TextHeader,
   TextLabel,
-} from "../../../../Component";
-import FloatingActionButton from "../../../../Component/UI/FloatingActionButton";
-import TableCustom from "../../../../Component/UI/Table";
-import { ExportIcon } from "../../../../assets/icon";
-import { ConfigColListRecord, dataExampleListRecord } from "./_configTable";
+  DatePicker,
+  Input,
+} from "../../../../../Component";
+import FloatingActionButton from "../../../../../Component/UI/FloatingActionButton";
+import TableCustom from "../../../../../Component/UI/Table";
+import { ExportIcon } from "../../../../../assets/icon";
+import {
+  dataExampleListRecord,
+  ConfigColListRecord,
+} from "../../../forControl/detail/_configTable";
 
 const PagingItems = [
   {
@@ -21,7 +24,7 @@ const PagingItems = [
     name: "Chi tiết",
   },
 ];
-function DetailHistoryForControl() {
+function DetailRevenue() {
   const floatingAction = [
     {
       name: "Xuất dữ liệu",
@@ -64,14 +67,8 @@ function DetailHistoryForControl() {
               <h5 className="text-third">01/01/2022</h5>
             </div>
             <div className="box-start">
-              <TextLabel className="min-w-[250px]">Giá trị hợp đồng:</TextLabel>
-              <h5 className="text-third">730.000.000 VNĐ</h5>
-            </div>
-            <div className="box-start">
-              <TextLabel className="min-w-[250px]">
-                Giá trị phân phối theo ngày:
-              </TextLabel>
-              <h5 className="text-third">365.000.000 VNĐ</h5>
+              <TextLabel className="min-w-[250px]">Đơn giá/ lượt:</TextLabel>
+              <h5 className="text-third">1.000.000 VNĐ</h5>
             </div>
           </div>
 
@@ -110,6 +107,10 @@ function DetailHistoryForControl() {
               </TextLabel>
               <h5 className="text-third">Chưa đối soát</h5>
             </div>
+            <div className="box-start">
+              <TextLabel className="min-w-[250px]">Ngày thực hiện:</TextLabel>
+              <h5 className="text-third">22/04/2021</h5>
+            </div>
           </div>
         </div>
         <div className="w-[70%]">
@@ -143,4 +144,4 @@ function DetailHistoryForControl() {
   );
 }
 
-export default DetailHistoryForControl;
+export default DetailRevenue;

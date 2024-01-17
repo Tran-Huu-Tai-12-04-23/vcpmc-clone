@@ -44,3 +44,5 @@ export { default as CommitRevenueIcon } from "./commit_revenue";
 export { default as AddPersonIcon } from "./add_person";
 export { default as ArrowLeftIcon } from "./arrow_left";
 export { default as ArrowRightIcon } from "./arrow_right";
+export { default as EditContractIcon } from "./edit_contract";
+export { default as WarningCalenderIcon } from "./warning_calender";

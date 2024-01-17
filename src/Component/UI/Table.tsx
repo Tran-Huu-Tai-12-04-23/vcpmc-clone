@@ -15,6 +15,8 @@ type TableProps = {
   onRow?: any;
   maxWidth?: string;
   hiddenFooter?: boolean;
+  components?: any;
+  rowClassName?: () => string;
 };
 
 const TableCustom = (props: TableProps) => {
@@ -46,6 +48,7 @@ const TableCustom = (props: TableProps) => {
           ...rowSelection,
         },
       })}
+      rowClassName={props.rowClassName}
       onRow={props.onRow}
       scroll={{ x: props.scroll ? 600 : undefined }}
       style={

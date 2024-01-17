@@ -19,6 +19,7 @@ module.exports = {
         modal: "#3e3e5b",
         toast: "#727288",
         main: "#1e1e2e",
+        table: "#2a2a3b",
       },
       borderColor: {
         primary: "#ff7506",

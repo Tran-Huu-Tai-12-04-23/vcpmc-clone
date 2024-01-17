@@ -143,12 +143,70 @@ export const SettingConfigPage = lazy(
 export const InformationCreationPage = lazy(
   () => import("../Page/setting/information-creation/index"),
 );
+export const ManagerTypeContractPage = lazy(
+  () => import("../Page/setting/manager-type-contract/index"),
+);
+export const EditExtendTypeContractPage = lazy(
+  () =>
+    import(
+      "../Page/setting/manager-type-contract/edit-extend-type-contract/index"
+    ),
+);
+export const EditTypeContractPage = lazy(
+  () => import("../Page/setting/manager-type-contract/edit/index"),
+);
+
+export const ControlCyclePage = lazy(
+  () => import("../Page/setting/control-cycle/index"),
+);
+//
+export const SupportInstallPage = lazy(
+  () => import("../Page/support/install/index"),
+);
+export const FeedBackPage = lazy(
+  () => import("../Page/support/feedback/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
 };
 export default function Router(props: RouterProps) {
   const routes = useRoutes([
+    //  begin support
+    {
+      path: PathUrl.URL_SUPPORT,
+      element: (
+        <Suspense fallback={<div>Loading...</div>}>
+          {props.isAuthenticated ? (
+            <Outlet />
+          ) : (
+            <Navigate
+              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              replace
+            />
+          )}
+        </Suspense>
+      ),
+      children: [
+        {
+          path: PathUrl.SUPPORT_DOWNLOAD_APP,
+          element: (
+            <HomeLayout>
+              <SupportInstallPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.SUPPORT_FEEDBACK,
+          element: (
+            <HomeLayout>
+              <FeedBackPage />
+            </HomeLayout>
+          ),
+        },
+      ],
+    },
+    //end support
     // begin decentralized
     {
       path: PathUrl.URL_SETTING,
@@ -202,6 +260,38 @@ export default function Router(props: RouterProps) {
           element: (
             <HomeLayout>
               <InformationCreationPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.MANAGER_CONTRACT,
+          element: (
+            <HomeLayout>
+              <ManagerTypeContractPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.MANAGER_CONTRACT + "/" + PathUrl.EDIT,
+          element: (
+            <HomeLayout>
+              <EditExtendTypeContractPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.MANAGER_CONTRACT + "/" + PathUrl.EDIT_TYPE_CONTRACT,
+          element: (
+            <HomeLayout>
+              <EditTypeContractPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.SETTING_CONTROL_CYCLE,
+          element: (
+            <HomeLayout>
+              <ControlCyclePage />
             </HomeLayout>
           ),
         },

@@ -32,7 +32,9 @@ class PathUrl {
   static SETTING_USER_AUTHORIZATION = "user-authorization";
   static SETTING_CONFIG = "config";
   static SETTING_INFORMATION_CREATION = "information-creation";
+  static MANAGER_TYPE_CONTRACT = "manager-type-contract";
   static SETTING_CONTROL_CYCLE = "control-cycle";
+  static EDIT_TYPE_CONTRACT = "edit-type-contract";
   // -- sub domain
   static SUPPORT_APP_GUIDE = "app-guide";
   static SUPPORT_DOWNLOAD_APP = "download-app";

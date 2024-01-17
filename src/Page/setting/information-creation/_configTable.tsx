@@ -1,7 +1,4 @@
 import { ColumnsType } from "antd/es/table";
-import dayjs, { Dayjs } from "dayjs";
-import { Switch } from "antd";
-import { Link } from "react-router-dom";
 
 type GenreSongDataType = {
   id: string;

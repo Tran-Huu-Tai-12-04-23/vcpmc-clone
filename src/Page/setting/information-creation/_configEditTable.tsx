@@ -1,6 +1,30 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import type { GetRef } from "antd";
-import { Button, Form, Input, Popconfirm, Table } from "antd";
+import type { GetRef, InputProps } from "antd";
+import { Button, Form, Table, Input, Pagination } from "antd";
+import styled from "styled-components";
+import { TableCustom } from "../../../Component";
+import { GenreSongDataType } from ".";
+import { cp } from "fs";
+
+const CustomInput = styled(Input)<InputProps>`
+  font-weight: 400;
+  font-size: var(--text-size-primary);
+  background: #33334d;
+  border-radius: 8px;
+  color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #727288;
+  :where(.css-dev-only-do-not-override-gzal6t).ant-input-affix-wrapper
+    > input.ant-input {
+    background: transparent;
+  }
+  &:focus,
+  &:hover {
+    border-color: #347aff;
+    background: #33334d;
+  }
+`;
 
 type InputRef = GetRef<typeof Input>;
 type FormInstance<T> = GetRef<typeof Form<T>>;
@@ -9,9 +33,11 @@ const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
 interface Item {
   key: string;
-  name: string;
-  age: string;
-  address: string;
+  id: string;
+  index: number;
+  genre: string;
+  description: string;
+  isNewRow: boolean;
 }
 
 interface EditableRowProps {
@@ -35,6 +61,7 @@ interface EditableCellProps {
   children: React.ReactNode;
   dataIndex: keyof Item;
   record: Item;
+  isNewRow: boolean;
   handleSave: (record: Item) => void;
 }
 
@@ -45,26 +72,23 @@ const EditableCell: React.FC<EditableCellProps> = ({
   dataIndex,
   record,
   handleSave,
+  isNewRow = false,
   ...restProps
 }) => {
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(isNewRow);
   const inputRef = useRef<InputRef>(null);
   const form = useContext(EditableContext)!;
 
-  useEffect(() => {
-    if (editing) {
-    }
-  }, [editing]);
-
   const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+    if (!isNewRow) {
+      setEditing(!editing);
+      form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+    }
   };
 
   const save = async () => {
     try {
       const values = await form.validateFields();
-
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
@@ -86,11 +110,16 @@ const EditableCell: React.FC<EditableCellProps> = ({
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <CustomInput
+          name={dataIndex}
+          ref={inputRef}
+          onPressEnter={save}
+          onBlur={save}
+        />
       </Form.Item>
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className="editable-cell-value-wrap "
         style={{ paddingRight: 24 }}
         onClick={toggleEdit}
       >
@@ -104,79 +133,43 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
-interface DataType {
-  key: React.Key;
-  name: string;
-  age: string;
-  address: string;
-}
-
 type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
-
-const TableEdit: React.FC = () => {
-  const [dataSource, setDataSource] = useState<DataType[]>([
-    {
-      key: "0",
-      name: "Edward King 0",
-      age: "32",
-      address: "London, Park Lane no. 0",
-    },
-    {
-      key: "1",
-      name: "Edward King 1",
-      age: "32",
-      address: "London, Park Lane no. 1",
-    },
-  ]);
-
-  const [count, setCount] = useState(2);
-
-  const handleDelete = (key: React.Key) => {
-    const newData = dataSource.filter((item) => item.key !== key);
-    setDataSource(newData);
-  };
+type TableEditProps = {
+  isEdit: boolean;
+  dataSource: GenreSongDataType[];
+  onAddRow: () => void;
+  onSaveEdit: (val: GenreSongDataType) => void;
+};
+const TableEdit = (props: TableEditProps) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const size = 13;
+  // const handleDelete = (key: React.Key) => {
+  //   const newData = dataSource.filter((item) => item.key !== key);
+  //   setDataSource(newData);
+  // };
 
   const defaultColumns: (ColumnTypes[number] & {
     editable?: boolean;
     dataIndex: string;
   })[] = [
     {
-      title: "name",
-      dataIndex: "name",
-      width: "30%",
-      editable: true,
+      title: "STT",
+      dataIndex: "index",
+      key: "index",
     },
     {
-      title: "age",
-      dataIndex: "age",
+      title: "Tên thể loại",
+      dataIndex: "genre",
+      key: "genre",
+      editable: props.isEdit,
     },
     {
-      title: "address",
-      dataIndex: "address",
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
+      editable: props.isEdit,
     },
   ];
-
-  const handleAdd = () => {
-    const newData: DataType = {
-      key: count,
-      name: `Edward King ${count}`,
-      age: "32",
-      address: `London, Park Lane no. ${count}`,
-    };
-    setDataSource([...dataSource, newData]);
-    setCount(count + 1);
-  };
-
-  const handleSave = (row: DataType) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setDataSource(newData);
-  };
 
   const components = {
     body: {
@@ -191,29 +184,52 @@ const TableEdit: React.FC = () => {
     }
     return {
       ...col,
-      onCell: (record: DataType) => ({
+      onCell: (record: GenreSongDataType) => ({
         record,
+        isNewRow: record.isNewRow ? record.isNewRow : false,
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSave,
+        handleSave: props.onSaveEdit,
       }),
     };
   });
 
   return (
-    <div>
-      <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-        Add a row
-      </Button>
-      <Table
-        components={components}
-        rowClassName={() => "editable-row"}
-        bordered
-        dataSource={dataSource}
-        columns={columns as ColumnTypes}
-      />
-    </div>
+    <Table
+      style={
+        {
+          "--min-height-table": "800px",
+        } as React.CSSProperties
+      }
+      components={components}
+      rowClassName={() => "editable-row"}
+      dataSource={props.dataSource}
+      columns={columns as ColumnTypes}
+      bordered
+      pagination={false}
+      footer={() => (
+        <div className="mt-4 flex items-center justify-between bg-transparent">
+          <div className="box-start gap-2 text-[#b9b9c4]">
+            <h5> Hien thi</h5>
+            <h5 className="border-type-primary center-item h-[32px] w-[50px]  rounded-[4px] text-white">
+              {size}
+            </h5>
+            <h5> hang trong moi hang</h5>
+          </div>
+          <Pagination
+            onChange={(page, pageSize) => {
+              setCurrentPage(page);
+            }}
+            defaultCurrent={currentPage}
+            total={props.dataSource.length}
+            pageSize={size}
+            defaultPageSize={undefined}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
+    />
   );
 };
 

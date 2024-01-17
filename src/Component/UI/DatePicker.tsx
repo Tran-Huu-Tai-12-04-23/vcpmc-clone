@@ -14,6 +14,11 @@ const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
   border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
   border-color: ${(props) => (props.borderPrimary ? "#ff7506" : "")};
 
+  &:hover,
+  &:focus {
+    border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+    border-color: ${(props) => (props.borderPrimary ? "#ff7506" : "")};
+  }
   .anticon-close-circle {
     display: none;
   }
@@ -42,6 +47,9 @@ type DatePickerCustomProps = DatePickerProps & {
   name?: string;
   borderPrimary?: boolean;
   typePicker?: "week" | "month" | "quarter";
+  hiddenIcon?: boolean;
+  background?: string;
+  bordered?: boolean;
 };
 
 const CustomDatePickerHeader = () => {
@@ -73,13 +81,16 @@ function DatePicker(props: DatePickerCustomProps) {
         </label>
       )}
       <DatePickerCustom
+        style={{
+          background: props.background ? props.background : "transparent",
+        }}
         renderExtraFooter={() => <CustomDatePickerHeader />}
         picker={props.typePicker && props.typePicker}
         id={props.id ? props.id : id}
         name={props.name}
         onChange={props.onChange}
         format={"DD/MM/YYYY"}
-        suffixIcon={<CalenderIcon color={"#ff7506"} />}
+        suffixIcon={!props.hiddenIcon && <CalenderIcon color={"#ff7506"} />}
         placeholder={props.placeholder ? props.placeholder : "dd/mm/yy"}
         {...props}
       />

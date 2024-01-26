@@ -4,6 +4,7 @@ import { Outlet, Navigate, useRoutes } from "react-router-dom";
 import AuthLayout from "../Layout/AuthLayout";
 import HomeLayout from "../Layout/HomeLayout";
 import DetailLayout from "../Layout/DetailLayout";
+import LoadingLayout from "../Layout/Loading";
 import RouteConstant from "../Constant/_route";
 import PathUrl from "./path-url";
 
@@ -166,6 +167,9 @@ export const SupportInstallPage = lazy(
 export const FeedBackPage = lazy(
   () => import("../Page/support/feedback/index"),
 );
+export const AppGuidePage = lazy(
+  () => import("../Page/support/app-guide/index"),
+);
 // ----------------------------------------------------------------------
 type RouterProps = {
   isAuthenticated: Boolean;
@@ -176,12 +180,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_SUPPORT,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -204,6 +208,14 @@ export default function Router(props: RouterProps) {
             </HomeLayout>
           ),
         },
+        {
+          path: PathUrl.SUPPORT_APP_GUIDE,
+          element: (
+            <HomeLayout>
+              <AppGuidePage />
+            </HomeLayout>
+          ),
+        },
       ],
     },
     //end support
@@ -211,12 +223,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_SETTING,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -302,12 +314,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_PLAYLIST,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -361,12 +373,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_SCHEDULE,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -412,12 +424,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_DEVICES,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -455,12 +467,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_AUTHORITY,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -490,12 +502,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_UNIT_USED,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -549,12 +561,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_STORE_RECORD,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -592,7 +604,7 @@ export default function Router(props: RouterProps) {
       path: RouteConstant.MAIN_ROUTE_AUTH,
       element: (
         <AuthLayout>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<LoadingLayout />}>
             {!props.isAuthenticated ? (
               <Outlet />
             ) : (
@@ -627,12 +639,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_MANAGER,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -719,12 +731,12 @@ export default function Router(props: RouterProps) {
     {
       path: PathUrl.URL_REVENUE,
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<LoadingLayout />}>
           {props.isAuthenticated ? (
             <Outlet />
           ) : (
             <Navigate
-              to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+              to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
               replace
             />
           )}
@@ -805,12 +817,12 @@ export default function Router(props: RouterProps) {
       path: "/",
       element: (
         <HomeLayout>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<LoadingLayout />}>
             {props.isAuthenticated ? (
               <Outlet />
             ) : (
               <Navigate
-                to={`${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
+                to={`/${RouteConstant.MAIN_ROUTE_AUTH}/${RouteConstant.LOGIN}`}
                 replace
               />
             )}

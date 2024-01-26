@@ -1,10 +1,17 @@
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { PlayIcon, WarningIcon } from "../../assets/icon";
+import {
+  DefaultThumbnailsPlaylist,
+  PlayIcon,
+  WarningIcon,
+} from "../../assets/icon";
 import Checkbox from "./Checkbox";
-import { PlaylistColDataType } from "../../Page/playlist/_configTable";
+import { IPlaylist } from "../../Model/playlist.model";
+import { imgAudioDefault } from "../../assets/icon/default_thumbnails_playslist";
+import dayjs from "dayjs";
+import Helper from "../../Helper";
 
 type CardPlaylistProps = {
-  data?: PlaylistColDataType;
+  data?: IPlaylist;
   selected?: boolean;
   selectMode?: boolean;
   onChange?: (e: CheckboxChangeEvent) => void;
@@ -14,10 +21,9 @@ function CardPlaylist(props: CardPlaylistProps) {
     <div className="bg-fill relative min-h-[316px] overflow-hidden rounded-lg bg-modal bg-no-repeat ">
       <img
         className=" h-full w-full"
-        src={
-          "https://variety.com/wp-content/uploads/2022/07/Music-Streaming-Wars.jpg?w=1024"
-        }
+        src={props.data?.thumbnails ? props.data.thumbnails : imgAudioDefault}
       />
+
       <div className="center-item absolute left-0 right-0 top-0 h-1/2">
         <div className="m-auto w-fit rounded-full bg-[rgba(255,255,255,0.5)] p-4 backdrop-blur-md">
           <PlayIcon />
@@ -25,10 +31,10 @@ function CardPlaylist(props: CardPlaylistProps) {
       </div>
       <div className="absolute bottom-0 left-0 right-0 min-h-[156px] bg-modal p-4">
         <h5 className="mb-2 text-size-primary font-semibold">
-          Handcrafted Fresh Bacon Multy
+          {props.data?.title}
         </h5>
         <div className="box-start mb-2 mt-2 w-full gap-2">
-          {["Pop", "Ballad"].map((it, index) => {
+          {props.data?.tags.map((it, index) => {
             return (
               <div
                 key={index}
@@ -40,21 +46,27 @@ function CardPlaylist(props: CardPlaylistProps) {
           })}
         </div>
         <div className="box-start gap-2">
-          <h5>Người tạo:</h5> <span className="text-third">Admin</span>
+          <h5>Người tạo:</h5>{" "}
+          <span className="text-third">{props.data?.personCreated}</span>
         </div>
         <div className="box-start gap-2">
-          <h5>Ngày tạo:</h5> <span className="text-third">12/12/2020</span>
+          <h5>Ngày tạo:</h5>{" "}
+          <span className="text-third">
+            {dayjs(props.data?.createAt).format("YYYY/MM/DD")}
+          </span>
         </div>
 
         <div className="items-emd mb-2 mt-2 flex items-end justify-between">
           <div className="box-start gap-2">
             <div className="flex flex-col items-center justify-center rounded-md border-[1px] border-solid  border-[#595970] p-2 pl-2 pr-2">
               <span className="text-[8px] text-third">Số bản ghi</span>
-              <h5>20</h5>
+              <h5>{props.data?.amountRecord}</h5>
             </div>
             <div className="flex flex-col items-center justify-center rounded-md border-[1px] border-solid  border-[#595970] p-2 pl-2 pr-2">
               <span className="text-[8px] text-third">Thời lượng</span>
-              <h5>1:03:00</h5>
+              <h5>
+                {Helper.convertDurationToString(props.data?.totalDuration || 0)}
+              </h5>
             </div>
           </div>
 

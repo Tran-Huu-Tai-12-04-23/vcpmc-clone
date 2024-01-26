@@ -12,7 +12,8 @@ const CustomInputArea = styled(InputAntd.TextArea)<InputPropsCustom>`
   color: white;
   border-style: solid;
   border-width: 1px;
-  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  border-color: ${(props) =>
+    props.variant === "outlined" ? "#67677d" : "transparent"};
   ${(props) => (props.isError ? "border-color:#FF4747" : "")};
 
   &:focus,
@@ -30,7 +31,8 @@ const CustomInput = styled(InputAntd)<InputPropsCustom>`
   color: white;
   border-style: solid;
   border-width: 1px;
-  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  border-color: ${(props) =>
+    props.variant === "outlined" ? "#67677d" : "transparent"};
   ${(props) => (props.isError ? "border-color:#FF4747" : "")};
   :where(.css-dev-only-do-not-override-gzal6t).ant-input-affix-wrapper
     > input.ant-input {
@@ -48,10 +50,10 @@ const CustomInputPassword = styled(InputAntd.Password)<InputPropsCustom>`
   font-size: var(--text-size-primary);
   border-style: solid;
   border-width: 1px;
-  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  border-color: ${(props) =>
+    props.variant === "outlined" ? "#67677d" : "transparent"};
   ${(props) => (props.isError ? "border-color:#FF4747" : "")};
   border-radius: 8px;
-
   & .ant-input-affix-wrapper {
     background-color: transparent;
     border: none;
@@ -75,8 +77,8 @@ interface InputPropsCustom extends InputProps {
   isEdit?: boolean;
   search?: boolean;
   type?: string;
-  bordered?: boolean;
   background?: string;
+  defaultValue?: string;
 }
 function Input({ search, isEdit, ...props }: InputPropsCustom) {
   const id = uuid();
@@ -114,6 +116,7 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
           placeholder={props.placeholder}
           isError={props.isError}
           name={props.name}
+          variant={props.variant}
         />
       ) : props.type === "password" ? (
         <CustomInputPassword
@@ -126,6 +129,7 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
           placeholder={props.placeholder}
           isError={props.isError}
           name={props.name}
+          variant={props.variant}
         />
       ) : (
         <CustomInput
@@ -138,6 +142,8 @@ function Input({ search, isEdit, ...props }: InputPropsCustom) {
           {...props}
           placeholder={props.placeholder}
           isError={props.isError}
+          defaultValue={props.defaultValue}
+          variant={props.variant}
         />
       )}
 

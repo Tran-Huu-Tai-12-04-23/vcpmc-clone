@@ -10,7 +10,7 @@ import {
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import TableCustom from "../../../Component/UI/Table";
 import { DefaultThumbnailsPlaylist, AddIcon } from "../../../assets/icon";
-import { dataExampleRecord, ConfigRecordColTale } from "../detail/_configTable";
+import { ConfigColRecordsAdded } from "../detail/_configTable";
 import { useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
 import { useParams } from "react-router-dom";
@@ -30,6 +30,7 @@ const PagingItems = [
 function EditPlaylist() {
   const { id } = useParams();
   const router = useRouter();
+
   const floatingAction = [
     {
       name: "Thêm bản ghi",
@@ -93,11 +94,7 @@ function EditPlaylist() {
           </div>
         </div>
         <div className="w-full">
-          <TableCustom
-            numberCol={12}
-            data={dataExampleRecord}
-            col={ConfigRecordColTale}
-          />
+          <TableCustom numberCol={12} data={[]} col={undefined} />
 
           <div className="center-item mt-10 gap-10">
             <Button sizetype="hug" typebtn="outline">

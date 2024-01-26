@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import Tag from "./Tag";
 
-function EnterTag() {
-  const [tags, setTags] = useState<string[]>(["Ballad", "Rock"]);
+type EnterTagProps = {
+  onChangeTag?: (tags: string[]) => void;
+  defaultValue?: string[];
+};
+function EnterTag(props: EnterTagProps) {
+  const [tags, setTags] = useState<string[]>(props.defaultValue || []);
   const [value, setValue] = useState<string>("");
 
   useEffect(() => {
@@ -11,6 +15,14 @@ function EnterTag() {
       setTags([...tags, value.substring(0, value.length - 1)]);
     }
   }, [value]);
+
+  useEffect(() => {
+    props.onChangeTag && props.onChangeTag(tags);
+  }, [tags]);
+
+  useEffect(() => {
+    setTags(props.defaultValue || []);
+  }, [props.defaultValue]);
   return (
     <div className="w-full rounded-lg border-[1px] border-solid border-second p-2">
       <div className="box-start w-full flex-wrap gap-4 p-2">

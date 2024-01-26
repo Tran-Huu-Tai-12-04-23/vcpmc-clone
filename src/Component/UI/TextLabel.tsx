@@ -11,7 +11,7 @@ function TextLabel(props: TextLabelProps) {
       style={{
         width: props.width,
       }}
-      className={`${props.className} block flex-shrink-0 text-size-primary font-bold`}
+      className={`${props.className} block flex-shrink-0 text-size-primary font-bold text-white`}
       htmlFor={props.idInput}
     >
       {props.children}

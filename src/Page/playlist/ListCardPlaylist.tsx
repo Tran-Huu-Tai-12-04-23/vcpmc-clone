@@ -1,34 +1,34 @@
 import { Row, Col, Pagination } from "antd";
 import { CardPlaylist } from "../../Component";
 import { useEffect, useState } from "react";
-import { PlaylistColDataType, dataExamplePlaylist } from "./_configTable";
+import { IPlaylist } from "../../Model/playlist.model";
 
 type ListCardPlaylistProps = {
   selected?: boolean;
   onSelect?: (val: any) => void;
   onSelectAll?: (val: any) => void;
   onUnSelect?: (val: any) => void;
-  selectedItems?: PlaylistColDataType[];
+  selectedItems?: IPlaylist[];
   size?: number;
-  setDataShow?: (val: PlaylistColDataType[]) => void;
+  setDataShow?: (val: IPlaylist[]) => void;
+  dataSource: IPlaylist[];
 };
 
 function ListCardPlaylist(props: ListCardPlaylistProps) {
-  const [selectionType, setSelectionType] = useState<"checkbox">("checkbox");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const size = props.size ? props.size : 8;
 
   useEffect(() => {
     props.setDataShow &&
       props.setDataShow(
-        dataExamplePlaylist.slice((currentPage - 1) * size, size * currentPage),
+        props.dataSource.slice((currentPage - 1) * size, size * currentPage),
       );
   }, [currentPage]);
 
   return (
     <div className="w-full pb-20">
       <Row gutter={[50, 25]}>
-        {dataExamplePlaylist
+        {props.dataSource
           .slice((currentPage - 1) * size, size * currentPage)
           .map((record, index) => {
             const item =
@@ -68,7 +68,7 @@ function ListCardPlaylist(props: ListCardPlaylistProps) {
             setCurrentPage(page);
           }}
           defaultCurrent={currentPage}
-          total={dataExamplePlaylist.length}
+          total={props.dataSource.length}
           pageSize={size}
           defaultPageSize={undefined}
           showSizeChanger={false}

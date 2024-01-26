@@ -12,6 +12,15 @@ class Helper {
 
     return formatted_duration;
   }
+
+  static isObjectEmpty(obj: any) {
+    for (const key in obj) {
+      if (obj[key] !== null && obj[key] !== undefined && obj[key] !== "") {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 export default Helper;

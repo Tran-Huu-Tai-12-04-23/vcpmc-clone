@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import { AuthenTicationActionType, AuthenticateAction } from '../action-types';
-import { login as handleLogin, resetPassword, ResponseType } from '../../Service/authentication';
+import { login as handleLogin, resetPassword, ResponseType } from '../../Service/authentication.service';
 import { IUser } from '../../Model/user.model';
 import UserHelper from '../../Helper/UserHelper';
 

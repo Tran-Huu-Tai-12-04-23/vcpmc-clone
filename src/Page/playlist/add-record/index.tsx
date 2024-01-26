@@ -1,3 +1,4 @@
+import { useEffect, useState, memo } from "react";
 import {
   Button,
   DropDown,
@@ -7,13 +8,13 @@ import {
   TextLabel,
 } from "../../../Component";
 import TableCustom from "../../../Component/UI/Table";
-import { useState } from "react";
-import {
-  ConfigRecordColTale,
-  ConfigRecordColTaleAdded,
-  RecordColDataType,
-  dataExampleRecord,
-} from "./_configTable";
+import { ConfigRecordColTale, ConfigRecordColTaleAdded } from "./_configTable";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, actionRecord } from "../../../State";
+import { IRecord } from "../../../Model/record.model";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useRouter } from "../../../Routes/hooks";
+import Helper from "../../../Helper";
 const PagingItemAddRecord = [
   {
     name: "Playlist",
@@ -68,24 +69,33 @@ type DropItem = {
   key: number;
 };
 function AddRecord() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { loadRecords, searchRecord } = bindActionCreators(
+    actionRecord,
+    dispatch,
+  );
+  const { data, loading } = useSelector((state: RootState) => state.records);
+  const [dataSource, setDataSource] = useState<IRecord[]>([]);
   const [genre, setGenre] = useState<DropItem>(typeDropItems[0]);
   const [playlist, setPlaylist] = useState<DropItem>({
     name: "Playlist mẫu",
     key: -1,
   });
-  const [recordAdds, setRecordAdds] = useState<RecordColDataType[]>([]);
+  const [recordsAdded, setRecordsAdded] = useState<IRecord[]>([]);
+  const [totalDuration, setTotalDuration] = useState<number>(0);
+  const [searchKey, setSearchKey] = useState<string>("");
 
   const handleAddRecord = (id: string) => {
-    const record = dataExampleRecord.find((rc) => rc.id === id);
-
+    const record = dataSource.find((rc) => rc.id === id);
     record &&
-      setRecordAdds((prev) => {
+      setRecordsAdded((prev) => {
         const recordExist = prev.find((rec) => rec.id === record.id);
         return recordExist ? prev : [...prev, record];
       });
   };
   const handleRemoveRecord = (id: string) => {
-    setRecordAdds((prev) => prev.filter((rec) => rec.id !== id));
+    setRecordsAdded((prev) => prev.filter((rec) => rec.id !== id));
   };
   const col = ConfigRecordColTale({
     onAddRecord: (id: string) => {
@@ -98,6 +108,73 @@ function AddRecord() {
       handleRemoveRecord(id);
     },
   });
+
+  const handleSaveRecord = () => {
+    const rcAdds: any[] = recordsAdded.map((re) => re?.id);
+
+    if (rcAdds && rcAdds.length > 0) {
+      localStorage.setItem("rc-added", rcAdds.join("-"));
+    }
+
+    router.back();
+  };
+
+  //init data
+  useEffect(() => {
+    data && setDataSource(data);
+  }, [data]);
+
+  // init records
+  useEffect(() => {
+    if (!data) loadRecords();
+  }, []);
+
+  // filter data
+  useEffect(() => {
+    let filterData = data ? data : [];
+
+    if (genre.key !== 1) {
+      filterData = filterData.filter((dt) => {
+        return dt.genre.toLowerCase() === genre.name.toLowerCase();
+      });
+    }
+
+    setDataSource(filterData);
+  }, [genre]);
+
+  useEffect(() => {
+    const totalDur = recordsAdded.reduce(
+      (acc, record) => acc + (record.duration || 0),
+      0,
+    );
+
+    if (recordsAdded.length <= 0) {
+      setTotalDuration(0);
+    } else {
+      setTotalDuration(totalDur);
+    }
+  }, [recordsAdded]);
+
+  useEffect(() => {
+    if (searchKey) {
+      searchRecord(searchKey);
+    } else {
+      loadRecords();
+    }
+  }, [searchKey]);
+
+  //init record added
+  useEffect(() => {
+    const rcAdded = localStorage.getItem("rc-added")?.split("-");
+
+    if (data && rcAdded) {
+      const recordsAddedFind = data.filter((rc: IRecord) =>
+        rcAdded.includes(rc.id ? rc.id : ""),
+      );
+      setRecordsAdded(recordsAddedFind);
+      console.log(recordsAddedFind);
+    }
+  }, [data]);
 
   return (
     <div className="w-full">
@@ -137,14 +214,17 @@ function AddRecord() {
                 height={48}
                 width={653}
                 search
+                value={searchKey}
+                onChange={(e) => setSearchKey(e.target.value)}
               />
             </div>
           </div>
           <TableCustom
             minHeight="400px"
             numberCol={8}
-            data={dataExampleRecord}
+            data={dataSource}
             col={col}
+            loading={loading}
           />
         </div>
         <div className="w-1/2">
@@ -156,11 +236,15 @@ function AddRecord() {
             <div className="mt-4 flex w-full items-center justify-between">
               <div className="box-start gap-8">
                 <TextLabel>Tổng số: </TextLabel>
-                <span>0 bản ghi</span>
+                <span>{recordsAdded.length} bản ghi</span>
               </div>
               <div className="box-start gap-8">
                 <TextLabel>Tổng thời lượng: </TextLabel>
-                <span>--:--:--</span>
+                <span>
+                  {totalDuration <= 0
+                    ? "--:--:--"
+                    : Helper.convertDurationToString(totalDuration)}
+                </span>
               </div>
             </div>
             <Input
@@ -174,9 +258,9 @@ function AddRecord() {
           </div>
 
           <TableCustom
-            minHeight="520px"
+            minHeight="550px"
             numberCol={8}
-            data={recordAdds}
+            data={recordsAdded}
             locale={{
               emptyText: (
                 <div className="flex items-center justify-center gap-2">
@@ -191,10 +275,10 @@ function AddRecord() {
       </div>
 
       <div className="mt-20 flex w-full items-center justify-center gap-24">
-        <Button typebtn="outline" sizetype="hug">
+        <Button typebtn="outline" sizetype="hug" onClick={() => router.back()}>
           Hủy
         </Button>
-        <Button typebtn="primary" sizetype="hug">
+        <Button onClick={handleSaveRecord} typebtn="primary" sizetype="hug">
           Lưu
         </Button>
       </div>
@@ -202,4 +286,4 @@ function AddRecord() {
   );
 }
 
-export default AddRecord;
+export default memo(AddRecord);

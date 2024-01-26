@@ -1,40 +1,18 @@
 import { ColumnsType } from "antd/es/table";
 import PathUrl from "../../../Routes/path-url";
-
-const generateDummyDataAudio = (count: number): RecordColDataType[] => {
-  const data: RecordColDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `record_${i + 1}`,
-      index: i + 1,
-      key: i + 1,
-      nameRecord: "record" + i,
-      single: "signle " + i,
-      author: "author " + i,
-    });
-  }
-  return data;
-};
-
-export interface RecordColDataType {
-  id: string;
-  key: number;
-  index: number;
-  nameRecord: string;
-  single: string;
-  author: string;
-}
+import { IRecord } from "../../../Model/record.model";
 
 type ConfigRecordColTaleProps = {
   onAddRecord: (id: string) => void;
 };
 
 export const ConfigRecordColTale = (props: ConfigRecordColTaleProps) => {
-  const ConfigRecordColTale: ColumnsType<RecordColDataType> = [
+  const ConfigRecordColTale: ColumnsType<IRecord> = [
     {
       title: "STT",
       dataIndex: "index",
       key: "index",
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Tên bản ghi",
@@ -71,7 +49,7 @@ export const ConfigRecordColTale = (props: ConfigRecordColTaleProps) => {
             Nghe
           </a>
           <span
-            onClick={() => props.onAddRecord(id)}
+            onClick={() => id && props.onAddRecord(id)}
             className="min-w-[6rem] cursor-pointer text-primary underline hover:text-primary hover:underline hover:brightness-110"
           >
             Thêm
@@ -88,25 +66,26 @@ type ConfigRecordColTaleAddedProps = {
 export const ConfigRecordColTaleAdded = (
   props: ConfigRecordColTaleAddedProps,
 ) => {
-  const ConfigRecordColTale: ColumnsType<RecordColDataType> = [
+  const ConfigRecordColTale: ColumnsType<IRecord> = [
     {
       title: "STT",
       dataIndex: "index",
       key: "index",
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Tên bản ghi",
       dataIndex: "nameRecord",
       key: "nameRecord",
       render: (_, { nameRecord }) => (
-        <div className="min-w-[10rem]">{nameRecord}</div>
+        <div className="min-w-[8rem]">{nameRecord}</div>
       ),
     },
     {
       title: "Ca sĩ",
       dataIndex: "single",
       key: "single",
-      render: (_, { single }) => <div className="min-w-[10rem]">{single}</div>,
+      render: (_, { single }) => <div className="min-w-[8rem]">{single}</div>,
     },
     {
       title: "Tác giả",
@@ -124,13 +103,13 @@ export const ConfigRecordColTaleAdded = (
             href={
               PathUrl.URL_STORE_RECORD + "/" + PathUrl.UPDATE_RECORD + "/" + id
             }
-            className="min-w-[6rem] text-primary underline hover:text-primary hover:underline hover:brightness-110"
+            className="min-w-[3rem] text-primary underline hover:text-primary hover:underline hover:brightness-110"
           >
             Nghe
           </a>
           <span
-            onClick={() => props.onRemove(id)}
-            className="min-w-[6rem] cursor-pointer text-primary underline hover:text-primary hover:underline hover:brightness-110"
+            onClick={() => id && props.onRemove(id)}
+            className="min-w-[3rem] cursor-pointer text-primary underline hover:text-primary hover:underline hover:brightness-110"
           >
             Gỡ
           </span>
@@ -140,5 +119,3 @@ export const ConfigRecordColTaleAdded = (
   ];
   return ConfigRecordColTale;
 };
-
-export const dataExampleRecord = generateDummyDataAudio(40);

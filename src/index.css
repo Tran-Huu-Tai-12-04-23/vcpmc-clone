@@ -442,3 +442,20 @@ input[type="number"] {
 :where(.css-dev-only-do-not-override-zl9ks2).ant-radio-wrapper {
   @apply font-bold text-white;
 }
+:where(.css-dev-only-do-not-override-zl9ks2).ant-btn-primary:not(:disabled):not(
+    .ant-btn-disabled
+  ):hover {
+  background: var(--primary-hover-color);
+}
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-btn-primary:not(:disabled):not(
+    .ant-btn-disabled
+  ):hover {
+  color: var(--text-color) !important;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-checkbox .ant-checkbox-inner {
+  @apply flex items-center justify-center bg-transparent p-[0.6rem];
+}
+.ant-checkbox.ant-wave-target.css-dev-only-do-not-override-zl9ks2.ant-checkbox-checked {
+  @apply bg-blue-600;
+}

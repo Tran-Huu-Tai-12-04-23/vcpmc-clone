@@ -1,34 +1,35 @@
 import { Row, Col, Pagination } from "antd";
 import { CardRecord } from "../../Component";
-import { RecordColDataType, dataExample } from "./_configTable";
+import { dataExample } from "./_configTable";
 import { useEffect, useState } from "react";
+import { IRecord } from "../../Model/record.model";
 
 type ListCardRecordProps = {
+  dataSource: IRecord[];
   selected?: boolean;
   onSelect?: (val: any) => void;
   onSelectAll?: (val: any) => void;
   onUnSelect?: (val: any) => void;
-  selectedItems?: RecordColDataType[];
+  selectedItems?: IRecord[];
   size?: number;
-  setDataShow?: (val: RecordColDataType[]) => void;
+  setDataShow?: (val: IRecord[]) => void;
 };
 
 function ListCardRecord(props: ListCardRecordProps) {
-  const [selectionType, setSelectionType] = useState<"checkbox">("checkbox");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const size = props.size ? props.size : 12;
 
   useEffect(() => {
     props.setDataShow &&
       props.setDataShow(
-        dataExample.slice((currentPage - 1) * size, size * currentPage),
+        props.dataSource.slice((currentPage - 1) * size, size * currentPage),
       );
   }, [currentPage]);
 
   return (
     <div className="w-full pb-20">
       <Row gutter={[50, 25]}>
-        {dataExample
+        {props.dataSource
           .slice((currentPage - 1) * size, size * currentPage)
           .map((record, index) => {
             const item =

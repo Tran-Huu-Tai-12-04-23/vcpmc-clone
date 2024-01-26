@@ -12,7 +12,6 @@ import {
   WorldIcon,
 } from "../../../assets/icon";
 import DefaultThumbnailsPlaylist from "../../../assets/icon/default_thumbnails_playslist";
-import { ConfigRecordColTale, dataExampleRecord } from "./_configTable";
 const PagingDetailPlaylist = [
   {
     name: "Playlist",
@@ -108,11 +107,7 @@ function DetailPlaylist() {
           </div>
         </div>
         <div className="w-full">
-          <TableCustom
-            numberCol={12}
-            data={dataExampleRecord}
-            col={ConfigRecordColTale}
-          />
+          <TableCustom numberCol={12} data={[]} col={undefined} />
         </div>
         <div className="w-fit flex-shrink-0 pl-4">
           <FloatingActionButton floatingActionButtonConfig={floatingAction} />

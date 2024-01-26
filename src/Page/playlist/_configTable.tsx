@@ -1,49 +1,21 @@
 import { ColumnsType } from "antd/es/table";
 import PathUrl from "../../Routes/path-url";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { IPlaylist } from "../../Model/playlist.model";
+import Helper from "../../Helper";
 
-const generateDummyDataPlaylist = (count: number): PlaylistColDataType[] => {
-  const data: PlaylistColDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `record_${i + 1}`,
-      index: i + 1,
-      key: i + 1,
-      title: "Playlist" + 1,
-      amountRecord: 0,
-      duration: 0,
-      topic: ["Pop", "Chill", "Dingga", "Rock", "Ballad", "Trending"],
-      createAt: dayjs(),
-      personCreated: "Huu tai " + i,
-    });
-  }
-  return data;
-};
-
-export interface PlaylistColDataType {
-  id: string;
-  key: number;
-  index: number;
-  title: string;
-  amountRecord: number;
-  duration: number;
-  topic: string[];
-  createAt: Dayjs;
-  personCreated: string;
-}
-
-export const ConfigPlaylistColTale: ColumnsType<PlaylistColDataType> = [
+export const ConfigPlaylistColTale: ColumnsType<IPlaylist> = [
   {
     title: "STT",
     dataIndex: "index",
     key: "index",
+    render: (_, __, index) => index + 1,
   },
   {
     title: "Tiêu đề",
     dataIndex: "title",
     key: "title",
-    render: (_, { title }) => <div className="min-w-[14rem]">{title}</div>,
   },
   {
     title: "Số bản ghi",
@@ -52,16 +24,19 @@ export const ConfigPlaylistColTale: ColumnsType<PlaylistColDataType> = [
   },
   {
     title: "Thời lượng",
-    key: "duration",
-    dataIndex: "duration",
+    key: "totalDuration",
+    dataIndex: "totalDuration",
+    render: (_, { totalDuration }) => {
+      return <div>{Helper.convertDurationToString(totalDuration)}</div>;
+    },
   },
   {
     title: "Chủ đề",
-    key: "topic",
-    dataIndex: "topic",
-    render: (_, { topic }) => (
+    key: "tags",
+    dataIndex: "tags",
+    render: (_, { tags }) => (
       <div className="box-start gap-2">
-        {topic.map((tp, index) => {
+        {tags.map((tp, index) => {
           if (index < 5) {
             return (
               <div
@@ -90,7 +65,7 @@ export const ConfigPlaylistColTale: ColumnsType<PlaylistColDataType> = [
     key: "createAt",
     dataIndex: "createAt",
     render: (_, { createAt }) => (
-      <h5 className="">{createAt.format("YY/MM/DD")}</h5>
+      <h5 className="">{dayjs(createAt).format("DD/MM/YYYY")}</h5>
     ),
   },
   {
@@ -114,5 +89,3 @@ export const ConfigPlaylistColTale: ColumnsType<PlaylistColDataType> = [
     ),
   },
 ];
-
-export const dataExamplePlaylist = generateDummyDataPlaylist(40);

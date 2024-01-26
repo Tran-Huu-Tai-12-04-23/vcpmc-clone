@@ -6,18 +6,22 @@ import {
   TextHeader,
   TextLabel,
 } from "../../../Component";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TableCustom from "../../../Component/UI/Table";
 import {
   dataExample,
   ConfigRecordColTaleManagerApprove,
-  RecordColDataType,
 } from "../_configTable";
 import { ApplicationIcon, CheckedIcon, ListIcon } from "../../../assets/icon";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import CancelIcon from "../../../assets/icon/cancel";
 import ListCardRecord from "../ListCardRecord";
 import ModalRejectRecord from "./ModalRejectRecord";
+import { IRecord } from "../../../Model/record.model";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, actionRecord } from "../../../State";
+import { loadRecords } from "../../../State/action-creators/recordAction";
+import { bindActionCreators } from "@reduxjs/toolkit";
 
 const typeDropItems = [
   {
@@ -68,14 +72,16 @@ type DropItem = {
   key: number;
 };
 function ManagerApprove() {
+  const dispatch = useDispatch();
+  const { loadRecords } = bindActionCreators(actionRecord, dispatch);
+  const records = useSelector((state: RootState) => state.records);
+  const [dataSource, setDataSource] = useState<IRecord[]>([]);
   const [modeView, setModeView] = useState<"list" | "card">("list");
   const [genre, setGenre] = useState<DropItem>(typeDropItems[0]);
   const [format, setFormat] = useState<DropItem>(formatDropItems[0]);
-  const [selectedItems, setSelectedItems] = useState<RecordColDataType[]>([]);
+  const [selectedItems, setSelectedItems] = useState<IRecord[]>([]);
   ///
-  const [dataShowCardView, setDataShowCardView] = useState<RecordColDataType[]>(
-    [],
-  );
+  const [dataShowCardView, setDataShowCardView] = useState<IRecord[]>([]);
   const [isRejectRecord, setIsRejectRecord] = useState<boolean>(false);
 
   const floatingAction = [
@@ -92,6 +98,36 @@ function ManagerApprove() {
       },
     },
   ];
+
+  // init data
+  useEffect(() => {
+    setDataSource(records.data ? records.data : []);
+  }, [records]);
+
+  // filter data source
+  useEffect(() => {
+    let filterData = records.data ? records.data : [];
+
+    if (genre.key !== 1) {
+      filterData = filterData.filter((dt) => {
+        return dt.genre.toLowerCase() === genre.name.toLowerCase();
+      });
+    }
+
+    if (format.key !== 1) {
+      filterData = filterData.filter((d) => {
+        const nameFormat = format.key === 2 ? "audio" : "video";
+        return d.format.toLowerCase() === nameFormat;
+      });
+    }
+
+    setDataSource(filterData);
+  }, [genre, format]);
+
+  // handle init data
+  useEffect(() => {
+    loadRecords();
+  }, []);
 
   return (
     <div className="w-full">
@@ -139,6 +175,7 @@ function ManagerApprove() {
                 {modeView === "card" && (
                   <div className="box-start gap-2">
                     <Checkbox
+                      checked={selectedItems.length === 8}
                       onChange={(e) => {
                         if (e.target.checked) {
                           setSelectedItems(dataShowCardView);
@@ -173,27 +210,29 @@ function ManagerApprove() {
           <div className="w-full">
             {modeView === "list" ? (
               <TableCustom
+                loading={records.loading}
                 numberCol={12}
                 checked
-                data={dataExample}
+                data={dataSource}
                 col={ConfigRecordColTaleManagerApprove}
               ></TableCustom>
             ) : (
               <ListCardRecord
+                dataSource={dataSource}
                 selected={true}
                 size={8}
-                onUnSelect={(val: RecordColDataType) => {
+                onUnSelect={(val: IRecord) => {
                   setSelectedItems((prev) => {
                     return prev.filter((it) => it.id !== val.id);
                   });
                 }}
-                onSelect={(val: RecordColDataType) => {
+                onSelect={(val: IRecord) => {
                   setSelectedItems((prev) => [...prev, val]);
                 }}
-                setDataShow={(val: RecordColDataType[]) => {
+                setDataShow={(val: IRecord[]) => {
                   setDataShowCardView(val);
                 }}
-                onSelectAll={(val: RecordColDataType[]) => {}}
+                onSelectAll={(val: IRecord[]) => {}}
                 selectedItems={selectedItems}
               />
             )}

@@ -55,7 +55,7 @@ function Dropdown(props: DropdownType) {
           props.classDropItem ? props.classDropItem : "border-primary bg-main"
         } relative z-[31] flex h-[40px] ${
           props.width ? props.width : "w-full"
-        } items-center justify-between rounded-[8px] border-[1px] border-solid  p-2 pl-[20px] pr-[20px]`}
+        } min-w-[10rem] items-center justify-between rounded-[8px] border-[1px] border-solid  p-2 pl-[20px] pr-[20px]`}
       >
         <h5 className="text-size-primary font-normal">
           {Array.isArray(props.active)

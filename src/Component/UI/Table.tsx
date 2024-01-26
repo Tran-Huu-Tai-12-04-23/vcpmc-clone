@@ -17,6 +17,7 @@ type TableProps = {
   hiddenFooter?: boolean;
   components?: any;
   rowClassName?: () => string;
+  loading?: boolean;
 };
 
 const TableCustom = (props: TableProps) => {
@@ -41,6 +42,7 @@ const TableCustom = (props: TableProps) => {
 
   return (
     <Table
+      loading={props.loading}
       className="custom-scroll"
       {...(props.checked && {
         rowSelection: {

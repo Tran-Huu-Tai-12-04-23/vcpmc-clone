@@ -66,6 +66,7 @@ export const DetailSchedulePage = lazy(
 export const EditSchedulePage = lazy(
   () => import("../Page/schedule/edit/index"),
 );
+export const AddSchedulePage = lazy(() => import("../Page/schedule/add/index"));
 export const ApplyDevicePage = lazy(
   () => import("../Page/schedule/ApplyDevice/index"),
 );
@@ -406,6 +407,14 @@ export default function Router(props: RouterProps) {
           element: (
             <DetailLayout>
               <EditSchedulePage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.ADD,
+          element: (
+            <DetailLayout>
+              <AddSchedulePage />
             </DetailLayout>
           ),
         },

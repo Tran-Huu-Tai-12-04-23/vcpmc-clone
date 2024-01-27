@@ -5,6 +5,7 @@ import { AddIcon } from "../../../assets/icon";
 import ContractAuthority from "./authority";
 import { useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
+import ContractMining from "./mining";
 const pagingItems = [
   {
     name: "Quản lý",
@@ -58,7 +59,7 @@ function ManagerContract() {
         ]}
       />
       <div className="flex w-full items-start justify-between gap-[42px]">
-        {activeTab === 1 ? <ContractAuthority /> : ""}
+        {activeTab === 1 ? <ContractAuthority /> : <ContractMining />}
         <FloatingActionButton floatingActionButtonConfig={floatingButtons} />
       </div>
     </div>

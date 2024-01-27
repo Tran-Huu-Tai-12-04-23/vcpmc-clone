@@ -5,15 +5,21 @@ import TableCustom from "../../Component/UI/Table";
 import { PlaylistIcon } from "../../assets/icon";
 import ModalRemoveSchedule from "./edit/ModalRemoveSchedule";
 import { ConfigScheduleColTale, dataExampleSchedule } from "./_configTable";
+import { useRouter } from "../../Routes/hooks";
+import PathUrl from "../../Routes/path-url";
 
 function Schedule() {
+  const router = useRouter();
   const [isModalRemoveSchedule, setISModalRemoveSchedule] =
     useState<boolean>(false);
+
   const floatingAction = [
     {
       name: "Thêm lịch phát",
       icon: <PlaylistIcon />,
-      action: () => {},
+      action: () => {
+        router.push(PathUrl.URL_SCHEDULE + "/" + PathUrl.ADD);
+      },
     },
   ];
 

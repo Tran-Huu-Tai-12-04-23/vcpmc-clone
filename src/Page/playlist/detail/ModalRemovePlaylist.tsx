@@ -25,7 +25,7 @@ interface ModalPropsCustom extends ModalProps {
   onCancel?: () => void;
 }
 
-function ModalRemoveRecord(props: ModalPropsCustom) {
+function ModalRemovePlaylist(props: ModalPropsCustom) {
   const data = useSelector((state: RootState) => state.authenticate);
 
   const [error, setError] = useState<string>("");
@@ -47,9 +47,9 @@ function ModalRemoveRecord(props: ModalPropsCustom) {
       centered={true}
     >
       <h5 className="pb-6 text-center text-[24px] font-[700] text-white">
-        Xóa bản ghi
+        Xóa playlist
       </h5>
-      <h5 className="text-center text-third">Bạn có chắc chắn xóa bản ghi?</h5>
+      <h5 className="text-center text-third">Bạn có chắc chắn xóa playlist?</h5>
 
       <div className="flex w-full flex-col items-center justify-center gap-5 p-[2px]">
         <h5 className="text-[14px] text-error">{error}</h5>
@@ -66,4 +66,4 @@ function ModalRemoveRecord(props: ModalPropsCustom) {
   );
 }
 
-export default ModalRemoveRecord;
+export default ModalRemovePlaylist;

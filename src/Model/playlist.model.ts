@@ -18,6 +18,6 @@ export interface IPlaylist {
 export interface IPlaylistState {
   loading: boolean;
   error?: string | undefined;
-  playlists: IPlaylist[] | null;
+  playlists: IPlaylist[];
   currentPlaylist: IPlaylist | null;
 }

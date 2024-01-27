@@ -23,7 +23,6 @@ import { IRecord } from "../../../Model/record.model";
 import { ConfigColRecordsAdded } from "../detail/_configTable";
 import Helper from "../../../Helper";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { playlistReducer } from "../../../State/reducers/playlist.reducer";
 
 const PagingItems = [
   {
@@ -103,18 +102,18 @@ function AddPlaylist() {
     });
   };
 
-  //init record added
+  // init record added
   useEffect(() => {
-    const rcAdded = localStorage.getItem("rc-added")?.split("-");
-
-    if (data && rcAdded) {
-      const recordsAddedFind = data.filter((rc: IRecord) =>
-        rcAdded.includes(rc.id ? rc.id : ""),
-      );
-      setRecordsAdded(recordsAddedFind);
-      console.log(recordsAddedFind);
+    const rcAddedString = localStorage.getItem("rc-added");
+    if (!rcAddedString) return;
+    try {
+      const recordsAddedData: IRecord[] = JSON.parse(rcAddedString);
+      if (recordsAddedData.length > 0) setRecordsAdded(recordsAddedData);
+    } catch (err) {
+      // Handle parsing error if needed
+      console.error("Error parsing recordsAddedData:", err);
     }
-  }, [data]);
+  }, []);
 
   /// ca total duration of records added
   useEffect(() => {

@@ -16,7 +16,7 @@ function RepeatIcon() {
         stroke="white"
         strokeWidth="0.666667"
       />
-      <g clip-path="url(#clip0_262_8746)">
+      <g clipPath="url(#clip0_262_8746)">
         <path
           d="M12.6667 23.3333L10 20.6667L12.6667 18"
           stroke="white"

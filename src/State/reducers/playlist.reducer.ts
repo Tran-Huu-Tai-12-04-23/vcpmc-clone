@@ -5,7 +5,7 @@ import {
 import { IPlaylistState } from "./../../Model/playlist.model";
 
 const initialState: IPlaylistState = {
-  playlists: null,
+  playlists: [],
   loading: false,
   error: undefined,
   currentPlaylist: null,
@@ -40,6 +40,15 @@ export const playlistReducer = (
         currentPlaylist: action.payload,
       };
     }
+    case PlaylistActionType.REMOVE_PLAYLIST_BY_ID: {
+      return {
+        ...state,
+        loading: false,
+        error: undefined,
+        playlists: state.playlists.filter((pl) => pl.id !== action.payload),
+      };
+    }
+
     case PlaylistActionType.LOADING: {
       return {
         ...state,

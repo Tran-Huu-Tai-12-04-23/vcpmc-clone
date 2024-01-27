@@ -456,6 +456,16 @@ input[type="number"] {
 :where(.css-dev-only-do-not-override-zl9ks2).ant-checkbox .ant-checkbox-inner {
   @apply flex items-center justify-center bg-transparent p-[0.6rem];
 }
+:where(.css-dev-only-do-not-override-zl9ks2).ant-switch.ant-switch-checked
+  .ant-switch-inner,
 .ant-checkbox.ant-wave-target.css-dev-only-do-not-override-zl9ks2.ant-checkbox-checked {
   @apply bg-blue-600;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-switch:hover:not(
+    .ant-switch-disabled
+  ),
+:where(.css-dev-only-do-not-override-zl9ks2).ant-switch:not(
+    .ant-switch-disabled
+  ) {
+  @apply bg-gray-500;
 }

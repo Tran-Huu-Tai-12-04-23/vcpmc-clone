@@ -110,12 +110,8 @@ function AddRecord() {
   });
 
   const handleSaveRecord = () => {
-    const rcAdds: any[] = recordsAdded.map((re) => re?.id);
-
-    if (rcAdds && rcAdds.length > 0) {
-      localStorage.setItem("rc-added", rcAdds.join("-"));
-    }
-
+    if (recordsAdded.length > 0)
+      localStorage.setItem("rc-added", JSON.stringify(recordsAdded));
     router.back();
   };
 
@@ -165,16 +161,16 @@ function AddRecord() {
 
   //init record added
   useEffect(() => {
-    const rcAdded = localStorage.getItem("rc-added")?.split("-");
-
-    if (data && rcAdded) {
-      const recordsAddedFind = data.filter((rc: IRecord) =>
-        rcAdded.includes(rc.id ? rc.id : ""),
-      );
-      setRecordsAdded(recordsAddedFind);
-      console.log(recordsAddedFind);
+    const rcAddedString = localStorage.getItem("rc-added");
+    if (!rcAddedString) return;
+    try {
+      const recordsAddedData: IRecord[] = JSON.parse(rcAddedString);
+      if (recordsAddedData.length > 0) setRecordsAdded(recordsAddedData);
+    } catch (err) {
+      // Handle parsing error if needed
+      console.error("Error parsing recordsAddedData:", err);
     }
-  }, [data]);
+  }, []);
 
   return (
     <div className="w-full">
@@ -274,7 +270,7 @@ function AddRecord() {
         </div>
       </div>
 
-      <div className="mt-20 flex w-full items-center justify-center gap-24">
+      <div className="mt-20 flex w-full items-center justify-center gap-10">
         <Button typebtn="outline" sizetype="hug" onClick={() => router.back()}>
           Hủy
         </Button>

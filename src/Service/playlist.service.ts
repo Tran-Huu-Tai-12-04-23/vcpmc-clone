@@ -119,3 +119,77 @@ export const addPlaylist = async (
     return null;
   }
 };
+
+export const getPlaylistById = async (id: string) => {
+  try {
+    const playlistRef = doc(db, "playlist", id);
+    const docSnapshot = await getDoc(playlistRef);
+
+    if (docSnapshot.exists()) {
+      const playlistData = docSnapshot.data();
+      const data: IPlaylist = {
+        id: id,
+        key: id,
+        title: playlistData.title,
+        amountRecord: playlistData.amountRecord,
+        totalDuration: playlistData.totalDuration,
+        tags: playlistData.tags,
+        createAt: playlistData.createAt,
+        personCreated: playlistData.personCreated,
+        thumbnails: playlistData.thumbnails,
+        description: playlistData.description,
+        mode: playlistData.mode,
+        records: playlistData.records,
+      };
+      return data;
+    } else {
+      console.log("Playlist not found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting playlist by ID:", error);
+    return null;
+  }
+};
+export const removePlaylistById = async (id: string) => {
+  try {
+    const playlistRef = doc(db, "playlist", id);
+    const docSnapshot = await getDoc(playlistRef);
+
+    if (docSnapshot.exists()) {
+      await deleteDoc(playlistRef);
+      console.log("playlist deleted successfully");
+      return true;
+    } else {
+      console.log("playlist not found");
+      return false;
+    }
+  } catch (error) {
+    console.error("Error removing playlist by ID:", error);
+    return false;
+  }
+};
+
+export const updatePlaylistById = async (
+  id: string,
+  updatedData: Partial<IPlaylist>,
+) => {
+  try {
+    const playlistRef = doc(db, "playlist", id);
+    const docSnapshot = await getDoc(playlistRef);
+    if (docSnapshot.exists()) {
+      const updatedRecordData = {
+        ...docSnapshot.data(),
+        ...updatedData,
+      };
+      await updateDoc(playlistRef, updatedRecordData);
+      return { id, ...updatedRecordData } as IPlaylist;
+    } else {
+      console.log("Playlist not found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error updating Playlist by ID:", error);
+    return null;
+  }
+};

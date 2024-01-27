@@ -61,7 +61,7 @@ export const ConfigRecordColTale = (props: ConfigRecordColTaleProps) => {
   return ConfigRecordColTale;
 };
 type ConfigRecordColTaleAddedProps = {
-  onRemove: (id: string) => void;
+  onRemove?: (id: string) => void;
 };
 export const ConfigRecordColTaleAdded = (
   props: ConfigRecordColTaleAddedProps,
@@ -107,12 +107,14 @@ export const ConfigRecordColTaleAdded = (
           >
             Nghe
           </a>
-          <span
-            onClick={() => id && props.onRemove(id)}
-            className="min-w-[3rem] cursor-pointer text-primary underline hover:text-primary hover:underline hover:brightness-110"
-          >
-            Gỡ
-          </span>
+          {props.onRemove && (
+            <span
+              onClick={() => id && props.onRemove && props.onRemove(id)}
+              className="min-w-[3rem] cursor-pointer text-primary underline hover:text-primary hover:underline hover:brightness-110"
+            >
+              Gỡ
+            </span>
+          )}
         </div>
       ),
     },

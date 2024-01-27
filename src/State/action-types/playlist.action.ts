@@ -7,6 +7,7 @@ export enum PlaylistActionType {
   ADD_PLAYLIST = "PLAYLIST/ADD_PLAYLIST",
   REMOVE_PLAYLIST = "PLAYLIST/REMOVE_PLAYLIST",
   CHANGE_CURRENT_PLAYLIST = "PLAYLIST/CHANGE_CURRENT_PLAYLIST",
+  REMOVE_PLAYLIST_BY_ID = "PLAYLIST/REMOVE_PLAYLIST_BY_ID",
   LOG_ERROR = "PLAYLIST/LOG_ERROR",
   LOADING = "PLAYLIST/LOADING",
 }
@@ -18,6 +19,10 @@ interface LoadPlaylists {
 interface ChangeCurrentPlaylist {
   type: PlaylistActionType.CHANGE_CURRENT_PLAYLIST;
   payload: IPlaylist;
+}
+interface RemovePlaylistById {
+  type: PlaylistActionType.REMOVE_PLAYLIST_BY_ID;
+  payload: string;
 }
 interface AddPlaylist {
   type: PlaylistActionType.ADD_PLAYLIST;
@@ -37,4 +42,5 @@ export type PlaylistAction =
   | LogError
   | Loading
   | ChangeCurrentPlaylist
-  | AddPlaylist;
+  | AddPlaylist
+  | RemovePlaylistById;

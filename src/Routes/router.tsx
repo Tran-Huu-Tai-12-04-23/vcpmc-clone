@@ -25,6 +25,9 @@ export const ManagerContractPage = lazy(
 export const AddContractPage = lazy(
   () => import("../Page/manager/contract/authority/add"),
 );
+export const AddContractMiningPage = lazy(
+  () => import("../Page/manager/contract/mining/add"),
+);
 export const DetailContractPage = lazy(
   () => import("../Page/manager/contract/authority/detail"),
 );
@@ -670,6 +673,27 @@ export default function Router(props: RouterProps) {
             <HomeLayout>
               <ManagerContractPage />
             </HomeLayout>
+          ),
+        },
+        {
+          path: PathUrl.MANAGER_CONTRACT + "/" + PathUrl.CONTRACT_MINING,
+          element: (
+            <HomeLayout>
+              <ManagerContractPage />
+            </HomeLayout>
+          ),
+        },
+        {
+          path:
+            PathUrl.MANAGER_CONTRACT +
+            "/" +
+            PathUrl.CONTRACT_MINING +
+            "/" +
+            PathUrl.ADD,
+          element: (
+            <DetailLayout>
+              <AddContractMiningPage />
+            </DetailLayout>
           ),
         },
         {

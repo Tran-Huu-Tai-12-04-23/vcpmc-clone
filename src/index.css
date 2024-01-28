@@ -432,13 +432,6 @@ input[type="number"] {
   box-shadow: none !important;
 }
 
-:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-outlined:hover {
-  background: transparent !important;
-}
-:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-outlined:focus,
-:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-outlined:focus-within {
-  background: transparent !important;
-}
 :where(.css-dev-only-do-not-override-zl9ks2).ant-radio-wrapper {
   @apply font-bold text-white;
 }
@@ -468,4 +461,85 @@ input[type="number"] {
     .ant-switch-disabled
   ) {
   @apply bg-gray-500;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-form-item
+  .ant-form-item-label {
+  @apply flex items-center justify-between;
+}
+
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker
+  .ant-picker-input:hover
+  .ant-picker-suffix:not(:last-child) {
+  opacity: 1;
+}
+.ant-picker-header-super-prev-btn,
+.ant-picker-header-super-next-btn {
+  @apply hidden;
+}
+.ant-picker-prev-icon,
+.ant-picker-next-icon {
+  @apply translate-x-10 scale-150 font-semibold text-primary;
+}
+.ant-picker-dropdown,
+.ant-picker-panel-container,
+.ant-picker-panel-layout,
+.ant-picker-panel,
+.ant-picker-date-panel {
+  @apply overflow-hidden rounded-lg border-none bg-modal shadow-none;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-panel-container {
+  @apply overflow-hidden bg-transparent shadow-none;
+}
+.ant-picker-header-view {
+  @apply text-white;
+}
+
+.ant-picker-cell.ant-picker-cell-in-view .ant-picker-cell-inner {
+  @apply h-fit text-white;
+}
+
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-today
+  .ant-picker-cell-inner::before {
+  @apply rounded-full border-transparent;
+}
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-today
+  .ant-picker-cell-inner:hover {
+  @apply rounded-full bg-input;
+}
+.ant-picker-dropdown .ant-picker-date-panel .ant-picker-content th {
+  @apply font-semibold text-white;
+}
+.ant-picker-dropdown .ant-picker-date-panel .ant-picker-body {
+  @apply flex items-center justify-center;
+}
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-decade-panel,
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-year-panel,
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-quarter-panel,
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-month-panel,
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-week-panel,
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-date-panel,
+:where(.css-dev-only-do-not-override-zl9ks2).ant-picker-dropdown
+  .ant-picker-time-panel {
+  @apply min-w-[320px];
+}
+.ant-picker-dropdown
+  .ant-picker-cell-in-view.ant-picker-cell-selected
+  .ant-picker-cell-inner {
+  @apply rounded-full border-[1px] border-solid border-transparent bg-transparent;
+}
+.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-selected {
+  @apply rounded-full  bg-input;
+}
+.ant-picker-cell .ant-picker-cell-inner,
+.ant-picker-cell.ant-picker-cell-end {
+  @apply text-third;
 }

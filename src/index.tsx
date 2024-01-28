@@ -1,24 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Suspense } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from './State';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Suspense } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./State";
+import { ConfigProvider } from "antd";
+import viVN from "antd/lib/locale/vi_VN";
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement,
+);
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <Suspense>
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
-            </Suspense>
-        </Provider>
-    </React.StrictMode>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <ConfigProvider locale={viVN}>
+        <Suspense>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Suspense>
+      </ConfigProvider>
+    </Provider>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

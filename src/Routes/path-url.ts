@@ -24,6 +24,7 @@ class PathUrl {
   static MANAGER_DEVICES = "device";
   static MANAGER_AUTHORITY = "authority";
   static MANAGER_UNIT_USED = "unit-used";
+  static CONTRACT_MINING = "contract-mining";
   ///----SUB DOMAIN
   static REVENUE_REPORT = "report";
   static REVENUE_HISTORY_FOR_CONTROL = "for-control";

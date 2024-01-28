@@ -1,11 +1,15 @@
-import { useState } from "react";
-import { DropDown, Input } from "../../../../Component";
+import { Input } from "../../../../Component";
 import Table from "../../../../Component/UI/Table";
-type Ownership = {
-  key: number;
-  name: string;
-};
+import { ConfigTableMiningContract } from "./_configTable";
+import { useRouter } from "../../../../Routes/hooks";
+
 function ContractMining() {
+  const router = useRouter();
+  const ConfigCol = ConfigTableMiningContract({
+    onNav: (link: string) => {
+      router.push(link);
+    },
+  });
   return (
     <div className="w-full pb-32">
       <div className="mb-8 flex w-full items-center justify-between">
@@ -19,7 +23,7 @@ function ContractMining() {
         </div>
       </div>
 
-      <Table col={undefined} data={[]} />
+      <Table col={ConfigCol} data={[]} />
     </div>
   );
 }

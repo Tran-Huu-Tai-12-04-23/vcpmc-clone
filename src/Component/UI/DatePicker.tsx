@@ -8,7 +8,7 @@ const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
   border-radius: "8px";
   background: transparent;
   color: white;
-  background: #2b2b3f;
+  background: ${(props) => (props.background ? props.background : "#2b2b3f")};
   border-style: solid;
   border-width: 1px;
   border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
@@ -18,6 +18,7 @@ const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
   &:focus {
     border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
     border-color: ${(props) => (props.borderPrimary ? "#ff7506" : "")};
+    background: ${(props) => (props.background ? props.background : "#2b2b3f")};
   }
   .anticon-close-circle {
     display: none;

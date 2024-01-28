@@ -22,6 +22,7 @@ type DropdownType = {
   width?: string;
   multiple?: boolean;
   onUnselect?: (value: { name: string; key: number }) => void;
+  height?: any;
 };
 function Dropdown(props: DropdownType) {
   const [active, setActive] = useState<boolean>(false);
@@ -45,12 +46,16 @@ function Dropdown(props: DropdownType) {
       }}
       style={{
         width: props.width ? props.width : "",
+        color: "white",
       }}
       className={`relative ${!props.width && "w-max"}  cursor-pointer  ${
         props.className
       } `}
     >
       <div
+        style={{
+          height: props.height ? props.height : "",
+        }}
         className={`${
           props.classDropItem ? props.classDropItem : "border-primary bg-main"
         } relative z-[31] flex h-[40px] ${
@@ -84,7 +89,7 @@ function Dropdown(props: DropdownType) {
       <div
         className={`z-[30]  ${
           active ? "" : "hidden"
-        } absolute w-full -translate-y-2 rounded-[8px] bg-modal pb-[0.5rem]  pt-[0.5rem]`}
+        } custom-scroll absolute max-h-[10rem] w-full -translate-y-2 overflow-auto rounded-[8px] bg-modal pb-[0.5rem]  pt-[0.5rem]`}
       >
         {props.dropItems.map((dropItem, index) => {
           return (

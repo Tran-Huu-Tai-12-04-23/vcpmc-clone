@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Paging, SwitchTab, TextHeader } from "../../../Component";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import { AddIcon } from "../../../assets/icon";
 import ContractAuthority from "./authority";
-import { useRouter } from "../../../Routes/hooks";
+import { usePathname, useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
 import ContractMining from "./mining";
 const pagingItems = [
@@ -18,6 +18,7 @@ const pagingItems = [
 ];
 
 function ManagerContract() {
+  const pathname = usePathname();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const floatingButtons = [
@@ -25,14 +26,24 @@ function ManagerContract() {
       name: "Thêm hợp đồng",
       icon: <AddIcon />,
       action: () => {
-        router.push(
-          `${PathUrl.URL_MANAGER}/${PathUrl.MANAGER_CONTRACT}${
-            activeTab === 1 ? `/${PathUrl.AUTHORITY}` : `/${PathUrl.EXPLOIT}`
-          }${activeTab === 1 ? `/${PathUrl.ADD}` : ""}`,
-        );
+        if (activeTab === 1) {
+          router.push(
+            pathname.substring(1) + "/" + PathUrl.AUTHORITY + "/" + PathUrl.ADD,
+          );
+        } else {
+          router.push(pathname.substring(1) + "/" + PathUrl.ADD);
+        }
       },
     },
   ];
+
+  useEffect(() => {
+    if (pathname.includes(PathUrl.CONTRACT_MINING)) {
+      setActiveTab(2);
+    } else {
+      setActiveTab(1);
+    }
+  }, [pathname]);
 
   return (
     <div className=" w-full ">
@@ -45,6 +56,7 @@ function ManagerContract() {
           {
             name: "Hợp đồng ủy quyền",
             action: () => {
+              router.push(PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_CONTRACT);
               setActiveTab(1);
             },
             key: 1,
@@ -52,6 +64,13 @@ function ManagerContract() {
           {
             name: "Hợp đồng khai thác",
             action: () => {
+              router.push(
+                PathUrl.URL_MANAGER +
+                  "/" +
+                  PathUrl.MANAGER_CONTRACT +
+                  "/" +
+                  PathUrl.CONTRACT_MINING,
+              );
               setActiveTab(2);
             },
             key: 2,

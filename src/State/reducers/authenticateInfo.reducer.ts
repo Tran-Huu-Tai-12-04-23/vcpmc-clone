@@ -1,6 +1,9 @@
 import UserHelper from "../../Helper/UserHelper";
 import { IAuthenticateInfoState } from "../../Model/authenticateInfo.model";
-import { AuthenTicationActionType, AuthenticateAction } from "../action-types";
+import {
+  AuthenTicationActionType,
+  AuthenticateAction,
+} from "../action-types/authenticate.action";
 
 const initialState: IAuthenticateInfoState = {
   isAuthenticated: false,

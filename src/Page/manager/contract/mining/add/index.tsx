@@ -14,6 +14,16 @@ import { WarningIcon } from "../../../../../assets/icon";
 import Dropdown from "../../../../../Component/UI/DropDown";
 import { countryItems } from "../../../../../assets/_mock";
 import { useEffect, useState } from "react";
+import {
+  File,
+  IContractMining,
+  statusContractMining,
+  typeContract,
+  typeGender,
+} from "../../../../../Model/contractMining.model";
+import FileItem from "../../../../../Component/UI/FileItem";
+import Helper from "../../../../../Helper";
+import { useRouter } from "../../../../../Routes/hooks";
 const pagingItems = [
   {
     name: "Quản lý",
@@ -27,17 +37,30 @@ const pagingItems = [
 ];
 
 function AddContractMining() {
+  const router = useRouter();
   const [form] = Form.useForm();
   const [listCountry, setListCountry] = useState([]);
+  const [files, setFiles] = useState<File[]>([]);
   const [country, setCountry] = useState({
     key: -1,
     name: "",
   });
-  const [contractMiningData, setContractMiningData] = useState(null);
+  const [contractMiningData, setContractMiningData] = useState<any>(null);
 
   const handleChangeFormValue = () => {
-    console.log(form.getFieldsValue());
     setContractMiningData(form.getFieldsValue());
+  };
+
+  const handleAddContractMining = () => {
+    if (!Helper.isObjectEmpty(contractMiningData)) {
+      return;
+    }
+
+    const newContractMining: IContractMining = {
+      ...contractMiningData,
+      status: statusContractMining.IS_NEW,
+      file: files,
+    };
   };
   useEffect(() => {
     const getCountry = async () => {
@@ -163,9 +186,31 @@ function AddContractMining() {
             />
           </Form.Item>
         </Form>
-        <div className="box-start w-1/3">
-          <TextLabel width={200}>Đính kèm tệp</TextLabel>
-          <ButtonUpload />
+        <div className="flex w-1/3 justify-start">
+          <TextLabel width={200}>Đính kèm tệp:</TextLabel>
+          <div className=" ">
+            <ButtonUpload
+              type="file"
+              onResult={(file: File) => {
+                setFiles((prev) => [...prev, file]);
+              }}
+            />
+            <div className="mt-4 flex flex-col gap-2">
+              {files.map((file, index) => {
+                return (
+                  <FileItem
+                    onRemove={() => {
+                      setFiles((prev) => {
+                        return prev.filter((f) => f.name !== file.name);
+                      });
+                    }}
+                    data={file}
+                    key={index}
+                  />
+                );
+              })}
+            </div>
+          </div>
         </div>
         <Form
           onChange={handleChangeFormValue}
@@ -188,17 +233,24 @@ function AddContractMining() {
               >
                 Loại hợp đồng:
               </TextLabel>
-              <Radio.Group defaultValue={1}>
+              <Radio.Group defaultValue={typeContract.ALL_IN_ONE}>
                 <div className="flex w-full justify-start gap-4">
                   <div className="w-[8rem] flex-shrink-0">
-                    <Radio value={1}>Trọn gói</Radio>
+                    <Radio value={typeContract.ALL_IN_ONE}>Trọn gói</Radio>
                   </div>
                   <div className="h-[full] w-[2px] bg-input"></div>
                   <div className="flex w-full flex-col">
                     <Form.Item
                       name="valueContract"
                       label={
-                        <h5 className="flex h-full items-center justify-center text-white">
+                        <h5
+                          className={`${
+                            contractMiningData?.typeContract ===
+                            typeContract.ALL_IN_ONE
+                              ? "text-white"
+                              : "text-third" || "text-white"
+                          } flex h-full items-center justify-center `}
+                        >
                           Giá trị hợp đồng
                           <br />
                           (VND)
@@ -209,12 +261,27 @@ function AddContractMining() {
                         width: "100%",
                       }}
                     >
-                      <Input variant="outlined" />
+                      <Input
+                        variant="outlined"
+                        readOnly={
+                          contractMiningData?.typeContract ===
+                          typeContract.ALL_IN_ONE
+                            ? false
+                            : true || false
+                        }
+                      />
                     </Form.Item>
                     <Form.Item
-                      name="valueDistribute"
+                      name="value"
                       label={
-                        <h5 className="flex h-full items-center justify-center text-white">
+                        <h5
+                          className={`${
+                            contractMiningData?.typeContract ===
+                            typeContract.ALL_IN_ONE
+                              ? "text-white"
+                              : "text-third" || "text-white"
+                          } flex h-full items-center justify-center `}
+                        >
                           Giá trị phân phối
                           <br />
                           (VND)/Ngày
@@ -225,20 +292,35 @@ function AddContractMining() {
                       }}
                       labelCol={{ span: 9 }}
                     >
-                      <Input variant="outlined" />
+                      <Input
+                        variant="outlined"
+                        readOnly={
+                          contractMiningData?.typeContract ===
+                          typeContract.ALL_IN_ONE
+                            ? false
+                            : true || false
+                        }
+                      />
                     </Form.Item>
                   </div>
                 </div>
                 <div className="flex w-full justify-start gap-4">
                   <div className="w-[8rem] flex-shrink-0">
-                    <Radio value={2}>Lượt phát</Radio>
+                    <Radio value={typeContract.PLAYS}>Lượt phát</Radio>
                   </div>
                   <div className="h-[full] w-[2px] bg-input"></div>
                   <div className="flex w-full flex-col">
                     <Form.Item
                       name="valueContract"
                       label={
-                        <h5 className="flex h-full items-center justify-center text-white">
+                        <h5
+                          className={`${
+                            contractMiningData?.typeContract ===
+                            typeContract.PLAYS
+                              ? "text-white"
+                              : "text-third" || "text-third"
+                          } flex h-full items-center justify-center `}
+                        >
                           Giá trị lượt phát
                           <br />
                           (VND)/Ngày
@@ -249,7 +331,15 @@ function AddContractMining() {
                         width: "100%",
                       }}
                     >
-                      <Input variant="outlined" />
+                      <Input
+                        variant="outlined"
+                        readOnly={
+                          contractMiningData?.typeContract ===
+                          typeContract.PLAYS
+                            ? false
+                            : true || false
+                        }
+                      />
                     </Form.Item>
                   </div>
                 </div>
@@ -438,9 +528,12 @@ function AddContractMining() {
               labelCol={{ span: 9 }}
               rules={[{ required: true, message: "Gới tính bắt buộc!" }]}
             >
-              <Radio.Group className="flex items-center justify-start gap-10">
-                <Radio value="MALE">Nam</Radio>
-                <Radio value="FEMALE">Nữ</Radio>
+              <Radio.Group
+                className="flex items-center justify-start gap-10"
+                defaultValue={typeGender.MALE}
+              >
+                <Radio value={typeGender.MALE}>Nam</Radio>
+                <Radio value={typeGender.FEMALE}>Nữ</Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item
@@ -632,10 +725,14 @@ function AddContractMining() {
       </div>
 
       <div className="flex items-center justify-center gap-10">
-        <Button typebtn="outline" sizetype="hug">
+        <Button typebtn="outline" sizetype="hug" onClick={() => router.back()}>
           Hủy
         </Button>
-        <Button typebtn="primary" sizetype="hug">
+        <Button
+          typebtn="primary"
+          sizetype="hug"
+          onClick={handleAddContractMining}
+        >
           Tạo
         </Button>
       </div>

@@ -4,9 +4,11 @@ import { uploadImage } from "../../Service/common.service";
 import { Spin } from "antd";
 import styled from "styled-components";
 import { LoadingOutlined } from "@ant-design/icons";
+import { File } from "../../Model/contractMining.model";
 
 export type ButtonUploadProps = {
-  onResult?: (val: string) => void;
+  onResult?: (val: File) => void;
+  type?: string;
 };
 
 const SpinCustom = styled(Spin)`
@@ -15,7 +17,7 @@ const SpinCustom = styled(Spin)`
   }
 `;
 
-function ButtonUpload(props: ButtonUploadProps) {
+function ButtonUpload({ type = "image", ...props }: ButtonUploadProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -26,11 +28,35 @@ function ButtonUpload(props: ButtonUploadProps) {
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
+    const selectedFiles = e.target.files;
+
+    if (selectedFiles) {
       setLoading(true);
-      const res = await uploadImage(selectedFile);
-      props.onResult && res && props.onResult(res);
+
+      try {
+        const uploadPromises = Array.from(selectedFiles).map(
+          async (selectedFile) => {
+            const res = await uploadImage(
+              selectedFile,
+              type === "image" ? "img" : "file",
+            );
+
+            res &&
+              props.onResult &&
+              props.onResult({
+                name: selectedFile.name,
+                link: res,
+                type: selectedFile.type,
+              });
+          },
+        );
+
+        const results = await Promise.all(uploadPromises);
+        console.log(results);
+      } catch (error) {
+        console.error("Error uploading files:", error);
+      }
+
       setLoading(false);
     }
   };
@@ -52,7 +78,9 @@ function ButtonUpload(props: ButtonUploadProps) {
             ref={inputRef}
             className="hidden"
             type="file"
+            accept={type === "image" ? "image/*" : ".doc, .docx, .pdf, .txt"} // Add specific document file types as needed
             onChange={handleFileChange}
+            multiple={type === "image" ? false : true}
           />
         </>
       )}

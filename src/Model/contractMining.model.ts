@@ -57,6 +57,6 @@ export interface IContractMining {
 export interface IContractMiningState {
   loading: boolean;
   error?: string | undefined;
-  contractAuthorities: IContractMining[];
-  currentContractAuthority: IContractMining | null;
+  contractMinings: IContractMining[];
+  currentContractMining: IContractMining | null;
 }

@@ -46,3 +46,5 @@ export { default as ArrowLeftIcon } from "./arrow_left";
 export { default as ArrowRightIcon } from "./arrow_right";
 export { default as EditContractIcon } from "./edit_contract";
 export { default as WarningCalenderIcon } from "./warning_calender";
+export { default as WordIcon } from "./word_icon";
+export { default as PdfIcon } from "./pdf_icon";

@@ -14,7 +14,7 @@ class Helper {
   }
 
   static isObjectEmpty(obj: any) {
-    for (const key in obj) {
+    for (const key in Object.keys(obj)) {
       if (obj[key] !== null && obj[key] !== undefined && obj[key] !== "") {
         return false;
       }

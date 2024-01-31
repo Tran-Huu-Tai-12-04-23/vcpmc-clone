@@ -90,9 +90,9 @@ function EditPlaylist() {
       thumbnails,
     };
 
-    if (Helper.isObjectEmpty(newData)) {
-      return;
-    }
+    // if (Helper.isObjectEmpty(newData)) {
+    //   return;
+    // }
 
     id &&
       updatePlaylistById(id, newData, () => {

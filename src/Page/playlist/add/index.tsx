@@ -10,7 +10,7 @@ import {
 } from "../../../Component";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import TableCustom from "../../../Component/UI/Table";
-import { AddIcon, DefaultThumbnailsPlaylist } from "../../../assets/icon";
+import { AddIcon } from "../../../assets/icon";
 import { useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
 import { useParams } from "react-router-dom";
@@ -23,6 +23,7 @@ import { IRecord } from "../../../Model/record.model";
 import { ConfigColRecordsAdded } from "../detail/_configTable";
 import Helper from "../../../Helper";
 import { bindActionCreators } from "@reduxjs/toolkit";
+import { File } from "../../../Model/contractMining.model";
 
 const PagingItems = [
   {
@@ -74,8 +75,8 @@ function AddPlaylist() {
     },
   ];
 
-  const handleSelectFile = (val: string) => {
-    val && setThumbnails(val);
+  const handleSelectFile = (val: File) => {
+    val && setThumbnails(val.link);
   };
 
   const handleAddPlaylist = () => {
@@ -92,9 +93,9 @@ function AddPlaylist() {
       thumbnails,
     };
 
-    if (Helper.isObjectEmpty(newPlaylist)) {
-      return;
-    }
+    // if (Helper.isObjectEmpty(newPlaylist)) {
+    //   return;
+    // }
 
     addPlaylist(newPlaylist, () => {
       localStorage.removeItem("process-playlist");
@@ -253,6 +254,7 @@ function AddPlaylist() {
               typebtn="outline"
               onClick={() => {
                 localStorage.removeItem("rc-added");
+                localStorage.removeItem("process-playlist");
                 router.back();
               }}
             >

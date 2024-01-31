@@ -1,5 +1,8 @@
 // AnotherFile.ts
-import { AuthenticateAction, AuthenTicationActionType } from './authenticate.action';
+import {
+  AuthenticateAction,
+  AuthenTicationActionType,
+} from "./authenticate.action";
 
 export { AuthenTicationActionType };
 

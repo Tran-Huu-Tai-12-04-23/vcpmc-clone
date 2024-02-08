@@ -97,7 +97,6 @@ export const updateContractMining = (
     dispatch({
       type: ContractMiningActionType.LOADING,
     });
-
     const res: IContractMining | null = await updateContractMiningById(
       id,
       newContractMining,

@@ -12,7 +12,12 @@ class Helper {
 
     return formatted_duration;
   }
-
+  static formatVnd = (number: number): string => {
+    const formattedNumber = number
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return formattedNumber;
+  };
   static isObjectEmpty(obj: any) {
     for (const key in Object.keys(obj)) {
       if (obj[key] !== null && obj[key] !== undefined && obj[key] !== "") {

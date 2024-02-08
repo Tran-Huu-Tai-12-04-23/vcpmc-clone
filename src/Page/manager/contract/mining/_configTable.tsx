@@ -38,10 +38,10 @@ export const ConfigTableMiningContract = (
     },
     {
       title: "Ngày hiệu lực",
-      key: "applyDate",
-      dataIndex: "applyDate",
-      render: (_, { applyDate }) => (
-        <div>{dayjs(applyDate).format("DD/MM/YYYY")}</div>
+      key: "dateEffect",
+      dataIndex: "dateEffect",
+      render: (_, { dateEffect }) => (
+        <div>{dayjs(dateEffect).format("DD/MM/YYYY")}</div>
       ),
     },
     {
@@ -61,7 +61,7 @@ export const ConfigTableMiningContract = (
         let text = "Đã hủy";
         switch (status) {
           case statusContractMining.IS_NEW: {
-            color = "#265030";
+            color = "green";
             text = "Mới";
             break;
           }
@@ -98,7 +98,13 @@ export const ConfigTableMiningContract = (
           <span
             onClick={() => {
               props.onNav(
-                PathUrl.MANAGER_CONTRACT + "/" + PathUrl.AUTHORITY + "/" + id,
+                PathUrl.URL_MANAGER +
+                  "/" +
+                  PathUrl.MANAGER_CONTRACT +
+                  "/" +
+                  PathUrl.CONTRACT_MINING +
+                  "/" +
+                  id,
               );
             }}
             className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
@@ -108,7 +114,13 @@ export const ConfigTableMiningContract = (
           <span
             onClick={() => {
               props.onNav(
-                PathUrl.MANAGER_CONTRACT + "/" + PathUrl.AUTHORITY + "/" + id,
+                PathUrl.URL_MANAGER +
+                  "/" +
+                  PathUrl.MANAGER_CONTRACT +
+                  "/" +
+                  PathUrl.CONTRACT_MINING +
+                  "/" +
+                  id,
               );
             }}
             className="text-primary underline hover:text-primary hover:underline hover:brightness-110"

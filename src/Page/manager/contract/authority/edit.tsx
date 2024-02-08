@@ -112,7 +112,13 @@ function EditContract() {
               <TextLabel width={200} idInput="name-user-authority">
                 Tên người ủy quyền:<span className="text-error">*</span>
               </TextLabel>
-              <AutoComplete />
+              <AutoComplete
+                options={[]}
+                value={undefined}
+                onSelect={function (value: any): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
             </div>
             <div className="flex items-center justify-start">
               <h5 className="min-w-[14rem] flex-shrink-0 font-bold">

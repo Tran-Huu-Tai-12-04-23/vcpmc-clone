@@ -1,16 +1,14 @@
-import { Dayjs } from 'dayjs';
+import { Dayjs } from "dayjs";
+import { typeRole } from "./contractMining.model";
 
-enum Role {
-    ADMIN,
-    USER,
-}
 export interface IUserDetail {
-    id: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    email: string;
-    dateOfBirth: Dayjs;
-    role?: Role;
-    userId: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  dateOfBirth: Dayjs;
+  role?: typeRole;
+  userId: string;
+  nationality?: string;
 }

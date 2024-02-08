@@ -13,6 +13,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { IContractMining } from "../Model/contractMining.model";
+import dayjs from "dayjs";
 
 const db = getFirestore(app);
 
@@ -43,12 +44,14 @@ export const getContractMinings =
           numberContract: docData.numberContract,
           customer: docData.customer,
           createAt: docData.createAt,
-          applyDate: docData.applyDate,
+          dateEffect: docData.dateEffect,
           expireDate: docData.expireDate,
           status: docData.status,
           file: docData.file,
           typeContract: docData.typeContract,
-          value: docData.value,
+          valueContract: docData.valueContract,
+          valuePlay: docData.valuePlay,
+          valueDistribute: docData.valueDistribute,
           username: docData.username,
           password: docData.password,
           numberAccount: docData.numberAccount,
@@ -81,43 +84,48 @@ export const addContractMining = async (
 ): Promise<AddContractMiningResponseType | null> => {
   try {
     const contractMiningCollection = collection(db, "contract-mining");
-
     const docRef = await addDoc(contractMiningCollection, {
+      ...newContractMining,
       nameContract: newContractMining.nameContract,
       numberContract: newContractMining.numberContract,
       customer: newContractMining.customer,
-      createAt: newContractMining.createAt,
-      applyDate: newContractMining.applyDate,
-      expireDate: newContractMining.expireDate,
+      createAt: newContractMining.createAt.toString(),
+      dateEffect: newContractMining.dateEffect.toString(),
+      expireDate: newContractMining.expireDate.toString(),
       status: newContractMining.status,
       file: newContractMining.file,
       typeContract: newContractMining.typeContract,
-      value: newContractMining.value,
+      valueContract: newContractMining.valueContract,
+      valuePlay: newContractMining.valuePlay,
+      valueDistribute: newContractMining.valueDistribute,
       username: newContractMining.username,
       password: newContractMining.password,
       numberAccount: newContractMining.numberAccount,
       nameBank: newContractMining.nameBank,
       CMND_CCCD: newContractMining.CMND_CCCD,
-      dateAllocated: newContractMining.dateAllocated,
+      dateAllocated: newContractMining.dateAllocated.toString(),
       placeAllocated: newContractMining.placeAllocated,
       gender: newContractMining.gender,
       email: newContractMining.email,
-      birthDay: newContractMining.birthDay,
+      birthDay: newContractMining.birthDay.toString(),
       representative: newContractMining.representative,
       nameOfUnitUsed: newContractMining.nameOfUnitUsed,
     });
 
     const contractMiningAdded: IContractMining = {
+      ...newContractMining,
       nameContract: newContractMining.nameContract,
       numberContract: newContractMining.numberContract,
       customer: newContractMining.customer,
       createAt: newContractMining.createAt,
-      applyDate: newContractMining.applyDate,
+      dateEffect: newContractMining.dateEffect,
       expireDate: newContractMining.expireDate,
       status: newContractMining.status,
       file: newContractMining.file,
       typeContract: newContractMining.typeContract,
-      value: newContractMining.value,
+      valueContract: newContractMining.valueContract,
+      valuePlay: newContractMining.valuePlay,
+      valueDistribute: newContractMining.valueDistribute,
       username: newContractMining.username,
       password: newContractMining.password,
       numberAccount: newContractMining.numberAccount,
@@ -153,18 +161,21 @@ export const getContractMiningById = async (id: string) => {
     if (docSnapshot.exists()) {
       const contractMining = docSnapshot.data();
       const data: IContractMining = {
+        ...contractMining,
         id: id,
         key: id,
         nameContract: contractMining.nameContract,
         numberContract: contractMining.numberContract,
         customer: contractMining.customer,
         createAt: contractMining.createAt,
-        applyDate: contractMining.applyDate,
+        dateEffect: contractMining.dateEffect,
         expireDate: contractMining.expireDate,
         status: contractMining.status,
         file: contractMining.file,
         typeContract: contractMining.typeContract,
-        value: contractMining.value,
+        valueContract: contractMining.valueContract,
+        valuePlay: contractMining.valuePlay,
+        valueDistribute: contractMining.valueDistribute,
         username: contractMining.username,
         password: contractMining.password,
         numberAccount: contractMining.numberAccount,
@@ -177,6 +188,7 @@ export const getContractMiningById = async (id: string) => {
         birthDay: contractMining.birthDay,
         representative: contractMining.representative,
         nameOfUnitUsed: contractMining.nameOfUnitUsed,
+        role: contractMining.role,
       };
       return data;
     } else {
@@ -212,15 +224,69 @@ export const updateContractMiningById = async (
   updatedData: Partial<IContractMining>,
 ) => {
   try {
+    console.log({
+      ...updatedData,
+      nameContract: updatedData.nameContract,
+      numberContract: updatedData.numberContract,
+      customer: updatedData.customer,
+      createAt: dayjs(updatedData.createAt).toString(),
+      dateEffect: dayjs(updatedData.dateEffect).toString(),
+      expireDate: dayjs(updatedData.expireDate).toString(),
+      status: updatedData.status,
+      file: updatedData.file,
+      typeContract: updatedData.typeContract || "",
+      valueContract: updatedData.valueContract || "",
+      valuePlay: updatedData.valuePlay || "",
+      valueDistribute: updatedData.valueDistribute,
+      username: updatedData.username,
+      password: updatedData.password,
+      numberAccount: updatedData.numberAccount,
+      nameBank: updatedData.nameBank,
+      CMND_CCCD: updatedData.CMND_CCCD,
+      dateAllocated: dayjs(updatedData.dateAllocated).toString(),
+      placeAllocated: updatedData.placeAllocated,
+      gender: updatedData.gender,
+      email: updatedData.email,
+      birthDay: dayjs(updatedData.birthDay).toString(),
+      representative: updatedData.representative,
+      nameOfUnitUsed: updatedData.nameOfUnitUsed,
+    });
     const contractMiningRef = doc(db, "contract-mining", id);
     const docSnapshot = await getDoc(contractMiningRef);
     if (docSnapshot.exists()) {
-      const updatedRecordData = {
+      const newData = {
         ...docSnapshot.data(),
         ...updatedData,
+        nameContract: updatedData.nameContract,
+        numberContract: updatedData.numberContract,
+        customer: updatedData.customer,
+        createAt: dayjs(updatedData.createAt).toString(),
+        dateEffect: dayjs(updatedData.dateEffect).toString(),
+        expireDate: dayjs(updatedData.expireDate).toString(),
+        status: updatedData.status,
+        file: updatedData.file,
+        typeContract: updatedData.typeContract || "",
+        valueContract: updatedData.valueContract || "",
+        valuePlay: updatedData.valuePlay || "",
+        valueDistribute: updatedData.valueDistribute,
+        username: updatedData.username,
+        password: updatedData.password,
+        numberAccount: updatedData.numberAccount,
+        nameBank: updatedData.nameBank,
+        CMND_CCCD: updatedData.CMND_CCCD,
+        dateAllocated: dayjs(updatedData.dateAllocated).toString(),
+        placeAllocated: updatedData.placeAllocated,
+        gender: updatedData.gender,
+        email: updatedData.email,
+        birthDay: dayjs(updatedData.birthDay).toString(),
+        representative: updatedData.representative,
+        nameOfUnitUsed: updatedData.nameOfUnitUsed,
+      };
+      const updatedRecordData = {
+        ...newData,
       };
       await updateDoc(contractMiningRef, updatedRecordData);
-      return { id, ...updatedRecordData } as IContractMining;
+      return { id, ...updatedRecordData } as unknown as IContractMining;
     } else {
       console.log("Contract mining not found");
       return null;

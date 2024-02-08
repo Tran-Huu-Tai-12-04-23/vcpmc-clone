@@ -464,7 +464,7 @@ input[type="number"] {
 }
 :where(.css-dev-only-do-not-override-zl9ks2).ant-form-item
   .ant-form-item-label {
-  @apply flex items-center justify-between;
+  @apply flex justify-between;
 }
 
 :where(.css-dev-only-do-not-override-zl9ks2).ant-picker

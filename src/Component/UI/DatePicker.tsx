@@ -11,12 +11,14 @@ const DatePickerCustom = styled(DatePickerAntd)<DatePickerCustomProps>`
   background: ${(props) => (props.background ? props.background : "#2b2b3f")};
   border-style: solid;
   border-width: 1px;
-  border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+  border-color: ${(props) =>
+    props.variant === "outlined" ? "#67677d" : "transparent"};
   border-color: ${(props) => (props.borderPrimary ? "#ff7506" : "")};
 
   &:hover,
   &:focus {
-    border-color: ${(props) => (props.bordered ? "#67677d" : "transparent")};
+    border-color: ${(props) =>
+      props.variant === "outlined" ? "#67677d" : "transparent"};
     border-color: ${(props) => (props.borderPrimary ? "#ff7506" : "")};
     background: ${(props) => (props.background ? props.background : "#2b2b3f")};
   }

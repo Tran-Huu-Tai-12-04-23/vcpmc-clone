@@ -30,12 +30,14 @@ export interface IContractMining {
   numberContract: string;
   customer: string;
   createAt: Dayjs;
-  applyDate: Dayjs;
-  expireDate: string;
+  dateEffect: Dayjs;
+  expireDate: Dayjs;
   status: statusContractMining;
   file: File[];
   typeContract: typeContract;
-  value: number;
+  valueContract: number;
+  valuePlay: number;
+  valueDistribute: number;
   username: string;
   password: string;
   numberAccount: string;

@@ -1,4 +1,4 @@
-import { Form, Radio, Select } from "antd";
+import { Form, Radio, SelectProps } from "antd";
 import {
   AutoComplete,
   Button,
@@ -10,9 +10,6 @@ import {
   TextHeader,
   TextLabel,
 } from "../../../../../Component";
-import { WarningIcon } from "../../../../../assets/icon";
-import Dropdown from "../../../../../Component/UI/DropDown";
-import { countryItems } from "../../../../../assets/_mock";
 import { useEffect, useState } from "react";
 import {
   File,
@@ -20,10 +17,16 @@ import {
   statusContractMining,
   typeContract,
   typeGender,
+  typeRole,
 } from "../../../../../Model/contractMining.model";
 import FileItem from "../../../../../Component/UI/FileItem";
 import Helper from "../../../../../Helper";
 import { useRouter } from "../../../../../Routes/hooks";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { actionContractMining } from "../../../../../State";
+import { IUser } from "../../../../../Model/user.model";
+import dayjs from "dayjs";
 const pagingItems = [
   {
     name: "Quản lý",
@@ -37,45 +40,82 @@ const pagingItems = [
 ];
 
 function AddContractMining() {
+  const dispatch = useDispatch();
   const router = useRouter();
+  const { addContractMining } = bindActionCreators(
+    actionContractMining,
+    dispatch,
+  );
+  const [userSelectOptions, setUserSelectOptions] = useState<
+    SelectProps<object>["options"]
+  >([]);
   const [form] = Form.useForm();
-  const [listCountry, setListCountry] = useState([]);
+  const [listNationality, setListNationality] = useState([]);
   const [files, setFiles] = useState<File[]>([]);
-  const [country, setCountry] = useState({
+  const [nationality, setNationality] = useState({
     key: -1,
     name: "",
   });
   const [contractMiningData, setContractMiningData] = useState<any>(null);
+  const [users, setUsers] = useState<IUser[]>([
+    {
+      id: "asdasd",
+      username: "huutai",
+      password: "password",
+      userDetail: {
+        id: "asdasd",
+        firstName: "tran",
+        lastName: "huu",
+        phoneNumber: "0376100548",
+        email: "email",
+        dateOfBirth: dayjs(),
+        role: typeRole.ADMIN,
+        userId: "asdasd",
+      },
+    },
+  ]);
+  const [personRepresentation, setPersonRepresentation] = useState<string>("");
 
   const handleChangeFormValue = () => {
     setContractMiningData(form.getFieldsValue());
   };
 
   const handleAddContractMining = () => {
-    if (!Helper.isObjectEmpty(contractMiningData)) {
-      return;
-    }
-
     const newContractMining: IContractMining = {
       ...contractMiningData,
       status: statusContractMining.IS_NEW,
       file: files,
+      nationality: nationality.name,
+      customer: personRepresentation,
+      representative: personRepresentation,
+      valuePlay: contractMiningData.valuePlay || "",
+      valueContract: contractMiningData.valueContract || "",
+      valueDistribute: contractMiningData.valueDistribute || "",
+      createAt: dayjs(),
+      personRepresentation,
     };
+    if (!Helper.isObjectEmpty(newContractMining)) {
+      return;
+    }
+
+    addContractMining(newContractMining, () => {
+      router.back();
+    });
   };
   useEffect(() => {
-    const getCountry = async () => {
+    const getNationality = async () => {
       try {
         const response = await fetch("https://restcountries.com/v3.1/all");
         if (response.ok) {
           let data = await response.json();
-          data = data.map((country: any, index: number) => {
+          data = data.map((nationality: any, index: number) => {
             return {
               key: index,
-              name: country.name.common,
+              name: nationality.name.common,
             };
           });
-          setCountry(data[0]);
-          setListCountry(data);
+          setNationality(data[0]);
+          setListNationality(data);
           return data;
         } else {
           console.error("Error fetching data. Status:", response.status);
@@ -85,8 +125,44 @@ function AddContractMining() {
       }
     };
 
-    getCountry();
+    getNationality();
   }, []);
+
+  const searchResult = (query: String) => {
+    const user: IUser = {
+      id: "asdasd",
+      username: "huutai",
+      password: "password",
+      userDetail: {
+        id: "asdasd",
+        firstName: "tran",
+        lastName: "huu",
+        phoneNumber: "0376100548",
+        email: "email",
+        dateOfBirth: dayjs(),
+        role: typeRole.ADMIN,
+        userId: "asdasd",
+      },
+    };
+    return [
+      {
+        value: user.username,
+        label: (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <span>{user.username}</span>
+          </div>
+        ),
+      },
+    ];
+  };
+  const handleSearch = (value: string) => {
+    setUserSelectOptions(value ? searchResult(value) : []);
+  };
 
   return (
     <div className="pr-[70px]">
@@ -156,14 +232,14 @@ function AddContractMining() {
             labelCol={{ span: 9 }}
           >
             <DatePicker
-              bordered
+              variant="outlined"
               width={200}
               id="date-effect"
               background="#2b2b3f"
             />
           </Form.Item>
           <Form.Item
-            name="dateExpire"
+            name="expireDate"
             label={
               <TextLabel
                 className="flex h-full items-center justify-center"
@@ -179,8 +255,8 @@ function AddContractMining() {
             labelCol={{ span: 9 }}
           >
             <DatePicker
+              variant="outlined"
               width={200}
-              bordered
               id="date-expire"
               background="#2b2b3f"
             />
@@ -217,135 +293,144 @@ function AddContractMining() {
           form={form}
           layout="horizontal"
           style={{ width: "33.33333%" }}
+          initialValues={{
+            typeContract: typeContract.ALL_IN_ONE,
+            gender: typeGender.MALE,
+          }}
         >
-          <Form.Item
-            name="typeContract"
-            label=""
-            style={{
-              width: "100%",
-            }}
-            labelCol={{ span: 9 }}
-          >
-            <div className="flex w-full flex-col gap-4">
-              <TextLabel
-                className="flex h-full items-center"
-                idInput="date-expire"
-              >
-                Loại hợp đồng:
-              </TextLabel>
-              <Radio.Group defaultValue={typeContract.ALL_IN_ONE}>
-                <div className="flex w-full justify-start gap-4">
-                  <div className="w-[8rem] flex-shrink-0">
+          <div className="flex w-full flex-col gap-4">
+            <TextLabel
+              className="flex h-full items-center"
+              idInput="date-expire"
+            >
+              Loại hợp đồng:
+            </TextLabel>
+            <div className="flex w-full justify-start gap-4">
+              <div className="w-[8rem] flex-shrink-0">
+                <Form.Item
+                  name="typeContract"
+                  label=""
+                  style={{
+                    width: "100%",
+                  }}
+                  labelCol={{ span: 9 }}
+                >
+                  <Radio.Group>
                     <Radio value={typeContract.ALL_IN_ONE}>Trọn gói</Radio>
-                  </div>
-                  <div className="h-[full] w-[2px] bg-input"></div>
-                  <div className="flex w-full flex-col">
-                    <Form.Item
-                      name="valueContract"
-                      label={
-                        <h5
-                          className={`${
-                            contractMiningData?.typeContract ===
-                            typeContract.ALL_IN_ONE
-                              ? "text-white"
-                              : "text-third" || "text-white"
-                          } flex h-full items-center justify-center `}
-                        >
-                          Giá trị hợp đồng
-                          <br />
-                          (VND)
-                        </h5>
-                      }
-                      labelCol={{ span: 9 }}
+                    <Radio
                       style={{
-                        width: "100%",
+                        marginTop: "120px",
                       }}
+                      value={typeContract.PLAYS}
                     >
-                      <Input
-                        variant="outlined"
-                        readOnly={
-                          contractMiningData?.typeContract ===
-                          typeContract.ALL_IN_ONE
-                            ? false
-                            : true || false
-                        }
-                      />
-                    </Form.Item>
-                    <Form.Item
-                      name="value"
-                      label={
-                        <h5
-                          className={`${
-                            contractMiningData?.typeContract ===
-                            typeContract.ALL_IN_ONE
-                              ? "text-white"
-                              : "text-third" || "text-white"
-                          } flex h-full items-center justify-center `}
-                        >
-                          Giá trị phân phối
-                          <br />
-                          (VND)/Ngày
-                        </h5>
-                      }
-                      style={{
-                        width: "100%",
-                      }}
-                      labelCol={{ span: 9 }}
+                      Lượt phát
+                    </Radio>
+                  </Radio.Group>
+                </Form.Item>
+              </div>
+
+              <div className="h-[full] w-[2px] bg-input"></div>
+              <div className="flex w-full flex-col">
+                <Form.Item
+                  name="valueContract"
+                  label={
+                    <h5
+                      className={`${
+                        contractMiningData?.typeContract ===
+                          typeContract.ALL_IN_ONE ||
+                        !contractMiningData?.typeContract
+                          ? "text-white"
+                          : "text-third" || "text-white"
+                      } flex h-full items-center justify-center `}
                     >
-                      <Input
-                        variant="outlined"
-                        readOnly={
-                          contractMiningData?.typeContract ===
-                          typeContract.ALL_IN_ONE
-                            ? false
-                            : true || false
-                        }
-                      />
-                    </Form.Item>
-                  </div>
-                </div>
-                <div className="flex w-full justify-start gap-4">
-                  <div className="w-[8rem] flex-shrink-0">
-                    <Radio value={typeContract.PLAYS}>Lượt phát</Radio>
-                  </div>
-                  <div className="h-[full] w-[2px] bg-input"></div>
-                  <div className="flex w-full flex-col">
-                    <Form.Item
-                      name="valueContract"
-                      label={
-                        <h5
-                          className={`${
-                            contractMiningData?.typeContract ===
-                            typeContract.PLAYS
-                              ? "text-white"
-                              : "text-third" || "text-third"
-                          } flex h-full items-center justify-center `}
-                        >
-                          Giá trị lượt phát
-                          <br />
-                          (VND)/Ngày
-                        </h5>
-                      }
-                      labelCol={{ span: 9 }}
-                      style={{
-                        width: "100%",
-                      }}
+                      Giá trị hợp đồng
+                      <br />
+                      (VND)
+                    </h5>
+                  }
+                  labelCol={{ span: 9 }}
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <Input
+                    type="number"
+                    variant="outlined"
+                    readOnly={
+                      contractMiningData?.typeContract ===
+                        typeContract.ALL_IN_ONE ||
+                      !contractMiningData?.typeContract
+                        ? false
+                        : true || false
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="valueDistribute"
+                  label={
+                    <h5
+                      className={`${
+                        contractMiningData?.typeContract ===
+                          typeContract.ALL_IN_ONE ||
+                        !contractMiningData?.typeContract
+                          ? "text-white"
+                          : "text-third" || "text-white"
+                      } flex h-full items-center justify-center `}
                     >
-                      <Input
-                        variant="outlined"
-                        readOnly={
-                          contractMiningData?.typeContract ===
-                          typeContract.PLAYS
-                            ? false
-                            : true || false
-                        }
-                      />
-                    </Form.Item>
-                  </div>
-                </div>
-              </Radio.Group>
+                      Giá trị phân phối
+                      <br />
+                      (VND)/Ngày
+                    </h5>
+                  }
+                  style={{
+                    width: "100%",
+                  }}
+                  labelCol={{ span: 9 }}
+                >
+                  <Input
+                    type="number"
+                    variant="outlined"
+                    readOnly={
+                      contractMiningData?.typeContract ===
+                        typeContract.ALL_IN_ONE ||
+                      !contractMiningData?.typeContract
+                        ? false
+                        : true || false
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="valuePlay"
+                  label={
+                    <h5
+                      className={`${
+                        contractMiningData?.typeContract === typeContract.PLAYS
+                          ? "text-white"
+                          : "text-third" || "text-third"
+                      } flex h-full items-center justify-center `}
+                    >
+                      Giá trị lượt phát
+                      <br />
+                      (VND)/Ngày
+                    </h5>
+                  }
+                  labelCol={{ span: 9 }}
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <Input
+                    variant="outlined"
+                    readOnly={
+                      contractMiningData?.typeContract === typeContract.PLAYS
+                        ? false
+                        : true || false
+                    }
+                  />
+                </Form.Item>
+              </div>
             </div>
-          </Form.Item>
+          </div>
         </Form>
       </div>
 
@@ -396,11 +481,27 @@ function AddContractMining() {
               }}
               labelCol={{ span: 9 }}
               required={false}
-              rules={[
-                { required: true, message: "Người đại diện là bắt buộc!" },
-              ]}
             >
-              <Input variant="outlined" id="person-representation" />
+              <AutoComplete
+                variant="outlined"
+                onSelect={(val) => {
+                  setPersonRepresentation(val);
+                  const user = users.find((u) => u.username === val);
+                  if (user === null) return;
+                  const userDetail = user?.userDetail || null;
+                  if (userDetail === null) return;
+                  form.setFieldValue("email", userDetail?.email);
+                  form.setFieldValue("phoneNumber", userDetail?.phoneNumber);
+                  form.setFieldValue("role", userDetail?.role);
+                  form.setFieldValue("nationality", userDetail?.nationality);
+                  form.setFieldValue(
+                    "birthDay",
+                    dayjs(userDetail?.dateOfBirth),
+                  );
+                }}
+                options={userSelectOptions}
+                onSearch={handleSearch}
+              />
             </Form.Item>
             <Form.Item
               name="role"
@@ -430,14 +531,16 @@ function AddContractMining() {
                   <span className="pt-2 text-error">*</span>
                 </TextLabel>
               }
+              required={false}
               style={{
                 width: "100%",
               }}
               labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Ngày sinh bắt buộc!" }]}
             >
               <DatePicker
                 width={200}
-                bordered
+                variant="outlined"
                 id="birthday"
                 background="#2b2b3f"
               />
@@ -461,9 +564,9 @@ function AddContractMining() {
                 classDropItem="border-second bg-input"
                 width={"100%"}
                 height={"48px"}
-                active={country}
-                dropItems={listCountry}
-                onSelect={(val) => setCountry(val)}
+                active={nationality}
+                dropItems={listNationality}
+                onSelect={(val) => setNationality(val)}
               />
             </Form.Item>
             <Form.Item
@@ -479,6 +582,7 @@ function AddContractMining() {
               style={{
                 width: "100%",
               }}
+              required={false}
               labelCol={{ span: 9 }}
             >
               <Input variant="outlined" id="phoneNumber" />
@@ -496,7 +600,9 @@ function AddContractMining() {
               style={{
                 width: "100%",
               }}
+              required={false}
               labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Email bắt buộc!" }]}
             >
               <Input variant="outlined" id="email" />
             </Form.Item>
@@ -528,10 +634,7 @@ function AddContractMining() {
               labelCol={{ span: 9 }}
               rules={[{ required: true, message: "Gới tính bắt buộc!" }]}
             >
-              <Radio.Group
-                className="flex items-center justify-start gap-10"
-                defaultValue={typeGender.MALE}
-              >
+              <Radio.Group className="flex items-center justify-start gap-10">
                 <Radio value={typeGender.MALE}>Nam</Radio>
                 <Radio value={typeGender.FEMALE}>Nữ</Radio>
               </Radio.Group>
@@ -557,11 +660,11 @@ function AddContractMining() {
               <Input variant="outlined" id="CMND_CCCD" width={"100%"} />
             </Form.Item>
             <Form.Item
-              name="dateAllocate"
+              name="dateAllocated"
               label={
                 <TextLabel
                   className="flex h-full items-center justify-center"
-                  idInput="dateAllocate"
+                  idInput="dateAllocated"
                 >
                   Ngày cấp:
                   <span className="pt-2 text-error">*</span>
@@ -574,14 +677,18 @@ function AddContractMining() {
               labelCol={{ span: 9 }}
               rules={[{ required: true, message: "Ngày cấp bắt buộc!" }]}
             >
-              <DatePicker id="dateAllocate" background="#2b2b3f" bordered />
+              <DatePicker
+                id="dateAllocated"
+                background="#2b2b3f"
+                variant="outlined"
+              />
             </Form.Item>
             <Form.Item
-              name="placeAllocate"
+              name="placeAllocated"
               label={
                 <TextLabel
                   className="flex h-full items-center justify-center"
-                  idInput="placeAllocate"
+                  idInput="placeAllocated"
                 >
                   Nơi cấp:
                   <span className="pt-2 text-error">*</span>
@@ -594,7 +701,7 @@ function AddContractMining() {
               labelCol={{ span: 9 }}
               rules={[{ required: true, message: "CMND/CCCD bắt buộc!" }]}
             >
-              <Input variant="outlined" id="placeAllocate" width={"100%"} />
+              <Input variant="outlined" id="placeAllocated" width={"100%"} />
             </Form.Item>
             <Form.Item
               name="taxNumber"
@@ -697,11 +804,11 @@ function AddContractMining() {
               <Input variant="outlined" id="numberAccount" width={"100%"} />
             </Form.Item>
             <Form.Item
-              name="bank"
+              name="nameBank"
               label={
                 <TextLabel
                   className="flex h-full items-center justify-center"
-                  idInput="bank"
+                  idInput="nameBank"
                 >
                   Ngân hàng:
                 </TextLabel>
@@ -712,7 +819,7 @@ function AddContractMining() {
               required={false}
               labelCol={{ span: 9 }}
             >
-              <Input variant="outlined" id="bank" width={"100%"} />
+              <Input variant="outlined" id="nameBank" width={"100%"} />
             </Form.Item>
           </Form>
         </div>
@@ -724,18 +831,28 @@ function AddContractMining() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center gap-10">
-        <Button typebtn="outline" sizetype="hug" onClick={() => router.back()}>
-          Hủy
-        </Button>
-        <Button
-          typebtn="primary"
-          sizetype="hug"
-          onClick={handleAddContractMining}
-        >
-          Tạo
-        </Button>
-      </div>
+      <Form
+        form={form}
+        onSubmitCapture={handleAddContractMining}
+        layout="horizontal"
+        className="flex items-center justify-center gap-10"
+        style={{ width: "100%" }}
+      >
+        <Form.Item>
+          <Button
+            typebtn="outline"
+            sizetype="hug"
+            onClick={() => router.back()}
+          >
+            Hủy
+          </Button>
+        </Form.Item>
+        <Form.Item>
+          <Button typebtn="primary" sizetype="hug" htmlType="submit">
+            Tạo
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 }

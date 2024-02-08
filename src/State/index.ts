@@ -6,3 +6,4 @@ export * as actionAuthenticate from "./action-creators/authenticateAction";
 export * as actionUserDetail from "./action-creators/userDetailAction";
 export * as actionRecord from "./action-creators/recordAction";
 export * as actionPlaylist from "./action-creators/playlistAction";
+export * as actionContractMining from "./action-creators/contractMiningAction";

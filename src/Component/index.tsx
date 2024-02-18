@@ -17,3 +17,4 @@ export { default as Tag } from "./UI/Tag";
 export { default as CalenderCustom } from "./UI/CalenderCustom";
 export { default as LineChart } from "./UI/line-chart";
 export { default as TableCustom } from "./UI/Table";
+export { default as Dropdown } from "./UI/DropDown";

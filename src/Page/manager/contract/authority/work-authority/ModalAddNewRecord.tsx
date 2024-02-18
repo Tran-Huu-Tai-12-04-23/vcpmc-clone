@@ -46,6 +46,7 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
 
   return (
     <StyleModalCustom
+      width={900}
       {...props}
       open={props.isOpen}
       title=""
@@ -68,23 +69,23 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
             <TextLabel idInput="name-record">
               Tên bản ghi:<span className="text-error">*</span>
             </TextLabel>
-            <Input bordered id="name-record" width={"100%"} />
+            <Input variant="outlined" id="name-record" width={"100%"} />
           </div>
           <div className="flex flex-col gap-4">
             <TextLabel idInput="code-ISRC">Mã ISRC:</TextLabel>
-            <Input bordered id="code-ISRC" width={"100%"} />
+            <Input variant="outlined" id="code-ISRC" width={"100%"} />
           </div>
           <div className="flex flex-col gap-4">
             <TextLabel idInput="authority">
               Tác giả:<span className="text-error">*</span>
             </TextLabel>
-            <Input bordered id="authority" width={"100%"} />
+            <Input variant="outlined" id="authority" width={"100%"} />
           </div>
           <div className="flex flex-col gap-4">
             <TextLabel idInput="authority">
               Ca sĩ/Nhóm nhạc:<span className="text-error">*</span>
             </TextLabel>
-            <Input bordered id="authority" width={"100%"} />
+            <Input variant="outlined" id="authority" width={"100%"} />
           </div>
           <div className="flex items-center justify-between gap-10">
             <div className="flex w-1/2 flex-col gap-4">
@@ -92,8 +93,8 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
                 Thể loại:<span className="text-error">*</span>
               </TextLabel>
               <DropDown
-                className="w-full"
-                classDropItem="border-primary h-[48px] border-none"
+                backgroundDrop="#2b2b3f"
+                classDropItem="border-second bg-input "
                 active={{
                   key: -1,
                   name: "Chọn một thể loại nhạc",
@@ -116,6 +117,8 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
                     key: 4,
                   },
                 ]}
+                width="100%"
+                height={48}
                 onSelect={function (value: {
                   name: string;
                   key: number;
@@ -128,7 +131,7 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
               <TextLabel idInput="manufactory">
                 Nhà sản xuất:<span className="text-error">*</span>
               </TextLabel>
-              <Input bordered id="manufactory" width={"100%"} />
+              <Input variant="outlined" id="manufactory" width={"100%"} />
             </div>
           </div>
           <div className="flex items-center justify-between gap-10">
@@ -137,7 +140,7 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
               <ButtonUpload />
             </div>
             <div className="flex w-1/2 items-center gap-10">
-              <TextLabel idInput="genre">Đính kèm tệp:</TextLabel>
+              <TextLabel idInput="genre">Đính kèm lời bài hát:</TextLabel>
               <ButtonUpload />
             </div>
           </div>

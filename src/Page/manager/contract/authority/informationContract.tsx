@@ -8,9 +8,17 @@ import ModalCancelContract from "./ModalCancelContract";
 import ModalRenewalContract from "./ModalRenewalContract";
 import { useRouter } from "../../../../Routes/hooks";
 import PathUrl from "../../../../Routes/path-url";
+import {
+  IContractAuthority,
+  typeAuthorizedLegalEntity,
+} from "../../../../Model/contractAuthority.model";
+import dayjs from "dayjs";
+import FileItem from "../../../../Component/UI/FileItem";
+import { File } from "../../../../Model/contractMining.model";
 
 type InformationProps = {
   id?: string;
+  data: IContractAuthority;
 };
 function InformationContract(props: InformationProps) {
   const router = useRouter();
@@ -78,36 +86,46 @@ function InformationContract(props: InformationProps) {
               <TextLabel width={140} idInput="number-contract">
                 Số hợp đồng:
               </TextLabel>
-              <h5 className="text-third">BH123</h5>
+              <h5 className="text-third">{props.data.numberContract}</h5>
             </div>
             <div className="flex w-full items-center ">
               <TextLabel width={140} idInput="name-contract">
                 Tên hợp đồng:
               </TextLabel>
-              <h5 className="text-third">Hợp đồng uỷ quyền tác phẩm âm nhạc</h5>
+              <h5 className="text-third">{props.data.nameContract}</h5>
             </div>
             <div className="flex w-full items-center ">
               <TextLabel width={140} idInput="date-effect">
                 Ngày hiệu lực:
               </TextLabel>
-              <h5 className="text-third">01/05/2021</h5>
+              <h5 className="text-third">
+                {dayjs(props.data.dateEffect).format("DD/MM/YYYY")}
+              </h5>
             </div>
             <div className="flex w-full items-center ">
               <TextLabel width={140} idInput="date-validity">
                 Ngày hết hạn:
               </TextLabel>
-              <h5 className="text-third">01/05/2021</h5>
+              <h5 className="text-third">
+                {dayjs(props.data.expireDate).format("DD/MM/YYYY")}
+              </h5>
             </div>
             <div className="flex w-full items-center ">
               <TextLabel width={140} idInput="date-validity">
                 Tình trạng:
               </TextLabel>
-              <UseStatusContract statusIndex={1}></UseStatusContract>
+              <UseStatusContract
+                statusIndex={props.data.status}
+              ></UseStatusContract>
             </div>
           </div>
-          <div className="box-start w-1/3">
-            <TextLabel width={140}>Đính kèm tệp:</TextLabel>
-            {/* <UseFile></UseFile> */}
+          <div className="flex w-1/3 justify-start">
+            <TextLabel width={200}>Đính kèm tệp:</TextLabel>
+            <div className="flex flex-col">
+              {props.data.file.map((file, index) => {
+                return <FileItem data={file} key={index} />;
+              })}
+            </div>
           </div>
           <div className=" flex w-1/3 flex-col  items-start justify-start gap-4 ">
             <div className="box-start w-full gap-2 text-size-primary font-bold text-[#ffac69]">
@@ -145,35 +163,50 @@ function InformationContract(props: InformationProps) {
             <div className="flex w-1/3 flex-col gap-3">
               <div className="flex items-center justify-start">
                 <h5 className="min-w-[200px] font-bold">Pháp nhân ủy quyền:</h5>
-                <h5 className="text-third">Cá nhân</h5>
+                <h5 className="text-third">
+                  {props.data.authorizedLegalEntity ===
+                  typeAuthorizedLegalEntity.PERSONAL
+                    ? "Cá nhân"
+                    : "Tổ chức"}
+                </h5>
               </div>
               <div className="flex ">
                 <TextLabel width={200} idInput="name-user-authority">
                   Tên người ủy quyền:
                 </TextLabel>
-                <h5 className="text-third">Nguyễn Văn A</h5>
+                <h5 className="text-third">
+                  {props.data.personAuthority.firstName +
+                    " " +
+                    props.data.personAuthority.lastName}
+                </h5>
               </div>
               <div className="flex items-center justify-start">
                 <h5 className="min-w-[200px] flex-shrink-0 font-bold">
                   Ngày sinh
                 </h5>
-                <h5 className="text-third">10/01/1984</h5>
+                <h5 className="text-third">
+                  {dayjs(props.data.personAuthority.dateOfBirth).format(
+                    "DD/MM/YYYY",
+                  )}
+                </h5>
               </div>
               <div className="flex ">
                 <TextLabel width={200} idInput="date-of-birth">
                   Giới tính:
                 </TextLabel>
-                <h5 className="text-third">Nam</h5>
+                <h5 className="text-third">{props.data.gender}</h5>
               </div>
               <div className="flex ">
                 <TextLabel width={200}>Quốc tịch:</TextLabel>
-                <h5 className="text-third">Việt Nam</h5>
+                <h5 className="text-third">{props.data.nationality}</h5>
               </div>
               <div className="flex ">
                 <TextLabel width={200} idInput="phone-number">
                   Số diện thoại:
                 </TextLabel>
-                <h5 className="text-third">(+84) 345 678 901</h5>
+                <h5 className="text-third">
+                  {props.data.personAuthority.phoneNumber}
+                </h5>
               </div>
             </div>
 
@@ -183,34 +216,33 @@ function InformationContract(props: InformationProps) {
                 <TextLabel width={140} idInput="cmnd-cccd">
                   CMDD/CCCD:
                 </TextLabel>
-                <h5 className="text-third">123456789012</h5>
+                <h5 className="text-third">{props.data.CMND_CCCD}</h5>
               </div>
               <div className="flex ">
                 <TextLabel width={140} idInput="date-provided">
                   Ngày cấp:
                 </TextLabel>
-                <h5 className="text-third">10/07/2011</h5>
+                <h5 className="text-third">
+                  {dayjs(props.data.dateAllocated).format("DD/MM/YYYY")}
+                </h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="place-provided">
                   Nơi cấp:
                 </TextLabel>
-                <h5 className="text-third">Tp.HCM, Việt Nam</h5>
+                <h5 className="text-third">{props.data.placeAllocated}</h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="code-">
                   Mã số thuế:
                 </TextLabel>
-                <h5 className="text-third">92387489</h5>
+                <h5 className="text-third">{props.data.taxNumber}</h5>
               </div>
               <div className="flex ">
                 <TextLabel width={140} idInput="place-lived">
                   Nơi cư trú:
                 </TextLabel>
-                <h5 className="w-[16rem] text-third">
-                  69/53, Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, Thành phố
-                  Hồ Chí Minh
-                </h5>
+                <h5 className="w-[16rem] text-third">{props.data.residence}</h5>
               </div>
             </div>
 
@@ -220,13 +252,15 @@ function InformationContract(props: InformationProps) {
                 <TextLabel width={140} idInput="email">
                   Email:
                 </TextLabel>
-                <h5 className="w-[16rem] text-third">nguyenvana@gmail.com</h5>
+                <h5 className="w-[16rem] text-third">
+                  {props.data.personAuthority.email}
+                </h5>
               </div>
               <div className="flex ">
                 <TextLabel width={140} idInput="username">
                   Tên đăng nhập:
                 </TextLabel>
-                <h5 className="w-[16rem] text-third">nguyenvana@gmail.com</h5>
+                <h5 className="w-[16rem] text-third">{props.data.username}</h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="password">
@@ -238,18 +272,19 @@ function InformationContract(props: InformationProps) {
                 <TextLabel width={140} idInput="number-bank">
                   Số tài khoản:
                 </TextLabel>
-                <h5 className="w-[16rem] text-third">1231123312211223</h5>
+                <h5 className="w-[16rem] text-third">
+                  {props.data.numberAccount}
+                </h5>
               </div>
               <div className="flex items-center ">
                 <TextLabel width={140} idInput="name-bank">
                   Ngân hàng:
                 </TextLabel>
-                <h5 className="w-[16rem] text-third">ACB - Ngân hàng Á Châu</h5>
+                <h5 className="w-[16rem] text-third">{props.data.nameBank}</h5>
               </div>
             </div>
           </div>
         </div>
-        M
       </div>
       <div className="-translate-y-20">
         <FloatingActionButton floatingActionButtonConfig={floatingAction} />

@@ -1,13 +1,11 @@
 import { Dispatch } from "redux";
-import {
-  getUserDetailByID,
-  updateUserDetailById,
-} from "../../Service/userdetail.service";
+
 import {
   UserDetailAction,
   UserDetailActionType,
 } from "../action-types/userDetail.action";
-import { IUserDetail } from "../../Model/userDetail.model";
+import { IUser, IUserDetail } from "../../Model/user.model";
+import { getUserById, updateUserById } from "../../Service/user.service";
 
 export const loadUserDetail = (userId: string) => {
   return async (dispatch: Dispatch<UserDetailActionType>) => {
@@ -15,33 +13,46 @@ export const loadUserDetail = (userId: string) => {
       type: UserDetailAction.LOADING,
     });
 
-    const data = await getUserDetailByID(userId);
+    const data = await getUserById(userId);
 
-    if (data) {
+    console.log(data);
+
+    if (data && data.userDetail) {
       dispatch({
         type: UserDetailAction.LOAD_DATA,
-        payload: data,
+        payload: data.userDetail,
+      });
+    } else {
+      dispatch({
+        type: UserDetailAction.LOG_ERROR,
+        payload: "Không tìm thấy tài khoản!",
       });
     }
   };
 };
 
-export const updateUserDetail = (userDetailId: string, data: IUserDetail) => {
+export const updateUserDetail = (
+  userId: string,
+  data: IUserDetail,
+  onFinish: () => void,
+) => {
   return async (dispatch: Dispatch<UserDetailActionType>) => {
     dispatch({
       type: UserDetailAction.LOADING,
     });
 
-    const result = await updateUserDetailById(userDetailId, data);
-
+    const result = await updateUserById(userId, {
+      userDetail: { ...data },
+    });
     if (result) {
       dispatch({
         type: UserDetailAction.LOAD_DATA,
         payload: {
           ...data,
-          id: userDetailId,
         },
       });
+
+      onFinish();
     } else {
       dispatch({
         type: UserDetailAction.LOG_ERROR,

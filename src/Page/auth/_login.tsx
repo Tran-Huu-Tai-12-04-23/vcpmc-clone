@@ -59,8 +59,11 @@ function Login() {
         <h6 className="w-full text-[16px] font-normal text-error ">{error}</h6>
         <div className="flex w-full items-center justify-start">
           <Checkbox
-            value={isRememberLogin}
-            onChange={(e) => setIsRememberLogin(e.target.checked)}
+            checked={isRememberLogin}
+            onChange={(e) => {
+              if (e.target.checked) setIsRememberLogin(true);
+              else setIsRememberLogin(false);
+            }}
             label="Ghi nhớ mật khẩu"
           />
         </div>

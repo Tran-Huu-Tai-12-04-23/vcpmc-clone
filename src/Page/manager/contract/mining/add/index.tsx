@@ -22,9 +22,13 @@ import {
 import FileItem from "../../../../../Component/UI/FileItem";
 import Helper from "../../../../../Helper";
 import { useRouter } from "../../../../../Routes/hooks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { actionContractMining } from "../../../../../State";
+import {
+  RootState,
+  actionContractMining,
+  actionUser,
+} from "../../../../../State";
 import { IUser } from "../../../../../Model/user.model";
 import dayjs from "dayjs";
 const pagingItems = [
@@ -42,10 +46,12 @@ const pagingItems = [
 function AddContractMining() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { loadUsers } = bindActionCreators(actionUser, dispatch);
   const { addContractMining } = bindActionCreators(
     actionContractMining,
     dispatch,
   );
+  const { users } = useSelector((state: RootState) => state.users);
   const [userSelectOptions, setUserSelectOptions] = useState<
     SelectProps<object>["options"]
   >([]);
@@ -57,23 +63,7 @@ function AddContractMining() {
     name: "",
   });
   const [contractMiningData, setContractMiningData] = useState<any>(null);
-  const [users, setUsers] = useState<IUser[]>([
-    {
-      id: "asdasd",
-      username: "huutai",
-      password: "password",
-      userDetail: {
-        id: "asdasd",
-        firstName: "tran",
-        lastName: "huu",
-        phoneNumber: "0376100548",
-        email: "email",
-        dateOfBirth: dayjs(),
-        role: typeRole.ADMIN,
-        userId: "asdasd",
-      },
-    },
-  ]);
+
   const [personRepresentation, setPersonRepresentation] = useState<string>("");
 
   const handleChangeFormValue = () => {
@@ -102,6 +92,8 @@ function AddContractMining() {
       router.back();
     });
   };
+
+  // load nationalities
   useEffect(() => {
     const getNationality = async () => {
       try {
@@ -128,25 +120,25 @@ function AddContractMining() {
     getNationality();
   }, []);
 
+  // load users
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  // handle autocompelete search
   const searchResult = (query: String) => {
-    const user: IUser = {
-      id: "asdasd",
-      username: "huutai",
-      password: "password",
-      userDetail: {
-        id: "asdasd",
-        firstName: "tran",
-        lastName: "huu",
-        phoneNumber: "0376100548",
-        email: "email",
-        dateOfBirth: dayjs(),
-        role: typeRole.ADMIN,
-        userId: "asdasd",
-      },
-    };
-    return [
-      {
-        value: user.username,
+    return users
+      .filter(
+        (user) =>
+          user.username.toLowerCase().includes(query.toLowerCase()) ||
+          (user.userDetail?.firstName + " " + user.userDetail?.lastName)
+            .toLowerCase()
+            .includes(query.toLowerCase()),
+      )
+      .map((user) => ({
+        value: user.userDetail
+          ? user.userDetail?.firstName + user.userDetail?.lastName
+          : "",
         label: (
           <div
             style={{
@@ -154,11 +146,14 @@ function AddContractMining() {
               justifyContent: "space-between",
             }}
           >
-            <span>{user.username}</span>
+            <span>
+              {user.userDetail
+                ? user.userDetail?.firstName + user.userDetail?.lastName
+                : ""}
+            </span>
           </div>
         ),
-      },
-    ];
+      }));
   };
   const handleSearch = (value: string) => {
     setUserSelectOptions(value ? searchResult(value) : []);

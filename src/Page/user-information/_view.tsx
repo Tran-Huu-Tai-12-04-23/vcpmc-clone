@@ -12,8 +12,9 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import { useSelector, useDispatch } from "react-redux";
 
 import { RootState, actionAuthenticate, actionUserDetail } from "../../State";
-import { IUserDetail } from "../../Model/userDetail.model";
 import dayjs from "dayjs";
+import { IUserDetail } from "../../Model/user.model";
+import { useRouter } from "../../Routes/hooks";
 
 const initUserDetail: IUserDetail = {
   firstName: "",
@@ -26,6 +27,7 @@ const initUserDetail: IUserDetail = {
 };
 function View() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const userDetailState = useSelector((state: RootState) => state.userDetail);
   const user = useSelector((state: RootState) => state.authenticate.user);
   const data = userDetailState.userDetail
@@ -94,7 +96,11 @@ function View() {
       phoneNumber,
     };
 
-    await updateUserDetail(data.id, newData);
+    if (user && user.id) {
+      updateUserDetail(user.id, newData, () => {
+        router.back();
+      });
+    }
 
     if (userDetailState.error === undefined) setIsEdit(false);
   };
@@ -105,7 +111,7 @@ function View() {
 
   useEffect(() => {
     const fetchUserDetails = async (userId: string) => {
-      await loadUserDetail(userId);
+      loadUserDetail(userId);
     };
 
     if (user && user.id) {
@@ -184,6 +190,7 @@ function View() {
                   width={278}
                   height={40}
                   label="Ngày sinh:"
+                  className="bg-input "
                   onChange={onChange}
                 />
               ) : (

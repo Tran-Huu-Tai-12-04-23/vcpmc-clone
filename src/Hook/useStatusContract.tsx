@@ -12,7 +12,7 @@ function UseStatusContract(props: PropsType) {
           background: color[props.statusIndex],
         }}
       ></div>
-      <h5 className="text-third text-size-primary">
+      <h5 className="text-size-primary text-third">
         {nameStatus[props.statusIndex]}
       </h5>
     </div>

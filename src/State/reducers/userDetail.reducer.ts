@@ -1,4 +1,4 @@
-import { IUserDetail } from "../../Model/userDetail.model";
+import { IUserDetail } from "../../Model/user.model";
 import {
   UserDetailActionType,
   UserDetailAction,

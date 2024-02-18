@@ -8,6 +8,10 @@ import { IPlaylistState } from "../../Model/playlist.model";
 import { playlistReducer } from "./playlist.reducer";
 import { IContractMiningState } from "../../Model/contractMining.model";
 import { contractMiningReducer } from "./contractMining.reducer";
+import { IUserState } from "../../Model/user.model";
+import { userReducer } from "./user.reducer";
+import { IContractAuthorityState } from "../../Model/contractAuthority.model";
+import { contractAuthorityReducer } from "./contractAuthority.reducer";
 
 export type RootState = {
   authenticate: IAuthenticateInfoState;
@@ -15,6 +19,8 @@ export type RootState = {
   records: IRecordState;
   playlists: IPlaylistState;
   contractMining: IContractMiningState;
+  contractAuthority: IContractAuthorityState;
+  users: IUserState;
 };
 
 export const rootReducers = combineReducers({
@@ -23,4 +29,6 @@ export const rootReducers = combineReducers({
   records: recordReducer,
   playlists: playlistReducer,
   contractMining: contractMiningReducer,
+  contractAuthority: contractAuthorityReducer,
+  users: userReducer,
 });

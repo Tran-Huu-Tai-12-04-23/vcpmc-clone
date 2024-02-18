@@ -23,7 +23,7 @@ export const ManagerContractPage = lazy(
   () => import("../Page/manager/contract"),
 );
 export const AddContractPage = lazy(
-  () => import("../Page/manager/contract/authority/add"),
+  () => import("../Page/manager/contract/authority/add/index"),
 );
 export const AddContractMiningPage = lazy(
   () => import("../Page/manager/contract/mining/add"),
@@ -35,13 +35,13 @@ export const EditContractMiningPage = lazy(
   () => import("../Page/manager/contract/mining/edit"),
 );
 export const DetailContractPage = lazy(
-  () => import("../Page/manager/contract/authority/detail"),
+  () => import("../Page/manager/contract/authority/detail/index"),
 );
 export const EditWorkAuthorityPage = lazy(
   () => import("../Page/manager/contract/authority/work-authority/edit"),
 );
 export const EditContractPage = lazy(
-  () => import("../Page/manager/contract/authority/edit"),
+  () => import("../Page/manager/contract/authority/edit/index"),
 );
 export const AddRecordPage = lazy(
   () => import("../Page/manager/contract/authority/add-record/index"),

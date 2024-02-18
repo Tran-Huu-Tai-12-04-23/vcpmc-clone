@@ -23,6 +23,7 @@ type DropdownType = {
   multiple?: boolean;
   onUnselect?: (value: { name: string; key: number }) => void;
   height?: any;
+  backgroundDrop?: string;
 };
 function Dropdown(props: DropdownType) {
   const [active, setActive] = useState<boolean>(false);
@@ -73,7 +74,14 @@ function Dropdown(props: DropdownType) {
         </h5>
         <ArrowDownIcon className="text-primary" />
       </div>
-      <div className={`z-[30] h-0 w-full overflow-hidden bg-modal `}>
+      <div
+        className={`z-[30] h-0 w-full overflow-hidden ${
+          props.backgroundDrop ? "" : "bg-modal "
+        }`}
+        style={{
+          background: props.backgroundDrop,
+        }}
+      >
         {props.dropItems.map((dropItem, index) => {
           return (
             <div
@@ -87,9 +95,12 @@ function Dropdown(props: DropdownType) {
         })}
       </div>
       <div
-        className={`z-[30]  ${
-          active ? "" : "hidden"
-        } custom-scroll absolute max-h-[10rem] w-full -translate-y-2 overflow-auto rounded-[8px] bg-modal pb-[0.5rem]  pt-[0.5rem]`}
+        style={{
+          background: props.backgroundDrop,
+        }}
+        className={`z-[30]  ${active ? "" : "hidden "} ${
+          props.backgroundDrop ? "" : "bg-modal "
+        }custom-scroll absolute max-h-[10rem] w-full -translate-y-2 overflow-auto rounded-[8px] pb-[0.5rem]  pt-[0.5rem]`}
       >
         {props.dropItems.map((dropItem, index) => {
           return (

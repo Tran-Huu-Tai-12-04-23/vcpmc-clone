@@ -2,35 +2,11 @@ import { ColumnsType } from "antd/es/table";
 import PathUrl from "../../../../Routes/path-url";
 import UseStatusContract from "../../../../Hook/useStatusContract";
 import dayjs from "dayjs";
-
-const generateDummyData = (count: number): ColDataType[] => {
-  const data: ColDataType[] = [];
-  for (let i = 1; i <= count; i++) {
-    data.push({
-      key: i,
-      id: `id_${i}`,
-      index: i,
-      numberContract: `Contract_${i}`,
-      nameContract: `ContractName_${i}`,
-      userAuthority: `User_${i}`,
-      ownerShip: `Owner_${i}`,
-      validityContract: i * 100,
-      isCancel: i > 20 ? true : false,
-    });
-  }
-  return data;
-};
-export interface ColDataType {
-  id: string;
-  index: number;
-  numberContract: string;
-  nameContract: string;
-  userAuthority: string;
-  ownerShip: string;
-  validityContract: number;
-  isCancel: boolean;
-  key: number;
-}
+import {
+  IContractAuthority,
+  statusContractAuthority,
+  typeAuthorizedLegalEntity,
+} from "../../../../Model/contractAuthority.model";
 
 export interface ColDataTypeListSongAuthority {
   id: string;
@@ -44,11 +20,12 @@ export interface ColDataTypeListSongAuthority {
   status: number;
 }
 
-export const ConfigColTale: ColumnsType<ColDataType> = [
+export const ConfigColTale: ColumnsType<IContractAuthority> = [
   {
     title: "STT",
     dataIndex: "index",
     key: "index",
+    render: (_, __, index) => index + 1,
   },
   {
     title: "Số hợp đồng",
@@ -62,34 +39,68 @@ export const ConfigColTale: ColumnsType<ColDataType> = [
   },
   {
     title: "Người ủy quyền",
-    key: "userAuthority",
-    dataIndex: "userAuthority",
+    key: "personAuthority",
+    dataIndex: "personAuthority",
+    render: (_, { personAuthority }) => (
+      <div className="box-start gap-4">
+        {personAuthority.firstName + " " + personAuthority.lastName}
+      </div>
+    ),
   },
   {
     title: "Quyền sở hữu",
-    key: "ownerShip",
-    dataIndex: "ownerShip",
+    render: (_, {}) => (
+      <div className="box-start gap-4">{"Người biểu diễn"}</div>
+    ),
   },
   {
     title: "Hiệu lực hợp đồng",
-    key: "validityContract",
-    dataIndex: "validityContract",
+    key: "expireDate",
+    dataIndex: "expireDate",
+    render: (_, { status }) => (
+      <div className="box-start gap-4">
+        {status === statusContractAuthority.IS_EFFECT && (
+          <>
+            <div className="h-4 w-4 rounded-full bg-blue-600"></div>
+            <span>Còn hiệu lực</span>
+          </>
+        )}
+        {status === statusContractAuthority.IS_NEW && (
+          <>
+            <div className="h-4 w-4 rounded-full bg-green-600"></div>
+            <span>Mới</span>
+          </>
+        )}{" "}
+        {status === statusContractAuthority.IS_CANCELLED && (
+          <>
+            <div className="h-4 w-4 rounded-full bg-red-600"></div>
+            <span>Đã hủy</span>
+          </>
+        )}{" "}
+        {status === statusContractAuthority.IS_EXPIRE && (
+          <>
+            <div className="h-4 w-4 rounded-full bg-gray-600"></div>
+            <span>Hết hiệu lực</span>
+          </>
+        )}
+      </div>
+    ),
   },
   {
     title: "Ngày tạo",
     key: "createAt",
     dataIndex: "createAt",
-  },
-  {
-    title: "Quyền sở hữu",
-    key: "ownerShip",
-    dataIndex: "ownerShip",
+    render: (_, { createAt }) => (
+      <div className="box-start gap-4">
+        {dayjs(createAt).format("DD/MM/YYYY")}
+      </div>
+    ),
   },
   {
     title: "",
     dataIndex: "id",
     key: "id",
-    render: (_, { id, isCancel }) => (
+    render: (_, { id, status }) => (
       <div className="box-start gap-4">
         <a
           href={PathUrl.MANAGER_CONTRACT + "/" + PathUrl.AUTHORITY + "/" + id}
@@ -97,7 +108,7 @@ export const ConfigColTale: ColumnsType<ColDataType> = [
         >
           Xem chi tiết
         </a>
-        {isCancel && (
+        {status === statusContractAuthority.IS_CANCELLED && (
           <a
             href={id}
             className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
@@ -109,7 +120,6 @@ export const ConfigColTale: ColumnsType<ColDataType> = [
     ),
   },
 ];
-export const data: ColDataType[] = generateDummyData(100);
 
 export const ConfigColTaleListSongInContractAuthority: ColumnsType<ColDataTypeListSongAuthority> =
   [

@@ -85,7 +85,7 @@ function DatePicker(props: DatePickerCustomProps) {
       )}
       <DatePickerCustom
         style={{
-          background: props.background ? props.background : "transparent",
+          background: props.background ? props.background : "#2b2b3f",
         }}
         renderExtraFooter={() => <CustomDatePickerHeader />}
         picker={props.typePicker && props.typePicker}

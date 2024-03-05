@@ -98,7 +98,7 @@ function Dropdown(props: DropdownType) {
         style={{
           background: props.backgroundDrop,
         }}
-        className={`z-[30]  ${active ? "" : "hidden "} ${
+        className={`z-[100000]  ${active ? "" : "hidden "} ${
           props.backgroundDrop ? "" : "bg-modal "
         }custom-scroll absolute max-h-[10rem] w-full -translate-y-2 overflow-auto rounded-[8px] pb-[0.5rem]  pt-[0.5rem]`}
       >

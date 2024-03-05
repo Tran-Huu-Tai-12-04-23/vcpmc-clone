@@ -58,7 +58,8 @@ function AutoComplete(props: AutoCompleteCusProps) {
       onSelect={props.onSelect}
       placeholder={props.placeholder}
       options={props.options}
-      defaultValue={props.value}
+      defaultValue={props.defaultValue}
+      value={props.value}
     />
   );
 }

@@ -11,9 +11,7 @@ import {
   TextLabel,
 } from "../../../../../Component";
 import { WarningIcon } from "../../../../../assets/icon";
-import Dropdown from "../../../../../Component/UI/DropDown";
 import { useEffect, useState } from "react";
-import { countryItems } from "../../../../../assets/_mock";
 import FileItem from "../../../../../Component/UI/FileItem";
 import { File, typeGender } from "../../../../../Model/contractMining.model";
 import dayjs from "dayjs";
@@ -117,7 +115,7 @@ function AddContract() {
       )
       .map((user) => ({
         value: user.userDetail
-          ? user.userDetail?.firstName + user.userDetail?.lastName
+          ? user.userDetail?.firstName + " " + user.userDetail?.lastName
           : "",
         label: (
           <div
@@ -375,6 +373,7 @@ function AddContract() {
                       const user = users.find(
                         (u) =>
                           (u.userDetail?.firstName || "") +
+                            " " +
                             u.userDetail?.lastName ===
                           val,
                       );
@@ -718,6 +717,7 @@ function AddContract() {
                       const user = users.find(
                         (u) =>
                           (u.userDetail?.firstName || "") +
+                            " " +
                             u.userDetail?.lastName ===
                           val,
                       );
@@ -977,7 +977,12 @@ function AddContract() {
                   labelCol={{ span: 9 }}
                   rules={[{ required: true, message: "Mật khẩu bắt buộc!" }]}
                 >
-                  <Input variant="outlined" id="password" width={"100%"} />
+                  <Input
+                    variant="outlined"
+                    id="password"
+                    type="password"
+                    width={"100%"}
+                  />
                 </Form.Item>
                 <Form.Item
                   name="numberAccount"

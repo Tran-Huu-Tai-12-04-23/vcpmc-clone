@@ -17,7 +17,6 @@ import {
   statusContractMining,
   typeContract,
   typeGender,
-  typeRole,
 } from "../../../../../Model/contractMining.model";
 import FileItem from "../../../../../Component/UI/FileItem";
 import Helper from "../../../../../Helper";
@@ -29,7 +28,6 @@ import {
   actionContractMining,
   actionUser,
 } from "../../../../../State";
-import { IUser } from "../../../../../Model/user.model";
 import dayjs from "dayjs";
 const pagingItems = [
   {

@@ -65,20 +65,26 @@ export const changeCurrentRecord = (id: string) => {
   };
 };
 
-export const updateRecord = (id: string, newRecord: IRecord) => {
+export const updateRecord = (
+  id: string,
+  newRecord: IRecord,
+  onFinish: () => void,
+) => {
   return async (dispatch: Dispatch<RecordAction>) => {
     dispatch({
       type: RecordActionType.LOADING,
     });
 
     const res: IRecord | null = await updateRecordById(id, newRecord);
-    if (res === null) {
+    if (!res) {
       return;
     }
+
     dispatch({
       type: RecordActionType.CHANGE_CURRENT_RECORD,
       payload: res,
     });
+    onFinish();
   };
 };
 

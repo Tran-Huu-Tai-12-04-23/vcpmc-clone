@@ -121,7 +121,7 @@ function InformationContract(props: InformationProps) {
           </div>
           <div className="flex w-1/3 justify-start">
             <TextLabel width={200}>Đính kèm tệp:</TextLabel>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-2">
               {props.data.file.map((file, index) => {
                 return <FileItem data={file} key={index} />;
               })}

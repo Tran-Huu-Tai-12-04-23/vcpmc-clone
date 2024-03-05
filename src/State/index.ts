@@ -9,3 +9,4 @@ export * as actionPlaylist from "./action-creators/playlistAction";
 export * as actionContractMining from "./action-creators/contractMiningAction";
 export * as actionUser from "./action-creators/userAction";
 export * as actionContractAuthority from "./action-creators/contractAuthorityAction";
+export * as actionDevice from "./action-creators/deviceAction";

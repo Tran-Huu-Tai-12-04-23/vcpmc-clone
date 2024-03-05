@@ -6,12 +6,13 @@ import { RootState } from "../../../../../State";
 import {
   Input,
   Button,
-  DatePicker,
-  Checkbox,
   ButtonUpload,
   TextLabel,
   DropDown,
 } from "../../../../../Component";
+import { IRecord } from "../../../../../Model/record.model";
+import dayjs from "dayjs";
+import { Form } from "antd";
 
 const StyleModalCustom = styled(Modal)<ModalPropsCustom>`
   .ant-modal-header,
@@ -29,20 +30,33 @@ const StyleModalCustom = styled(Modal)<ModalPropsCustom>`
 
 interface ModalPropsCustom extends ModalProps {
   isOpen?: boolean;
-  onOk: () => void;
   onCancel?: () => void;
 }
 
 function ModalAddNewRecord(props: ModalPropsCustom) {
   const data = useSelector((state: RootState) => state.authenticate);
-
   const [error, setError] = useState<string>("");
-
+  const [form] = Form.useForm();
   const handleCancelContract = async () => {};
 
   useEffect(() => {
     if (data.error) setError(data.error);
   }, [data, props]);
+
+  const handleAddNewRecord = () => {
+    const newRecord: IRecord = {
+      codeISRC: "",
+      nameRecord: "",
+      duration: 0,
+      single: "",
+      author: "",
+      genre: "",
+      format: "",
+      expiryDate: dayjs(),
+      thumbnails: "",
+      numberContract: "",
+    };
+  };
 
   return (
     <StyleModalCustom
@@ -50,7 +64,7 @@ function ModalAddNewRecord(props: ModalPropsCustom) {
       {...props}
       open={props.isOpen}
       title=""
-      onOk={props.onOk}
+      onOk={handleAddNewRecord}
       closeIcon={null}
       cancelText={null}
       cancelButtonProps={undefined}

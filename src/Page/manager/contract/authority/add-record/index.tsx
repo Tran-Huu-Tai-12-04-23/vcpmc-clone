@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Paging, TextHeader } from "../../../../../Component";
 import { CheckIcon } from "../../../../../assets/icon";
 import ModalAddNewRecord from "../work-authority/ModalAddNewRecord";
+import { IRecord } from "../../../../../Model/record.model";
 
 const pagingItems = [
   {
@@ -23,9 +24,6 @@ function AddRecord() {
     <div className="w-full">
       <ModalAddNewRecord
         isOpen={isOpenModalAddNewRecord}
-        onOk={function (): void {
-          throw new Error("Function not implemented.");
-        }}
         onCancel={() => {
           setIsOpenModalAddNewRecord(false);
         }}

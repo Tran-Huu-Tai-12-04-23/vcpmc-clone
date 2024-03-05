@@ -121,7 +121,11 @@ export const updateContractAuthority = (
       id,
       newContractAuthority,
     );
-    if (res === null) {
+    if (!res) {
+      dispatch({
+        type: ContractAuthorityActionType.LOG_ERROR,
+        payload: "Không thể cập nhật hợp đồng!",
+      });
       return;
     }
     dispatch({

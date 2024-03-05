@@ -19,10 +19,6 @@ import { useRouter } from "../../../Routes/hooks";
 import { useParams } from "react-router-dom";
 import { bindActionCreators, current } from "@reduxjs/toolkit";
 import { uploadImage } from "../../../Service/common.service";
-import {
-  removeRecordById,
-  updateRecordById,
-} from "../../../Service/record.service";
 import ModalRemoveRecord from "./ModalRemoveRecord";
 const pagingUpdateRecord = [
   {
@@ -65,7 +61,6 @@ function UpdateRecord() {
   const [genreMusic, setGenreMusic] = useState<any>(genreMusicDropItems[0]);
   const [thumbnails, setThumbnails] = useState<string>("");
   const [isRemoveRecord, setIsRemoveRecord] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const floatingAction = [
     {
       name: "Xóa bản ghi",
@@ -105,7 +100,9 @@ function UpdateRecord() {
     };
 
     if (!id) return;
-    updateRecord(id, newData);
+    updateRecord(id, newData, () => {
+      router.back();
+    });
   };
 
   const handleRemoveRecord = async () => {
@@ -302,7 +299,11 @@ function UpdateRecord() {
                       </TextLabel>
                     }
                   >
-                    <Input id="name-record" bordered background="#33334D" />
+                    <Input
+                      id="name-record"
+                      variant="outlined"
+                      background="#33334D"
+                    />
                   </Form.Item>
                   <Form.Item
                     name={"codeISRC"}
@@ -312,7 +313,11 @@ function UpdateRecord() {
                       </TextLabel>
                     }
                   >
-                    <Input id="code-ISRC" bordered background="#33334D" />
+                    <Input
+                      id="code-ISRC"
+                      variant="outlined"
+                      background="#33334D"
+                    />
                   </Form.Item>
                   <Form.Item
                     name={"single"}
@@ -322,7 +327,11 @@ function UpdateRecord() {
                       </TextLabel>
                     }
                   >
-                    <Input id="single" bordered background="#33334D" />
+                    <Input
+                      id="single"
+                      variant="outlined"
+                      background="#33334D"
+                    />
                   </Form.Item>
                   <Form.Item
                     name={"author"}
@@ -332,7 +341,11 @@ function UpdateRecord() {
                       </TextLabel>
                     }
                   >
-                    <Input id="author" bordered background="#33334D" />
+                    <Input
+                      id="author"
+                      variant="outlined"
+                      background="#33334D"
+                    />
                   </Form.Item>
                   <Form.Item
                     name={"manufactory"}
@@ -342,7 +355,11 @@ function UpdateRecord() {
                       </TextLabel>
                     }
                   >
-                    <Input id="manufactory" bordered background="#33334D" />
+                    <Input
+                      id="manufactory"
+                      variant="outlined"
+                      background="#33334D"
+                    />
                   </Form.Item>
                 </Form>
 

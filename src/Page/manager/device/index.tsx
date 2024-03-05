@@ -10,7 +10,7 @@ import {
   DeviceColDataType,
   dataExampleDevice,
 } from "./_configTabel";
-import { Button, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";

@@ -12,6 +12,7 @@ import { IUserState } from "../../Model/user.model";
 import { userReducer } from "./user.reducer";
 import { IContractAuthorityState } from "../../Model/contractAuthority.model";
 import { contractAuthorityReducer } from "./contractAuthority.reducer";
+import { IDeviceState, deviceReducer } from "./device.reducer";
 
 export type RootState = {
   authenticate: IAuthenticateInfoState;
@@ -21,6 +22,7 @@ export type RootState = {
   contractMining: IContractMiningState;
   contractAuthority: IContractAuthorityState;
   users: IUserState;
+  devices: IDeviceState;
 };
 
 export const rootReducers = combineReducers({
@@ -31,4 +33,5 @@ export const rootReducers = combineReducers({
   contractMining: contractMiningReducer,
   contractAuthority: contractAuthorityReducer,
   users: userReducer,
+  devices: deviceReducer,
 });

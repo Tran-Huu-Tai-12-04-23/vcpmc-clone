@@ -205,27 +205,6 @@ export const updateContractAuthorityById = async (
   updatedData: Partial<IContractAuthority>,
 ) => {
   try {
-    console.log({
-      ...updatedData,
-      nameContract: updatedData.nameContract,
-      numberContract: updatedData.numberContract,
-      customer: updatedData.customer,
-      createAt: updatedData.createAt,
-      dateEffect: updatedData.dateEffect,
-      expireDate: updatedData.expireDate,
-      status: updatedData.status,
-      file: updatedData.file,
-      username: updatedData.username,
-      password: updatedData.password,
-      numberAccount: updatedData.numberAccount,
-      nameBank: updatedData.nameBank,
-      CMND_CCCD: updatedData.CMND_CCCD,
-      dateAllocated: updatedData.dateAllocated,
-      placeAllocated: updatedData.placeAllocated,
-      email: updatedData.email,
-      authorizedLegalEntity: updatedData.authorizedLegalEntity,
-      personAuthority: updatedData.personAuthority,
-    });
     const ContractAuthorityRef = doc(db, "contract-authority", id);
     const docSnapshot = await getDoc(ContractAuthorityRef);
     if (docSnapshot.exists()) {
@@ -235,9 +214,13 @@ export const updateContractAuthorityById = async (
         nameContract: updatedData.nameContract,
         numberContract: updatedData.numberContract,
         customer: updatedData.customer,
-        createAt: updatedData.createAt,
-        dateEffect: updatedData.dateEffect,
-        expireDate: updatedData.expireDate,
+        createAt: updatedData.createAt ? updatedData.createAt.toString() : "",
+        dateEffect: updatedData.dateEffect
+          ? updatedData.dateEffect.toString()
+          : "",
+        expireDate: updatedData.expireDate
+          ? updatedData.expireDate.toString()
+          : "",
         status: updatedData.status,
         file: updatedData.file,
         username: updatedData.username,
@@ -245,11 +228,14 @@ export const updateContractAuthorityById = async (
         numberAccount: updatedData.numberAccount,
         nameBank: updatedData.nameBank,
         CMND_CCCD: updatedData.CMND_CCCD,
-        dateAllocated: updatedData.dateAllocated,
+        dateAllocated: updatedData.dateAllocated
+          ? updatedData.dateAllocated.toString()
+          : "",
         placeAllocated: updatedData.placeAllocated,
         email: updatedData.email,
         authorizedLegalEntity: updatedData.authorizedLegalEntity,
         personAuthority: updatedData.personAuthority,
+        nationality: updatedData.nationality,
       };
       const updatedRecordData = {
         ...newData,

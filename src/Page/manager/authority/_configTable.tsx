@@ -1,44 +1,16 @@
 import { ColumnsType } from "antd/es/table";
 import PathUrl from "../../../Routes/path-url";
-import dayjs, { Dayjs } from "dayjs";
 import { Switch } from "antd";
 import { Link } from "react-router-dom";
+import { IAuthorizedPartner } from "../../../Model/authorizedPartner.model";
+import dayjs from "dayjs";
 
-const generateDummyDataAuthority = (count: number): AuthorityColDataType[] => {
-  const data: AuthorityColDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `record_${i + 1}`,
-      index: i + 1,
-      username: "username" + i,
-      fullName: "fullName" + i,
-      phoneNumber: "023123123" + i,
-      email: "email" + i + "@gmail.com",
-      expirationDate: dayjs(),
-      status: i % 2 === 0 ? true : false,
-      role: "QA",
-    });
-  }
-  return data;
-};
-
-export interface AuthorityColDataType {
-  id: string;
-  index: number;
-  fullName: string;
-  username: string;
-  email: string;
-  phoneNumber: string;
-  expirationDate: Dayjs;
-  status: boolean;
-  role: string;
-}
-
-export const ConfigColAuthority: ColumnsType<AuthorityColDataType> = [
+export const ConfigColAuthority: ColumnsType<IAuthorizedPartner> = [
   {
     title: "STT",
     dataIndex: "index",
     key: "index",
+    render: (_, __, index) => index + 1,
   },
   {
     title: "Họ tên",
@@ -61,7 +33,7 @@ export const ConfigColAuthority: ColumnsType<AuthorityColDataType> = [
     dataIndex: "expirationDate",
     key: "expirationDate",
     render: (_, { expirationDate }) => (
-      <div>{expirationDate.format("DD/MM/YY")}</div>
+      <div>{dayjs(expirationDate).format("DD/MM/YY")}</div>
     ),
   },
   {
@@ -97,5 +69,3 @@ export const ConfigColAuthority: ColumnsType<AuthorityColDataType> = [
     ),
   },
 ];
-
-export const dataExampleAuthority = generateDummyDataAuthority(40);

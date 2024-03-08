@@ -13,6 +13,14 @@ import { userReducer } from "./user.reducer";
 import { IContractAuthorityState } from "../../Model/contractAuthority.model";
 import { contractAuthorityReducer } from "./contractAuthority.reducer";
 import { IDeviceState, deviceReducer } from "./device.reducer";
+import {
+  IAuthorizedPartnerState,
+  authorizedPartnerReducer,
+} from "./authorizedPartner.reducer";
+import { IUnitUsedState } from "../../Model/unitUsed.model";
+import { unitUsedReducer } from "./unitUsed.reducer";
+import { IRoleState } from "../../Model/role.model";
+import { roleReducer } from "./role.reducer";
 
 export type RootState = {
   authenticate: IAuthenticateInfoState;
@@ -23,6 +31,9 @@ export type RootState = {
   contractAuthority: IContractAuthorityState;
   users: IUserState;
   devices: IDeviceState;
+  authorizedPartners: IAuthorizedPartnerState;
+  unitUsed: IUnitUsedState;
+  roles: IRoleState;
 };
 
 export const rootReducers = combineReducers({
@@ -34,4 +45,7 @@ export const rootReducers = combineReducers({
   contractAuthority: contractAuthorityReducer,
   users: userReducer,
   devices: deviceReducer,
+  authorizedPartners: authorizedPartnerReducer,
+  unitUsed: unitUsedReducer,
+  roles: roleReducer,
 });

@@ -158,7 +158,7 @@ function EditContract() {
       )
       .map((user) => ({
         value: user.userDetail
-          ? user.userDetail?.firstName + user.userDetail?.lastName
+          ? user.userDetail?.firstName ?? "" + user.userDetail?.lastName
           : "",
         label: (
           <div

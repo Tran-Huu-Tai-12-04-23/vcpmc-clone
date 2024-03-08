@@ -9,7 +9,6 @@ import {
   TextLabel,
 } from "../../../../Component";
 import { useRouter } from "../../../../Routes/hooks";
-import { AddOutlineIcon } from "../../../../assets/icon";
 import { Form } from "antd";
 import { IDevice } from "../../../../Model/device.model";
 import { useDispatch } from "react-redux";
@@ -81,6 +80,9 @@ function AddDevice() {
 
     const newDevice: IDevice = {
       ...deviceData,
+      label: label.name,
+      information: [information.name],
+      status: true,
     };
     addDevice(newDevice, () => {
       router.back();
@@ -90,8 +92,6 @@ function AddDevice() {
   useEffect(() => {
     setDeviceData((prev: any) => ({
       ...prev,
-      label: label.name,
-      information: [information.name],
     }));
   }, [label, information]);
 
@@ -108,7 +108,7 @@ function AddDevice() {
           style={{ width: "33.33333%" }}
         >
           <Form.Item
-            name="nameDevice"
+            name="name"
             label={
               <TextLabel
                 className="flex h-full items-center justify-center"

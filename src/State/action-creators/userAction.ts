@@ -7,6 +7,7 @@ import {
   deleteUserById,
   getAllUsers,
   getUserById,
+  updateUserById,
 } from "../../Service/user.service";
 import { IUser } from "../../Model/user.model";
 
@@ -80,5 +81,28 @@ export const removeUserById = (id: string, onFinish: () => void) => {
       onFinish();
       return;
     }
+  };
+};
+
+export const updateUser = (id: string, newUser: any, onFinish: () => void) => {
+  return async (dispatch: Dispatch<UserAction>) => {
+    dispatch({
+      type: UserActionType.LOADING,
+    });
+
+    const res = await updateUserById(id, newUser);
+    if (!res) {
+      dispatch({
+        type: UserActionType.LOG_ERROR,
+        payload: "Không thể cập nhật người dùng!",
+      });
+      return;
+    }
+
+    dispatch({
+      type: UserActionType.CHANGE_CURRENT_USER,
+      payload: res,
+    });
+    onFinish();
   };
 };

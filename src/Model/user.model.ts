@@ -1,11 +1,15 @@
 import { Dayjs } from "dayjs";
-import { typeRole } from "./contractMining.model";
 
 export interface IUser {
   id?: string;
   username: string;
   password: string;
+  confirmPassword?: string;
+  fullName?: string;
+  updateDate?: Dayjs;
   userDetail?: IUserDetail;
+  status?: boolean;
+  dateExpired?: Dayjs;
 }
 
 export interface IUserState {
@@ -16,13 +20,13 @@ export interface IUserState {
 }
 
 export interface IUserDetail {
-  id: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  email: string;
-  dateOfBirth: Dayjs;
-  role?: typeRole;
-  userId: string;
+  id?: string;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  email?: string;
+  dateOfBirth?: Dayjs;
+  role?: string;
+  userId?: string;
   nationality?: string;
 }

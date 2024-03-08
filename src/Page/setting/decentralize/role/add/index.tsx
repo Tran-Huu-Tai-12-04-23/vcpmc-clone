@@ -6,7 +6,13 @@ import {
   Paging,
   TextHeader,
   TextLabel,
-} from "../../../../Component";
+} from "../../../../../Component";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { actionRole } from "../../../../../State";
+import { Form } from "antd";
+import { IRole, RoleType } from "../../../../../Model/role.model";
+import { useRouter } from "../../../../../Routes/hooks";
 const PagingItems = [
   {
     name: "Cài đặt",
@@ -40,11 +46,13 @@ const UserFeatureDefault = {
   ],
 };
 
-type RoleType = { name: string; key: number; code: string };
-
 function AddRoleUser() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { addRole } = bindActionCreators(actionRole, dispatch);
+  const [form] = Form.useForm();
+  const [roleData, setRoleData] = useState<any>(null);
   const [featureSelected, setFeatureSelected] = useState<RoleType[]>([]);
-
   const checkFeatureSelected = (feature: RoleType) => {
     return featureSelected.find((ft) => ft.key === feature.key) != null;
   };
@@ -63,22 +71,78 @@ function AddRoleUser() {
     });
   };
 
+  const handleChangeForm = () => {
+    setRoleData(form.getFieldsValue());
+  };
+  const handleAddNewRole = () => {
+    const newRole: IRole = {
+      ...roleData,
+      role: "Licenses",
+      function: featureSelected,
+      numberUser: 1,
+    };
+
+    addRole(newRole, () => {
+      router.back();
+    });
+  };
+
   return (
     <div className="w-full">
       <Paging items={PagingItems} />
       <TextHeader>Thêm vai trò người dùng</TextHeader>
 
       <div className="mt-10 flex items-start justify-between gap-24">
-        <div className="flex w-2/5 flex-col gap-8">
-          <div className="flex flex-col gap-2">
-            <TextLabel>Tên vai trò:</TextLabel>
-            <Input bordered width={557} />
-          </div>
-          <div className="flex flex-col gap-2">
-            <TextLabel>Mô tả::</TextLabel>
-            <Input bordered width={557} type="area" />
-          </div>
-        </div>
+        <Form
+          onChange={handleChangeForm}
+          form={form}
+          layout="vertical"
+          style={{ minWidth: "34rem" }}
+        >
+          <Form.Item
+            name="nameRole"
+            label={
+              <TextLabel
+                className="flex h-full items-center justify-center"
+                idInput="nameRole"
+              >
+                Tên vai trò:
+              </TextLabel>
+            }
+            style={{
+              width: "100%",
+            }}
+            required={false}
+            labelCol={{ span: 9 }}
+          >
+            <Input variant="outlined" id="nameRole" width={"100%"} />
+          </Form.Item>
+          <Form.Item
+            name="description"
+            label={
+              <TextLabel
+                className="flex h-full items-center justify-center"
+                idInput="description"
+              >
+                Mô tả:
+              </TextLabel>
+            }
+            style={{
+              width: "100%",
+            }}
+            required={false}
+            labelCol={{ span: 9 }}
+          >
+            <Input
+              height={200}
+              type="area"
+              variant="outlined"
+              id="description"
+              width={"100%"}
+            />
+          </Form.Item>
+        </Form>
+
         <div className="flex w-3/5 flex-col gap-2 pr-10">
           <TextLabel>Phân quyền chức năng:</TextLabel>
           <div className=" h-max w-full rounded-xl bg-input p-10">
@@ -223,10 +287,10 @@ function AddRoleUser() {
         </div>
       </div>
       <div className="center-item mt-24 gap-10">
-        <Button typebtn="outline" sizetype="hug">
+        <Button typebtn="outline" sizetype="hug" onClick={() => router.back()}>
           Hủy
         </Button>
-        <Button typebtn="primary" sizetype="hug">
+        <Button typebtn="primary" sizetype="hug" onClick={handleAddNewRole}>
           Lưu
         </Button>
       </div>

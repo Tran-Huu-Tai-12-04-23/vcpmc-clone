@@ -1,54 +1,16 @@
 import { ColumnsType } from "antd/es/table";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import { Switch } from "antd";
 import { Link } from "react-router-dom";
+import { IRole } from "../../../Model/role.model";
+import { IUser } from "../../../Model/user.model";
 
-const generateDummyUserRole = (count: number): RoleDataType[] => {
-  const data: RoleDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `record_${i + 1}`,
-      index: i + 1,
-      fullName: "fullname" + i,
-      username: "username -- " + i,
-      email: "user" + i + "@gmail.com",
-      phoneNumber: "123123123123",
-      expirationDate: dayjs(),
-      status: i % 2 === 0 ? true : false,
-      role: "Group Admin",
-    });
-  }
-  return data;
-};
-
-export interface RoleDataType {
-  id: string;
-  index: number;
-  fullName: string;
-  username: string;
-  role: string;
-  status: boolean;
-  email: string;
-  phoneNumber: string;
-  expirationDate: Dayjs;
-  rangleRole?: RoleType[];
-  description?: string;
-}
-export type RoleType = { name: string; key: number; code: string };
-type UserRoleDataType = {
-  id: string;
-  index: number;
-  nameGroupUser: string;
-  numberUser: number;
-  role: string;
-  description: string;
-  isDefault: boolean;
-};
-export const ConfigUserColTale: ColumnsType<RoleDataType> = [
+export const ConfigUserColTale: ColumnsType<IUser> = [
   {
     title: "STT",
     dataIndex: "index",
     key: "index",
+    render: (_, __, index) => index + 1,
   },
   {
     title: "Họ tên",
@@ -92,8 +54,8 @@ export const ConfigUserColTale: ColumnsType<RoleDataType> = [
     title: "Ngày hết hạn",
     dataIndex: "expirationDate",
     key: "expirationDate",
-    render: (_, { expirationDate }) => (
-      <div className="">{expirationDate.format("DD/MM/YY")}</div>
+    render: (_, { dateExpired }) => (
+      <div className="">{dayjs(dateExpired).format("DD/MM/YY")}</div>
     ),
   },
   {
@@ -102,7 +64,7 @@ export const ConfigUserColTale: ColumnsType<RoleDataType> = [
     key: "id",
     render: (_, { id }) => (
       <Link
-        to={id}
+        to={id ?? "#"}
         className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
       >
         Chỉnh sửa
@@ -111,59 +73,69 @@ export const ConfigUserColTale: ColumnsType<RoleDataType> = [
   },
 ];
 
-export const ConfigUserRoleColTale: ColumnsType<UserRoleDataType> = [
-  {
-    title: "STT",
-    dataIndex: "index",
-    key: "index",
-  },
-  {
-    title: "Tên nhóm người dùng",
-    dataIndex: "nameGroupUser",
-    key: "nameGroupUser",
-  },
-  {
-    title: "Số lượng người dùng",
-    dataIndex: "numberUser",
-    key: "numberUser",
-  },
-  {
-    title: "Vai trò",
-    dataIndex: "role",
-    key: "role",
-  },
-  {
-    title: "Mô tả",
-    dataIndex: "description",
-    key: "description",
-    render: (_, { description }) => (
-      <p className="box-start max-w-[30rem] gap-4">{description}</p>
-    ),
-  },
-  {
-    title: "",
-    dataIndex: "id",
-    key: "id",
-    render: (_, { id, isDefault }) => (
-      <div className="center-item gap-4">
-        <Link
-          to={id}
-          className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
-        >
-          Chỉnh sửa
-        </Link>
-        {!isDefault && (
+type ConfigColRoleProps = {
+  onRemove?: (id: string) => void;
+};
+export const ConfigColRole = (props: ConfigColRoleProps) => {
+  const userRoleColTable: ColumnsType<IRole> = [
+    {
+      title: "STT",
+      dataIndex: "index",
+      key: "index",
+      render: (_, __, index) => index + 1,
+    },
+    {
+      title: "Tên nhóm người dùng",
+      dataIndex: "nameRole",
+      key: "nameRole",
+    },
+    {
+      title: "Số lượng người dùng",
+      dataIndex: "numberUser",
+      key: "numberUser",
+    },
+    {
+      title: "Vai trò",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
+      render: (_, { description }) => (
+        <p className="box-start max-w-[30rem] gap-4">{description}</p>
+      ),
+    },
+    {
+      title: "",
+      dataIndex: "id",
+      key: "id",
+      render: (_, { id, isDefault }) => (
+        <div className="center-item gap-4">
           <Link
-            to={id}
-            className="text-error underline hover:text-error hover:underline hover:brightness-110"
+            to={id ?? "#"}
+            className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
           >
-            Chỉnh sửa
+            Cập nhật
           </Link>
-        )}
-      </div>
-    ),
-  },
-];
+          {!isDefault && (
+            <div
+              onClick={() => {
+                props.onRemove && id && props.onRemove(id);
+              }}
+              className="text-error underline hover:text-error hover:underline hover:brightness-110"
+            >
+              Xóa
+            </div>
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  return userRoleColTable;
+};
 
 export const dataExampleRoleUser = [
   {
@@ -248,5 +220,3 @@ export const UserFeatureDefault = {
     { name: "nguoidung_pheduyet", key: 9, code: "Phê duyệt Media" },
   ],
 };
-
-export const dataExampleRole = generateDummyUserRole(40);

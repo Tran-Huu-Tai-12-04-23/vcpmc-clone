@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Input, Paging, SwitchTab, TextHeader } from "../../../Component";
 import { AddPersonIcon } from "../../../assets/icon";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import TableCustom from "../../../Component/UI/Table";
-import {
-  ConfigUserColTale,
-  ConfigUserRoleColTale,
-  dataExampleRoleUser,
-  dataExampleRole,
-} from "./_configTable";
-import { useRouter } from "../../../Routes/hooks";
+import { ConfigUserColTale, ConfigColRole } from "./_configTable";
+import { usePathname, useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { RootState, actionRole, actionUser } from "../../../State";
+import GroupPerson from "../../../assets/icon/group_person";
 const PagingItems = [
   {
     name: "Cài đặt",
@@ -20,9 +19,31 @@ const PagingItems = [
   },
 ];
 function DecentralizeUser() {
+  const pathname = usePathname();
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<number>(1);
-  const floatingButtons = [
+  const { loadRoles, removeRole } = bindActionCreators(actionRole, dispatch);
+  const { loadUsers } = bindActionCreators(actionUser, dispatch);
+  const { roles, loading } = useSelector((state: RootState) => state.roles);
+  const { users, loading: loadingUser } = useSelector(
+    (state: RootState) => state.users,
+  );
+  const floatingButtonsRole = [
+    {
+      name: "Thêm vai trò",
+      icon: <GroupPerson />,
+      action: () => {
+        router.push(
+          PathUrl.URL_SETTING +
+            "/" +
+            PathUrl.DECENTRALIZED +
+            "/role/" +
+            PathUrl.ADD,
+        );
+      },
+    },
+  ];
+  const floatingButtonsUser = [
     {
       name: "Thêm người dùng",
       icon: <AddPersonIcon />,
@@ -33,6 +54,18 @@ function DecentralizeUser() {
       },
     },
   ];
+
+  const configColRoleTable = ConfigColRole({
+    onRemove: (id) => {
+      removeRole(id, () => {
+        alert("Xóa vai trò thành công!");
+      });
+    },
+  });
+
+  useEffect(() => {
+    pathname.includes("role") ? loadRoles() : loadUsers();
+  }, [pathname]);
   return (
     <div className="w-full">
       <Paging items={PagingItems} />
@@ -43,19 +76,26 @@ function DecentralizeUser() {
           <div className="mb-6 flex w-full items-center justify-between">
             <SwitchTab
               className={" w-fit "}
-              active={activeTab}
+              active={pathname.includes("role") ? 2 : 1}
               buttons={[
                 {
                   name: "Danh sách người dùng",
                   action: () => {
-                    setActiveTab(1);
+                    router.push(
+                      PathUrl.URL_SETTING + "/" + PathUrl.DECENTRALIZED,
+                    );
                   },
                   key: 1,
                 },
                 {
                   name: "Vai trò người dùng",
                   action: () => {
-                    setActiveTab(2);
+                    router.push(
+                      PathUrl.URL_SETTING +
+                        "/" +
+                        PathUrl.DECENTRALIZED +
+                        "/role",
+                    );
                   },
                   key: 2,
                 },
@@ -69,19 +109,30 @@ function DecentralizeUser() {
             />
           </div>
 
-          {activeTab === 1 ? (
-            <TableCustom data={dataExampleRole} col={ConfigUserColTale} />
-          ) : (
+          {pathname.includes("role") ? (
             <TableCustom
               hiddenFooter
-              data={dataExampleRoleUser}
-              col={ConfigUserRoleColTale}
+              data={roles}
+              loading={loading}
+              col={configColRoleTable}
+            />
+          ) : (
+            <TableCustom
+              loading={loadingUser}
+              data={users}
+              col={ConfigUserColTale}
             />
           )}
         </div>
 
         <div className="w-fit">
-          <FloatingActionButton floatingActionButtonConfig={floatingButtons} />
+          <FloatingActionButton
+            floatingActionButtonConfig={
+              pathname.includes("role")
+                ? floatingButtonsRole
+                : floatingButtonsUser
+            }
+          />
         </div>
       </div>
     </div>

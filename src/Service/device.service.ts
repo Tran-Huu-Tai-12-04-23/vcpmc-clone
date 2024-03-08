@@ -22,7 +22,10 @@ export const getDeviceById = async (
     const deviceDocSnapshot = await getDoc(deviceDocRef);
 
     if (deviceDocSnapshot.exists()) {
-      const deviceData = deviceDocSnapshot.data() as IDevice;
+      const deviceData = {
+        id: deviceId,
+        ...deviceDocSnapshot.data(),
+      } as IDevice;
       return deviceData;
     } else {
       return undefined;
@@ -62,7 +65,7 @@ export const getAllDevices = async (): Promise<IDevice[]> => {
 
     const devices: IDevice[] = [];
     devicesSnapshot.forEach((doc) => {
-      devices.push({ id: doc.id, ...doc.data() } as IDevice);
+      devices.push({ id: doc.id, key: doc.id, ...doc.data() } as IDevice);
     });
 
     return devices;

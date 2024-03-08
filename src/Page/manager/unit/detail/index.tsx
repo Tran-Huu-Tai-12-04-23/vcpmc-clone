@@ -1,10 +1,17 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Input, Paging, TextHeader } from "../../../../Component";
 import FloatingActionButton from "../../../../Component/UI/FloatingActionButton";
 import TableCustom from "../../../../Component/UI/Table";
 import { useRouter } from "../../../../Routes/hooks";
 import PathUrl from "../../../../Routes/path-url";
 import { AddIcon, GroupPersonIcon, TrashIcon } from "../../../../assets/icon";
-import { ConfigDetailUnitColTale, dataExampleDetailUnit } from "./_configTable";
+import { ConfigDetailUnitColTale } from "./_configTable";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { RootState, actionUnitUsed } from "../../../../State";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { stat } from "fs";
+import { IUser } from "../../../../Model/user.model";
 
 const PagingItems = [
   {
@@ -18,7 +25,42 @@ const PagingItems = [
   },
 ];
 function DetailUnitUsed() {
+  const dispatch = useDispatch();
   const router = useRouter();
+  const { id } = useParams();
+  const { changeCurrentUnitUsed, updateUnitUsed } = bindActionCreators(
+    actionUnitUsed,
+    dispatch,
+  );
+  const { currentUnitUsed, loading } = useSelector(
+    (state: RootState) => state.unitUsed,
+  );
+
+  const [userSelect, setUserSelect] = useState<IUser[]>([]);
+
+  const handleRemoveUser = () => {
+    const users = currentUnitUsed?.users;
+    const newUsers = users?.filter((user) => {
+      const userRemove = userSelect.find(
+        (us) => us.userDetail?.email === user.userDetail?.email,
+      );
+
+      return !userRemove;
+    });
+
+    const newUnitUsed = {
+      ...currentUnitUsed,
+      users: newUsers,
+    };
+
+    currentUnitUsed?.id &&
+      updateUnitUsed(currentUnitUsed.id, newUnitUsed, () => {});
+  };
+
+  useEffect(() => {
+    id && changeCurrentUnitUsed(id);
+  }, [id]);
+
   const floatingAction = [
     {
       name: "Thêm người dùng",
@@ -36,7 +78,9 @@ function DetailUnitUsed() {
     {
       name: "Xóa",
       icon: <TrashIcon />,
-      action: () => {},
+      action: () => {
+        handleRemoveUser();
+      },
     },
     {
       name: "Vai trò",
@@ -44,6 +88,7 @@ function DetailUnitUsed() {
       action: () => {},
     },
   ];
+
   return (
     <div className="w-full">
       <Paging items={PagingItems} />
@@ -59,7 +104,16 @@ function DetailUnitUsed() {
           />
           <TableCustom
             checked
-            data={dataExampleDetailUnit}
+            loading={loading}
+            data={
+              currentUnitUsed?.users.map((us) => {
+                return {
+                  ...us,
+                  key: us.userDetail?.email,
+                };
+              }) ?? []
+            }
+            onSelect={(val) => setUserSelect(val)}
             col={ConfigDetailUnitColTale}
           />
         </div>

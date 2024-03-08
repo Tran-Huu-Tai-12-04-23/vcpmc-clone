@@ -16,6 +16,7 @@ type DropdownType = {
     key: number;
     name: string;
   }[];
+  selectedItem?: { name: string; key: number }[];
   onSelect: (value: { name: string; key: number }) => void;
   className?: string;
   classDropItem?: string;
@@ -59,7 +60,7 @@ function Dropdown(props: DropdownType) {
         }}
         className={`${
           props.classDropItem ? props.classDropItem : "border-primary bg-main"
-        } relative z-[31] flex h-[40px] ${
+        } relative ${active ? "z-[100000]" : "z-[50]"} flex h-[40px] ${
           props.width ? props.width : "w-full"
         } min-w-[10rem] items-center justify-between rounded-[8px] border-[1px] border-solid  p-2 pl-[20px] pr-[20px]`}
       >
@@ -75,7 +76,7 @@ function Dropdown(props: DropdownType) {
         <ArrowDownIcon className="text-primary" />
       </div>
       <div
-        className={`z-[30] h-0 w-full overflow-hidden ${
+        className={`z-[51] h-0 w-full overflow-hidden ${
           props.backgroundDrop ? "" : "bg-modal "
         }`}
         style={{
@@ -98,7 +99,7 @@ function Dropdown(props: DropdownType) {
         style={{
           background: props.backgroundDrop,
         }}
-        className={`z-[100000]  ${active ? "" : "hidden "} ${
+        className={`z-[51]  ${active ? "" : "hidden "} ${
           props.backgroundDrop ? "" : "bg-modal "
         }custom-scroll absolute max-h-[10rem] w-full -translate-y-2 overflow-auto rounded-[8px] pb-[0.5rem]  pt-[0.5rem]`}
       >
@@ -112,7 +113,11 @@ function Dropdown(props: DropdownType) {
               {props.multiple && (
                 <Checkbox
                   onClick={(e) => e.stopPropagation()}
-                  defaultChecked={true}
+                  checked={
+                    !!props.selectedItem?.find(
+                      (it) => it.name === dropItem.name,
+                    )
+                  }
                   onChange={(e) => {
                     if (e.target.checked) {
                       props.onSelect(dropItem);

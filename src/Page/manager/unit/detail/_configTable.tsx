@@ -2,27 +2,9 @@ import { ColumnsType } from "antd/es/table";
 import dayjs, { Dayjs } from "dayjs";
 import { Link } from "react-router-dom";
 import PathUrl from "../../../../Routes/path-url";
+import { IUser } from "../../../../Model/user.model";
 
-const generateDummyDataDetailUnitUsed = (
-  count: number,
-): DetailUnitUsedColDataType[] => {
-  const data: DetailUnitUsedColDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `user_${i + 1}`,
-      index: i + 1,
-      name: "name " + i,
-      role: i % 2 === 0 ? "QC" : "Content Manager",
-      email: "nguyenvanb@gmail.com" + i,
-      username: "nguyenvanb " + i,
-      dateLastUpdate: dayjs(),
-      status: i % 2 === 0 ? true : false,
-    });
-  }
-  return data;
-};
-
-export interface DetailUnitUsedColDataType {
+export interface IU {
   id: string;
   index: number;
   name: string;
@@ -33,26 +15,38 @@ export interface DetailUnitUsedColDataType {
   status: boolean;
 }
 
-export const ConfigDetailUnitColTale: ColumnsType<DetailUnitUsedColDataType> = [
+export const ConfigDetailUnitColTale: ColumnsType<IUser> = [
   {
     title: "STT",
     dataIndex: "index",
     key: "index",
+    render: (_, __, index) => index + 1,
   },
   {
     title: "Tên người dùng",
     dataIndex: "name",
     key: "name",
+    render: (_, { userDetail }) => (
+      <div className="text-center">
+        {userDetail?.firstName ?? "" + userDetail?.lastName ?? ""}
+      </div>
+    ),
   },
   {
     title: "Vai trò",
     dataIndex: "role",
     key: "role",
+    render: (_, { userDetail }) => (
+      <div className="text-center">{userDetail?.role}</div>
+    ),
   },
   {
     title: "Email",
     dataIndex: "email",
     key: "email",
+    render: (_, { userDetail }) => (
+      <div className="text-center">{userDetail?.email}</div>
+    ),
   },
   {
     title: "Tên đăng nhập",
@@ -63,8 +57,8 @@ export const ConfigDetailUnitColTale: ColumnsType<DetailUnitUsedColDataType> = [
     title: "Cập nhật lần cuối",
     dataIndex: "dateLastUpdate",
     key: "dateLastUpdate",
-    render: (_, { dateLastUpdate }) => (
-      <div className="box-start">{dateLastUpdate.format("DD/MM/YY")}</div>
+    render: (_, { updateDate }) => (
+      <div className="box-start">{dayjs(updateDate).format("DD/MM/YY")}</div>
     ),
   },
   {
@@ -91,7 +85,7 @@ export const ConfigDetailUnitColTale: ColumnsType<DetailUnitUsedColDataType> = [
     title: "",
     dataIndex: "id",
     key: "id",
-    render: (_, { id }) => (
+    render: (_, { userDetail }) => (
       <div className="box-start gap-4">
         <Link
           to={
@@ -102,7 +96,7 @@ export const ConfigDetailUnitColTale: ColumnsType<DetailUnitUsedColDataType> = [
             "/" +
             PathUrl.INFO_USER +
             "/" +
-            id
+            userDetail?.email
           }
           className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
         >
@@ -112,5 +106,3 @@ export const ConfigDetailUnitColTale: ColumnsType<DetailUnitUsedColDataType> = [
     ),
   },
 ];
-
-export const dataExampleDetailUnit = generateDummyDataDetailUnitUsed(40);

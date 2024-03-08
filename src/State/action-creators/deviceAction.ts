@@ -28,7 +28,7 @@ export const loadDevices = () => {
   };
 };
 
-export const changeCurrentRecord = (id: string) => {
+export const changeCurrentDevice = (id: string) => {
   return async (dispatch: Dispatch<DeviceAction>) => {
     dispatch({
       type: DeviceActionType.LOADING,
@@ -79,6 +79,7 @@ export const updateDevice = (
 
 export const addDevice = (newDevice: IDevice, onFinish: () => void) => {
   return async (dispatch: Dispatch<DeviceAction>) => {
+    console.log(newDevice);
     dispatch({
       type: DeviceActionType.LOADING,
     });
@@ -99,7 +100,7 @@ export const addDevice = (newDevice: IDevice, onFinish: () => void) => {
   };
 };
 
-export const removeRecord = (id: string, onFinish: () => void) => {
+export const removeDevice = (id: string, onFinish: () => void) => {
   return async (dispatch: Dispatch<DeviceAction>) => {
     dispatch({
       type: DeviceActionType.LOADING,
@@ -115,8 +116,10 @@ export const removeRecord = (id: string, onFinish: () => void) => {
     }
 
     dispatch({
-      type: DeviceActionType.CHANGE_CURRENT_DEVICE,
-      payload: null,
+      type: DeviceActionType.REMOVE_DEVICE,
+      payload: {
+        id: id,
+      },
     });
 
     onFinish();

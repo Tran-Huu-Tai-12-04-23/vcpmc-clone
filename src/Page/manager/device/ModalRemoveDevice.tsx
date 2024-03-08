@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../State";
-import { Input, Button } from "../../../Component";
+import { Button } from "../../../Component";
 
 const StyleModalCustom = styled(Modal)<ModalPropsCustom>`
   .ant-modal-header,
@@ -29,8 +29,6 @@ function ModalRemoveDevice(props: ModalPropsCustom) {
   const data = useSelector((state: RootState) => state.authenticate);
 
   const [error, setError] = useState<string>("");
-
-  const handleCancelContract = async () => {};
 
   useEffect(() => {
     if (data.error) setError(data.error);
@@ -61,11 +59,7 @@ function ModalRemoveDevice(props: ModalPropsCustom) {
           <Button onClick={props.onCancel} typebtn="outline" sizetype="hug">
             Hủy
           </Button>
-          <Button
-            onClick={handleCancelContract}
-            typebtn="primary"
-            sizetype="hug"
-          >
+          <Button onClick={props.onOk} typebtn="primary" sizetype="hug">
             Xóa
           </Button>
         </div>

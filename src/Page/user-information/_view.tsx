@@ -44,9 +44,11 @@ function View() {
   const [isResetPassword, setIsResetPassword] = useState(false);
 
   // state user detail
-  const [firstName, setFirstName] = useState<string>(data.firstName);
-  const [lastName, setLastName] = useState<string>(data.lastName);
-  const [phoneNumber, setPhoneNumber] = useState<string>(data.phoneNumber);
+  const [firstName, setFirstName] = useState<string>(data.firstName ?? "");
+  const [lastName, setLastName] = useState<string>(data.lastName ?? "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(
+    data.phoneNumber ?? "",
+  );
   const [dateOfBirth, setDateOfBirth] = useState<Dayjs>(
     dayjs(data.dateOfBirth),
   );
@@ -122,9 +124,9 @@ function View() {
 
   useEffect(() => {
     if (data) {
-      setFirstName(data.firstName);
-      setLastName(data.lastName);
-      setPhoneNumber(data.phoneNumber);
+      setFirstName(data?.firstName ?? "");
+      setLastName(data?.lastName ?? "");
+      setPhoneNumber(data?.phoneNumber ?? "");
       setDateOfBirth(dayJs(data.dateOfBirth));
     }
   }, [data]);

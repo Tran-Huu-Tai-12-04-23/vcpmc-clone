@@ -1,8 +1,14 @@
+import { useEffect } from "react";
 import { Input, Paging, TextHeader } from "../../../Component";
 import FloatingActionButton from "../../../Component/UI/FloatingActionButton";
 import TableCustom from "../../../Component/UI/Table";
 import CancelIcon from "../../../assets/icon/cancel";
-import { ConfigUnitColTale, dataExampleUnit } from "./_configTable";
+import { ConfigUnitColTale } from "./_configTable";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { RootState, actionUnitUsed } from "../../../State";
+import Loading from "../../../Layout/Loading";
+import { initData } from "../../../Service/unitUsed.service";
 
 const PagingItems = [
   {
@@ -13,6 +19,11 @@ const PagingItems = [
   },
 ];
 function Unit() {
+  const dispatch = useDispatch();
+  const { loadUnitUsed } = bindActionCreators(actionUnitUsed, dispatch);
+  const { unitUsed, loading } = useSelector(
+    (state: RootState) => state.unitUsed,
+  );
   const floatingAction = [
     {
       name: "Xóa",
@@ -20,6 +31,11 @@ function Unit() {
       action: () => {},
     },
   ];
+
+  useEffect(() => {
+    loadUnitUsed();
+  }, []);
+
   return (
     <div className="w-full">
       <Paging items={PagingItems} />
@@ -33,7 +49,12 @@ function Unit() {
             width={500}
             search
           />
-          <TableCustom checked data={dataExampleUnit} col={ConfigUnitColTale} />
+          <TableCustom
+            checked
+            loading={loading}
+            data={unitUsed}
+            col={ConfigUnitColTale}
+          />
         </div>
         <div className="w-fit">
           <FloatingActionButton floatingActionButtonConfig={floatingAction} />

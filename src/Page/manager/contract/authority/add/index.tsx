@@ -126,7 +126,7 @@ function AddContract() {
           >
             <span>
               {user.userDetail
-                ? user.userDetail?.firstName + user.userDetail?.lastName
+                ? user.userDetail?.firstName ?? "" + user.userDetail?.lastName
                 : ""}
             </span>
           </div>

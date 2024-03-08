@@ -6,24 +6,23 @@ import {
   Paging,
   TextHeader,
   TextLabel,
-} from "../../../../Component";
+  DatePicker,
+} from "../../../../../Component";
 import { Form } from "antd";
-import { IUser } from "../../../../Model/user.model";
-import { typeRole } from "../../../../Model/contractMining.model";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, actionUnitUsed } from "../../../../State";
-import { useRouter } from "../../../../Routes/hooks";
+import { useDispatch } from "react-redux";
+import { actionUser } from "../../../../../State";
+import { IUser } from "../../../../../Model/user.model";
+import { typeRole } from "../../../../../Model/contractMining.model";
+import dayjs from "dayjs";
 import { bindActionCreators } from "@reduxjs/toolkit";
+import { useRouter } from "../../../../../Routes/hooks";
 
 const PagingItems = [
   {
-    name: "Quản lý",
+    name: "Caì đặt",
   },
   {
-    name: "Đơn vị sử dụng",
-  },
-  {
-    name: "Chi tiết",
+    name: "Phân quyền người dùng",
   },
   {
     name: "Thêm người dùng",
@@ -32,34 +31,32 @@ const PagingItems = [
 
 const RoleItems = [
   {
-    name: "Super Admin",
+    name: typeRole.SUPER_ADMIN,
     key: 1,
   },
   {
-    name: "Group Admin",
+    name: typeRole.GROUP_ADMIN,
     key: 2,
   },
   {
-    name: "Sub - user",
+    name: typeRole.SUB_USER,
     key: 3,
   },
   {
-    name: "Content manager",
+    name: typeRole.CONTENT_MANAGER,
     key: 4,
   },
 ];
 
 function AddUser() {
   const [form] = Form.useForm();
-  const router = useRouter();
   const dispatch = useDispatch();
-  const { updateUnitUsed } = bindActionCreators(actionUnitUsed, dispatch);
-  const { currentUnitUsed } = useSelector((state: RootState) => state.unitUsed);
-  const [role, setRole] = useState<{ name: string; key: number }>({
-    name: "Chọn vai trò",
-    key: -1,
-  });
+  const router = useRouter();
+  const { addUser } = bindActionCreators(actionUser, dispatch);
+  const [role, setRole] = useState<{ name: string; key: number }>(RoleItems[0]);
+
   const [userData, setUserData] = useState<any>(null);
+
   const handleChangeFormValue = () => {
     setUserData({
       ...form.getFieldsValue(),
@@ -68,43 +65,40 @@ function AddUser() {
 
   const handleAddUser = () => {
     const newUser: IUser = {
-      username: userData?.username,
-      password: userData?.password,
-      confirmPassword: userData?.confirmPassword,
+      ...userData,
+      username: userData.username,
+      password: userData.password,
+      confirmPassword: userData.confirmPassword,
       status: true,
+      dateExpired: dayjs(userData.dateExpired),
+      role: role.name ?? typeRole.CONTENT_MANAGER,
       userDetail: {
-        email: userData?.email,
+        email: userData.email,
         role: role.name ?? typeRole.CONTENT_MANAGER,
       },
     };
 
-    const newUsers = currentUnitUsed?.users
-      ? [...currentUnitUsed?.users, newUser]
-      : [newUser];
-
-    const newUnitUsed = {
-      ...currentUnitUsed,
-      users: newUsers,
-      status: true,
-    };
-    console.log(newUnitUsed);
-    currentUnitUsed?.id &&
-      updateUnitUsed(currentUnitUsed.id, newUnitUsed, () => {
-        router.back();
-      });
+    console.log({
+      ...newUser,
+      updateDate: dayjs().toString(),
+      dateExpire: dayjs(newUser?.dateExpired).toString(),
+    });
+    addUser(newUser, () => {
+      router.back();
+    });
   };
 
   return (
     <div className="w-full">
       <Paging items={PagingItems} />
-      <TextHeader>Thêm người dùng</TextHeader>
+      <TextHeader>Thông tin người dùng</TextHeader>
 
       <div className="mt-10 flex items-start justify-start gap-32">
         <Form
           onChange={handleChangeFormValue}
           form={form}
           layout="horizontal"
-          style={{ width: "33.33333%" }}
+          style={{ width: "28%" }}
         >
           <Form.Item
             name="fullName"
@@ -147,6 +141,30 @@ function AddUser() {
             <Input variant="outlined" id="email" width={"100%"} />
           </Form.Item>
           <Form.Item
+            name="dateExpire"
+            label={
+              <TextLabel
+                className="flex h-full items-center justify-center"
+                idInput="date-expire"
+              >
+                Vai trò:
+                <span className="pt-2 text-error">*</span>
+              </TextLabel>
+            }
+            style={{
+              width: "100%",
+            }}
+            labelCol={{ span: 9 }}
+            required={false}
+          >
+            <DatePicker
+              variant="outlined"
+              className="w-full"
+              id="date-expire"
+              background="#2b2b3f"
+            />
+          </Form.Item>
+          <Form.Item
             name="role"
             label={
               <TextLabel
@@ -165,8 +183,8 @@ function AddUser() {
           >
             <DropDown
               active={role}
-              width="15rem"
-              classDropItem="w-[15rem] h-[47px] bg-input border-[#727288]"
+              width="100%"
+              classDropItem="w-[100%] h-[47px] bg-input border-[#727288]"
               dropItems={RoleItems}
               onSelect={(val) => setRole(val)}
             />
@@ -177,7 +195,7 @@ function AddUser() {
           onChange={handleChangeFormValue}
           form={form}
           layout="horizontal"
-          style={{ width: "33.33333%" }}
+          style={{ width: "28%" }}
         >
           <Form.Item
             name="username"

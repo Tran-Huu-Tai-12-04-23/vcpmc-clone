@@ -1,43 +1,15 @@
 import { ColumnsType } from "antd/es/table";
-import dayjs, { Dayjs } from "dayjs";
 import { Switch } from "antd";
 import { Link } from "react-router-dom";
+import { IUnitUsed } from "../../../Model/unitUsed.model";
+import dayjs from "dayjs";
 
-const generateDummyDataRecord = (count: number): RecordColDataType[] => {
-  const data: RecordColDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `record_${i + 1}`,
-      index: i + 1,
-      adminAccountName: "admin" + i,
-      admin: "admin -- " + i,
-      numberContract: "number " + i,
-      user: "" + i,
-      specifiedDevice: "15",
-      expirationDate: dayjs(),
-      status: i % 2 === 0 ? true : false,
-    });
-  }
-  return data;
-};
-
-export interface RecordColDataType {
-  id: string;
-  index: number;
-  adminAccountName: string;
-  admin: string;
-  numberContract: string;
-  user: string;
-  specifiedDevice: string;
-  expirationDate: Dayjs;
-  status: boolean;
-}
-
-export const ConfigUnitColTale: ColumnsType<RecordColDataType> = [
+export const ConfigUnitColTale: ColumnsType<IUnitUsed> = [
   {
     title: "STT",
     dataIndex: "index",
     key: "index",
+    render: (_, __, index) => index + 1,
   },
   {
     title: "Tên tài khoản quản trị",
@@ -73,7 +45,7 @@ export const ConfigUnitColTale: ColumnsType<RecordColDataType> = [
     dataIndex: "expirationDate",
     key: "expirationDate",
     render: (_, { expirationDate }) => (
-      <div className="">{expirationDate.format("DD/MM/YY")}</div>
+      <div className="">{dayjs(expirationDate).format("DD/MM/YY")}</div>
     ),
   },
   {
@@ -94,7 +66,7 @@ export const ConfigUnitColTale: ColumnsType<RecordColDataType> = [
     render: (_, { id }) => (
       <div className="box-start gap-4">
         <Link
-          to={id}
+          to={id ?? "#"}
           className="text-primary underline hover:text-primary hover:underline hover:brightness-110"
         >
           Xem chi tiết
@@ -103,5 +75,3 @@ export const ConfigUnitColTale: ColumnsType<RecordColDataType> = [
     ),
   },
 ];
-
-export const dataExampleUnit = generateDummyDataRecord(40);

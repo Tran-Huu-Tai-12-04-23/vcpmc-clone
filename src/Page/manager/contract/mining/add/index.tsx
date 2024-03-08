@@ -135,7 +135,7 @@ function AddContractMining() {
       )
       .map((user) => ({
         value: user.userDetail
-          ? user.userDetail?.firstName + user.userDetail?.lastName
+          ? user.userDetail?.firstName ?? "" + user.userDetail?.lastName
           : "",
         label: (
           <div
@@ -146,7 +146,7 @@ function AddContractMining() {
           >
             <span>
               {user.userDetail
-                ? user.userDetail?.firstName + user.userDetail?.lastName
+                ? user.userDetail?.firstName ?? "" + user.userDetail?.lastName
                 : ""}
             </span>
           </div>

@@ -1,4 +1,4 @@
-import { Radio, RadioChangeEvent } from "antd";
+import { Form, Radio, RadioChangeEvent } from "antd";
 import {
   Button,
   DropDown,
@@ -7,9 +7,14 @@ import {
   TextHeader,
   TextLabel,
 } from "../../../../Component";
-import { useState } from "react";
-import { AuthorityColDataType } from "../_configTable";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { IAuthorizedPartner } from "../../../../Model/authorizedPartner.model";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, actionAuthorizedPartner } from "../../../../State";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useParams } from "react-router-dom";
+import { useRouter } from "../../../../Routes/hooks";
 
 const PagingItems = [
   {
@@ -19,140 +24,293 @@ const PagingItems = [
     name: "Đối tác uỷ quyền",
   },
 ];
+const roles = [
+  { key: 1, name: "Super Admin" },
+  { key: 2, name: "Group Admin" },
+  { key: 3, name: "Sub - User" },
+  { key: 4, name: "Content manager" },
+];
 function Update() {
-  const data: AuthorityColDataType = {
-    id: "",
-    index: 0,
-    fullName: "Amy Ngọc",
-    username: "Phm_L@gmail.com",
-    email: "Phm_L@gmail.com",
-    phoneNumber: "029 8131 6743",
-    expirationDate: dayjs(),
-    status: false,
-    role: "QA",
+  const { id } = useParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const { currentAuthorizedPartner } = useSelector(
+    (state: RootState) => state.authorizedPartners,
+  );
+  const { changeCurrentAuthorizedPartner, updateAuthorizedPartner } =
+    bindActionCreators(actionAuthorizedPartner, dispatch);
+  const [role, setRole] = useState<{ key: number; name: string }>(roles[0]);
+  const [authorizedPartnerData, setAuthorizedPartnerData] = useState<any>(null);
+  const handleChangeFormValue = () => {
+    setAuthorizedPartnerData(form.getFieldsValue());
   };
-  const [status, setStatus] = useState<number>(1);
 
-  const onChange = (e: RadioChangeEvent) => {
-    setStatus(e.target.value);
+  const handleUpdateAuthorizedPartner = () => {
+    const newAuthorizedPartner = {
+      ...currentAuthorizedPartner,
+      ...authorizedPartnerData,
+    };
+
+    currentAuthorizedPartner?.id &&
+      updateAuthorizedPartner(
+        currentAuthorizedPartner.id,
+        newAuthorizedPartner,
+        () => {
+          router.back();
+        },
+      );
   };
+
+  useEffect(() => {
+    id && changeCurrentAuthorizedPartner(id);
+  }, [id]);
   return (
-    <div className="w-full">
-      <Paging items={PagingItems} />
-      <TextHeader>Cập nhật thông tin</TextHeader>
+    currentAuthorizedPartner && (
+      <div className="w-full">
+        <Paging items={PagingItems} />
+        <TextHeader>Cập nhật thông tin</TextHeader>
 
-      <div className="mt-10 flex items-start justify-start gap-32">
-        <div className="flex flex-col gap-10">
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="name">Tên người dùng</TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input
-              id="name"
-              width={400}
-              bordered
-              readOnly
-              value={data.fullName}
-            />
-          </div>
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="email">Email</TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input
-              id="email"
-              width={400}
-              bordered
-              readOnly
-              value={data.email}
-            />
-          </div>
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="phoneNumber">Số điện thoại</TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input
-              id="phoneNumber"
-              width={400}
-              bordered
-              readOnly
-              value={data.phoneNumber}
-            />
-          </div>
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="role">Vai trò</TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input id="role" width={400} bordered readOnly value={data.role} />
-          </div>
+        <div className="mt-10 flex items-start justify-start gap-32">
+          <Form
+            initialValues={{
+              ...currentAuthorizedPartner,
+            }}
+            onChange={handleChangeFormValue}
+            form={form}
+            layout="horizontal"
+            style={{ width: "38rem" }}
+          >
+            <Form.Item
+              name="fullName"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="fullName"
+                >
+                  Tên người dùng:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Tên người dùng bắt buộc!" }]}
+            >
+              <Input variant="outlined" id="fullName" width={"100%"} />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="email"
+                >
+                  Email:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Email bắt buộc!" }]}
+            >
+              <Input variant="outlined" id="email" width={"100%"} />
+            </Form.Item>
+            <Form.Item
+              name="phoneNumber"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="phoneNumber"
+                >
+                  Số điện thoại:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Số điện thoại bắt buộc!" }]}
+            >
+              <Input variant="outlined" id="phoneNumber" width={"15rem"} />
+            </Form.Item>
+            <Form.Item
+              name="role"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="role"
+                >
+                  Vai trò:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Vai trò bắt buộc!" }]}
+            >
+              <DropDown
+                active={role}
+                width="365px"
+                className="max-w-[15rem]"
+                classDropItem="max-w-[15rem] h-[47px] bg-input border-[#727288] w-[365px]"
+                dropItems={roles}
+                onSelect={(val) => setRole(val)}
+              />
+            </Form.Item>
+          </Form>
+          <Form
+            initialValues={{
+              ...currentAuthorizedPartner,
+            }}
+            onChange={handleChangeFormValue}
+            form={form}
+            layout="horizontal"
+            style={{ width: "38rem" }}
+          >
+            <Form.Item
+              name="username"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="username"
+                >
+                  Tên đăng nhập:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Tên tài khoản bắt buộc!" }]}
+            >
+              <Input variant="outlined" id="username" width={"100%"} />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="password"
+                >
+                  Mật khẩu:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[{ required: true, message: "Mật khẩu là bắt buộc!" }]}
+            >
+              <Input
+                type="password"
+                variant="outlined"
+                id="password"
+                width={"100%"}
+              />
+            </Form.Item>
+            <Form.Item
+              name="confirmPassword"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="confirmPassword"
+                >
+                  Nhập lại mật khẩu:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+              rules={[
+                { required: true, message: "Nhập lại mật khẩu là bắt buộc!" },
+              ]}
+            >
+              <Input
+                type="password"
+                variant="outlined"
+                id="confirmPassword"
+                width={"100%"}
+              />
+            </Form.Item>
+            <Form.Item
+              name="status"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="status"
+                >
+                  Trạng thái:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              required={false}
+              labelCol={{ span: 9 }}
+            >
+              <Radio.Group className="flex justify-between">
+                <Radio value={true}>Đã kích hoạt</Radio>
+                <Radio value={false}>Ngưng kích hoạt</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Form>
         </div>
 
-        {/*  section 2 */}
-        <div className="flex flex-col gap-10">
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="username">Tên đăng nhập</TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input id="username" width={400} bordered value={data.username} />
-          </div>
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="password">Mật khẩu</TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input id="password" type="password" width={400} bordered />
-          </div>
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="confirm-password">
-                Nhập lại mật khẩu
-              </TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Input id="confirm-password" type="password" width={400} bordered />
-          </div>
-          <div className="box-start gap-10">
-            <div className="box-start min-w-[10rem] gap-1">
-              <TextLabel idInput="confirm-password">
-                Trạng thái người dùng
-              </TextLabel>
-              <h5 className="mt-2 text-error">*</h5>
-            </div>
-            <Radio.Group onChange={onChange} value={status}>
-              <div className="flex w-full items-center justify-between gap-10">
-                <Radio name="status" value={1}>
-                  Đã kích hoạt
-                </Radio>
-                <Radio name="status" value={2}>
-                  Ngưng kích hoạt
-                </Radio>
-              </div>
-            </Radio.Group>
-          </div>
+        <div className="box-start mt-10 min-w-[10rem] gap-1 text-third">
+          <h5 className="mt-2 text-error">*</h5>
+          <h5 className="text-xs text-third">
+            là những trường thông tin bắt buộc
+          </h5>
         </div>
-      </div>
 
-      <div className="box-start mt-10 min-w-[10rem] gap-1 text-third">
-        <h5 className="mt-2 text-error">*</h5>
-        <h5 className="text-xs text-third">
-          là những trường thông tin bắt buộc
-        </h5>
+        <Form
+          initialValues={{
+            ...currentAuthorizedPartner,
+          }}
+          onChange={handleChangeFormValue}
+          form={form}
+          layout="horizontal"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            gap: "24px",
+          }}
+        >
+          <Button
+            typebtn="outline"
+            onClick={() => router.back()}
+            sizetype="hug"
+          >
+            Hủy
+          </Button>
+          <Button
+            htmlType="submit"
+            typebtn="primary"
+            sizetype="hug"
+            onClick={handleUpdateAuthorizedPartner}
+          >
+            Lưu
+          </Button>
+        </Form>
       </div>
-
-      <div className="center-item gap-10">
-        <Button typebtn="outline" sizetype="hug">
-          Hủy
-        </Button>
-        <Button typebtn="primary" sizetype="hug">
-          Lưu
-        </Button>
-      </div>
-    </div>
+    )
   );
 }
 

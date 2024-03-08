@@ -5,15 +5,15 @@ import TableCustom from "../../../Component/UI/Table";
 import { AddIcon, LockIcon, TurnIcon } from "../../../assets/icon";
 import ModalRemoveDevice from "./ModalRemoveDevice";
 import CancelIcon from "../../../assets/icon/cancel";
-import {
-  ColConfigDevice,
-  DeviceColDataType,
-  dataExampleDevice,
-} from "./_configTabel";
+import { ColConfigDevice } from "./_configTabel";
 import { Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useRouter } from "../../../Routes/hooks";
 import PathUrl from "../../../Routes/path-url";
+import { IDevice } from "../../../Model/device.model";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { RootState, actionDevice } from "../../../State";
 
 const DropItemGroupAccounts = [
   {
@@ -74,8 +74,14 @@ const checkHasCol = (
 };
 
 function DeviceManager() {
+  const dispatch = useDispatch();
+  const { loadDevices, removeDevice } = bindActionCreators(
+    actionDevice,
+    dispatch,
+  );
+  const { devices } = useSelector((state: RootState) => state.devices);
   const router = useRouter();
-  const [deviceSelected, setDeviceSelected] = useState<DeviceColDataType[]>([]);
+  const [deviceSelected, setDeviceSelected] = useState<IDevice[]>([]);
   const [typeAction, setTypeAction] = useState<"enable" | "disable" | "both">(
     "both",
   );
@@ -148,7 +154,7 @@ function DeviceManager() {
     }[]
   >(DropItemHideCols);
   const [colTable, setColTable] =
-    useState<ColumnsType<DeviceColDataType>>(ColConfigDevice);
+    useState<ColumnsType<IDevice>>(ColConfigDevice);
 
   useEffect(() => {
     const isHasDeviceEnable = deviceSelected.find((dev) => dev.status === true);
@@ -173,18 +179,37 @@ function DeviceManager() {
     });
   }, [listColShow]);
 
-  const handleRowClick = (record: DeviceColDataType, index: number) => {
+  /// load device from firebase
+  useEffect(() => {
+    loadDevices();
+  }, []);
+
+  const handleRowClick = (record: IDevice, index: number) => {
     router.push(
       PathUrl.URL_MANAGER + "/" + PathUrl.MANAGER_DEVICES + "/" + record.id,
     );
   };
-  const onRow = (record: DeviceColDataType, index: number) => ({
+  const onRow = (record: IDevice, index: number) => ({
     onClick: () => handleRowClick(record, index),
   });
+
+  const handleRemoveDeviceSelected = () => {
+    deviceSelected.forEach((dev, index) => {
+      dev.id &&
+        removeDevice(dev.id, () => {
+          if (index === deviceSelected.length - 1) {
+            setIsRemoveDevice(false);
+          }
+        });
+    });
+  };
+
   return (
     <div className="w-full">
       <ModalRemoveDevice
-        onOk={() => setIsRemoveDevice(false)}
+        onOk={() => {
+          handleRemoveDeviceSelected();
+        }}
         onCancel={() => setIsRemoveDevice(false)}
         isOpen={isRemoveDevice}
       />
@@ -210,6 +235,7 @@ function DeviceManager() {
               />
               <DropDown
                 multiple
+                selectedItem={listColShow}
                 active={{
                   key: -1,
                   name: "Ẩn hiện cột",
@@ -222,7 +248,7 @@ function DeviceManager() {
                     (prev) => prev?.filter((p) => p.key !== value.key),
                   );
                 }}
-                classDropItem="w-[18rem] bg-main border-primary"
+                classDropItem="w-[15rem] bg-main border-primary"
                 dropItems={DropItemHideCols}
               />
             </div>
@@ -243,7 +269,7 @@ function DeviceManager() {
             scroll
             numberCol={12}
             checked
-            data={dataExampleDevice}
+            data={devices}
             col={colTable}
           />
         </div>

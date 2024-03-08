@@ -2,6 +2,7 @@ import { Dayjs } from "dayjs";
 
 export interface IDevice {
   id?: string;
+  key?: string;
   name: string;
   SKU_ID: string;
   macAddress: string;
@@ -13,6 +14,9 @@ export interface IDevice {
   password: string;
   confirmPassword: string;
   location: string;
+  status: boolean;
+  expiredContract?: Dayjs;
+  memory?: string;
 }
 export interface IDeviceState {
   loading: boolean;

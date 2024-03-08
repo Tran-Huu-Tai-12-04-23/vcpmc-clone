@@ -1,37 +1,32 @@
 import { useEffect, useState } from "react";
 import {
   Button,
+  DatePicker,
   DropDown,
   Input,
   Paging,
   TextHeader,
   TextLabel,
-} from "../../../../Component";
+} from "../../../../../Component";
 import { Form, Radio } from "antd";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, actionUnitUsed } from "../../../../State";
-import { IUser } from "../../../../Model/user.model";
-import { typeRole } from "../../../../Model/contractMining.model";
+import { RootState, actionUser } from "../../../../../State";
+import { IUser } from "../../../../../Model/user.model";
+import { typeRole } from "../../../../../Model/contractMining.model";
 import dayjs from "dayjs";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { useRouter } from "../../../../Routes/hooks";
+import { useRouter } from "../../../../../Routes/hooks";
 
 const PagingItems = [
   {
-    name: "Quản lý",
+    name: "Cài đặt",
   },
   {
-    name: "Đơn vị sử dụng",
+    name: "Phân quyền người dùng",
   },
   {
-    name: "Chi tiết",
-  },
-  {
-    name: "Thông tin người dùng",
-  },
-  {
-    name: "Chỉnh sửa thông tin",
+    name: "Chỉnh sửa",
   },
 ];
 
@@ -55,15 +50,17 @@ const RoleItems = [
 ];
 
 function EditUser() {
-  const { email } = useParams();
-  const { currentUnitUsed } = useSelector((state: RootState) => state.unitUsed);
+  const { id } = useParams();
+  const { currentUser } = useSelector((state: RootState) => state.users);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const router = useRouter();
-  const { updateUnitUsed } = bindActionCreators(actionUnitUsed, dispatch);
+  const { updateUser, changeCurrentUser } = bindActionCreators(
+    actionUser,
+    dispatch,
+  );
   const [role, setRole] = useState<{ name: string; key: number }>(RoleItems[0]);
 
-  const [user, setUser] = useState<IUser | null>(null);
   const [userData, setUserData] = useState<any>(null);
 
   const handleChangeFormValue = () => {
@@ -74,55 +71,49 @@ function EditUser() {
 
   const handleUpdateUser = () => {
     const newUser: IUser = {
-      ...user,
-      username: userData.username,
-      password: userData.password,
-      confirmPassword: userData.confirmPassword,
-      status: userData.status,
+      ...currentUser,
+      username: userData?.username ?? "",
+      password: userData?.password ?? "",
+      confirmPassword: userData?.confirmPassword ?? "",
+      status: userData?.status ?? true,
       userDetail: {
-        ...user?.userDetail,
-        firstName: user?.userDetail?.firstName ?? "",
-        lastName: user?.userDetail?.lastName ?? "",
-        phoneNumber: user?.userDetail?.phoneNumber ?? "",
-        nationality: user?.userDetail?.nationality ?? "",
-        userId: user?.userDetail?.userId ?? "",
-        dateOfBirth: user?.userDetail?.dateOfBirth ?? dayjs(),
-        email: userData.email,
+        ...currentUser?.userDetail,
+        firstName: currentUser?.userDetail?.firstName ?? "",
+        lastName: currentUser?.userDetail?.lastName ?? "",
+        phoneNumber: currentUser?.userDetail?.phoneNumber ?? "",
+        nationality: currentUser?.userDetail?.nationality ?? "",
+        userId: currentUser?.userDetail?.userId ?? "",
+        dateOfBirth: currentUser?.userDetail?.dateOfBirth ?? dayjs(),
+        email: userData?.email ?? "",
         role: role.name ?? typeRole.CONTENT_MANAGER,
       },
     };
 
-    var newUsers = currentUnitUsed?.users.filter(
-      (us) => us.userDetail?.email !== email,
-    );
-    newUsers = newUsers ? [...newUsers, newUser] : [newUser];
-
-    const newUnitUsed = {
-      ...currentUnitUsed,
-      users: newUsers,
-    };
-
-    console.log(newUnitUsed);
-    currentUnitUsed?.id &&
-      updateUnitUsed(currentUnitUsed.id, newUnitUsed, () => {
+    id &&
+      updateUser(id, newUser, () => {
         router.back();
       });
   };
 
   useEffect(() => {
-    if (currentUnitUsed?.users) {
-      const user: IUser | undefined = currentUnitUsed.users.find(
-        (us) => us.userDetail?.email === email,
+    id && changeCurrentUser(id);
+  }, [id]);
+
+  useEffect(() => {
+    if (currentUser) {
+      const roleExist = RoleItems.find(
+        (role) => role.name === currentUser.userDetail?.role,
       );
-      user && setUser(user);
+
+      roleExist && setRole(roleExist);
     }
-  }, [currentUnitUsed, email]);
+  }, [currentUser]);
 
   return (
-    user && (
+    currentUser && (
       <div className="w-full">
         <Paging items={PagingItems} />
-        <TextHeader>Thêm người dùng mới</TextHeader>
+        <TextHeader>Chỉnh sửa thông tin người dùng</TextHeader>
 
         <div className="mt-10 flex items-start justify-start gap-32">
           <Form
@@ -131,8 +122,7 @@ function EditUser() {
             layout="horizontal"
             style={{ width: "33.33333%" }}
             initialValues={{
-              ...user,
-              ...user.userDetail,
+              ...currentUser,
             }}
           >
             <Form.Item
@@ -176,6 +166,30 @@ function EditUser() {
               <Input variant="outlined" id="email" width={"100%"} />
             </Form.Item>
             <Form.Item
+              name="dateExpired"
+              label={
+                <TextLabel
+                  className="flex h-full items-center justify-center"
+                  idInput="date-expire"
+                >
+                  Vai trò:
+                  <span className="pt-2 text-error">*</span>
+                </TextLabel>
+              }
+              style={{
+                width: "100%",
+              }}
+              labelCol={{ span: 9 }}
+              required={false}
+            >
+              <DatePicker
+                variant="outlined"
+                className="w-full"
+                id="date-expire"
+                background="#2b2b3f"
+              />
+            </Form.Item>
+            <Form.Item
               name="role"
               label={
                 <TextLabel
@@ -207,7 +221,9 @@ function EditUser() {
             form={form}
             layout="horizontal"
             style={{ width: "33.33333%" }}
-            initialValues={{ ...user }}
+            initialValues={{
+              ...currentUser,
+            }}
           >
             <Form.Item
               name="username"

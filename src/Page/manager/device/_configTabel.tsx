@@ -1,60 +1,23 @@
 import { ColumnsType } from "antd/es/table";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+import { IDevice } from "../../../Model/device.model";
 
-const generateScheduleDataExample = (count: number): DeviceColDataType[] => {
-  const data: DeviceColDataType[] = [];
-  for (let i = 0; i < count; i++) {
-    data.push({
-      id: `record_${i + 1}`,
-      index: i + 1,
-      key: i + 1,
-      nameDevice: "device " + i,
-      macAddress: "192.168.1.8",
-      status: (i + 1) % 2 == 0 ? false : true,
-      place: "86/33, Âu Cơ, Phường 9, Tân Bình, TP Hồ Chí Minh",
-      expiredContract: dayjs(),
-      memory: "0.00GB/32GB",
-      username: "username" + i,
-      SKU_ID: "12313213123" + i,
-      warrantyPeriod: dayjs(),
-    });
-  }
-  return data;
-};
-
-export interface DeviceColDataType {
-  id: string;
-  key: number;
-  index: number;
-  nameDevice: string;
-  status: boolean;
-  place: string;
-  expiredContract: Dayjs;
-  macAddress: string;
-  memory: string;
-  username: string;
-  SKU_ID: string;
-  warrantyPeriod: Dayjs;
-}
-type ConfigColProps = {
-  listKeyCol?: { name: string; key: number }[];
-};
-
-export const ColConfigDevice: ColumnsType<DeviceColDataType> = [
+export const ColConfigDevice: ColumnsType<IDevice> = [
   {
     title: (
       <div className="box-start gap-[4.5rem] font-semibold text-second">
-        <h5>STT</h5> <h5>Tên thiết bị</h5> <h5>Trạng thái</h5>
+        <h5>STT</h5> <h5 className="min-w-[10rem]">Tên thiết bị</h5>{" "}
+        <h5>Trạng thái</h5>
       </div>
     ),
-    key: -1,
     fixed: true,
-    dataIndex: "status",
+    dataIndex: "index",
+    key: -1,
     width: 600,
-    render: (_, { status, nameDevice, index }) => (
+    render: (_, { status, name }, index) => (
       <div className="box-start flex-shrink-0 gap-24">
         <h5>{index}</h5>
-        <h5>{nameDevice}</h5>
+        <h5 className="min-w-[7rem]">{name}</h5>
         <div className="box-start w-fit gap-4">
           {status ? (
             <div className="box-start gap-2">
@@ -76,9 +39,7 @@ export const ColConfigDevice: ColumnsType<DeviceColDataType> = [
     dataIndex: "expiredContract",
     key: 7,
     width: 200,
-    render: (_, { expiredContract }) => (
-      <div>{expiredContract.format("DD/MM/YY")}</div>
-    ),
+    render: (_, {}) => <div>{dayjs().format("DD/MM/YY")}</div>,
   },
   {
     title: <div className="w-max">Tên đăng nhập</div>,
@@ -92,7 +53,7 @@ export const ColConfigDevice: ColumnsType<DeviceColDataType> = [
     dataIndex: "place",
     key: 6,
     width: 300,
-    render: (_, { place }) => <div className="w-[40rem]">{place}</div>,
+    render: (_, { location }) => <div className="w-[40rem]">{location}</div>,
   },
 
   {
@@ -107,7 +68,7 @@ export const ColConfigDevice: ColumnsType<DeviceColDataType> = [
     dataIndex: "memory",
     width: 200,
     key: 2,
-    render: (_, { memory }) => <div>{memory}</div>,
+    render: (_, {}) => <div>{"0.00GB/32GB"}</div>,
   },
   {
     title: <div className="w-max">SKU/ID</div>,
@@ -122,9 +83,9 @@ export const ColConfigDevice: ColumnsType<DeviceColDataType> = [
     key: 4,
     width: 200,
     render: (_, { warrantyPeriod }) => (
-      <div className="w-[40rem]">{warrantyPeriod.format("DD/MM/YY")}</div>
+      <div className="w-[40rem]">
+        {dayjs(warrantyPeriod).format("DD/MM/YY")}
+      </div>
     ),
   },
 ];
-
-export const dataExampleDevice = generateScheduleDataExample(40);

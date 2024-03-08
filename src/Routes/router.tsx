@@ -141,11 +141,17 @@ export const HistorySyncedDevicePage = lazy(
 export const DecentralizeUserPage = lazy(
   () => import("../Page/setting/decentralize/index"),
 );
+export const DecentralizeAddUserPage = lazy(
+  () => import("../Page/setting/decentralize/user/add/index"),
+);
+export const DecentralizeEditUserPage = lazy(
+  () => import("../Page/setting/decentralize/user/edit/index"),
+);
 export const AddUserRolePage = lazy(
-  () => import("../Page/setting/decentralize/add/index"),
+  () => import("../Page/setting/decentralize/role/add/index"),
 );
 export const EditUserRolePage = lazy(
-  () => import("../Page/setting/decentralize/edit/index"),
+  () => import("../Page/setting/decentralize/role/edit/index"),
 );
 // setting config
 export const SettingConfigPage = lazy(
@@ -254,7 +260,31 @@ export default function Router(props: RouterProps) {
           ),
         },
         {
+          path: PathUrl.DECENTRALIZED + "/role",
+          element: (
+            <HomeLayout>
+              <DecentralizeUserPage />
+            </HomeLayout>
+          ),
+        },
+        {
           path: PathUrl.DECENTRALIZED + "/" + PathUrl.ADD,
+          element: (
+            <DetailLayout>
+              <DecentralizeAddUserPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.DECENTRALIZED + "/:id",
+          element: (
+            <DetailLayout>
+              <DecentralizeEditUserPage />
+            </DetailLayout>
+          ),
+        },
+        {
+          path: PathUrl.DECENTRALIZED + "/role/" + PathUrl.ADD,
           element: (
             <DetailLayout>
               <AddUserRolePage />
@@ -262,7 +292,7 @@ export default function Router(props: RouterProps) {
           ),
         },
         {
-          path: PathUrl.DECENTRALIZED + "/:id",
+          path: PathUrl.DECENTRALIZED + "/role/:id",
           element: (
             <DetailLayout>
               <EditUserRolePage />
@@ -557,7 +587,7 @@ export default function Router(props: RouterProps) {
           ),
         },
         {
-          path: PathUrl.INFO_USER + "/:id",
+          path: PathUrl.INFO_USER + "/:email",
           element: (
             <DetailLayout>
               <InfoUserPage />
@@ -565,7 +595,7 @@ export default function Router(props: RouterProps) {
           ),
         },
         {
-          path: PathUrl.EDIT_USER + "/:id",
+          path: PathUrl.EDIT_USER + "/:email",
           element: (
             <DetailLayout>
               <EditUserPage />

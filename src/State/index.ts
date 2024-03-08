@@ -10,3 +10,6 @@ export * as actionContractMining from "./action-creators/contractMiningAction";
 export * as actionUser from "./action-creators/userAction";
 export * as actionContractAuthority from "./action-creators/contractAuthorityAction";
 export * as actionDevice from "./action-creators/deviceAction";
+export * as actionAuthorizedPartner from "./action-creators/authorizedPartnerAction";
+export * as actionUnitUsed from "./action-creators/unitUsedAction";
+export * as actionRole from "./action-creators/roleAction";

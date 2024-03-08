@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { IUser } from "../Model/user.model";
 import { app } from "../config/firebase";
 import {
@@ -16,7 +17,12 @@ const db = getFirestore(app);
 export const createUser = async (user: IUser): Promise<string | undefined> => {
   try {
     const usersCollection = collection(db, "user");
-    const userDocRef = await addDoc(usersCollection, user);
+    const userDocRef = await addDoc(usersCollection, {
+      ...user,
+      updateDate: dayjs().toString(),
+      dateExpired: dayjs(user?.dateExpired).toString(),
+      dateExpire: dayjs(user?.dateExpired).toString(),
+    });
     return userDocRef.id;
   } catch (error: any) {
     console.error("Create user in Firebase failed:", error.message);
@@ -53,6 +59,7 @@ export const getUserById = async (id: string): Promise<IUser | undefined> => {
       return {
         ...userData,
         id: userDoc.id,
+        dateExpired: dayjs(userData.dateExpired),
       };
     }
   } catch (error: any) {
@@ -63,26 +70,31 @@ export const getUserById = async (id: string): Promise<IUser | undefined> => {
 export const updateUserById = async (
   userId: string,
   updatedData: Partial<IUser>,
-): Promise<boolean> => {
+): Promise<IUser | undefined> => {
   try {
-    const user = getUserById(userId);
-    if (user === null) {
-      return false;
+    const user = await getUserById(userId);
+    if (!user) {
+      return undefined;
     }
     const newUser = {
       ...user,
       ...updatedData,
+      dateExpired: dayjs(user.dateExpired).toString(),
       userDetail: {
-        ...updatedData.userDetail,
-        dateOfBirth: updatedData.userDetail?.dateOfBirth.toString(),
+        ...(updatedData.userDetail ?? {}),
+        dateOfBirth:
+          dayjs(updatedData.userDetail?.dateOfBirth).toString() ?? "",
       },
     };
+
     const userDocRef = doc(db, "user", userId);
     await updateDoc(userDocRef, newUser);
-    return true;
+
+    const updateUser = await getUserById(userId);
+    return updateUser;
   } catch (error: any) {
     console.error("Update user in Firebase failed:", error.message);
-    return false;
+    return undefined;
   }
 };
 

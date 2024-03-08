@@ -17,6 +17,11 @@ export enum typeGender {
 }
 export enum typeRole {
   ADMIN = "Admin",
+  USER = "user",
+  SUPER_ADMIN = "Super Admin",
+  GROUP_ADMIN = "Group Admin",
+  SUB_USER = "Sub User",
+  CONTENT_MANAGER = "Content Manager",
 }
 export type File = {
   name: string;

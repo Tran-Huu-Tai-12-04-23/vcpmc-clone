@@ -1,13 +1,13 @@
-import React, { useContext, useRef, useState } from "react";
 import type { GetRef, InputProps } from "antd";
-import { Form, Table, Input } from "antd";
+import { Form, Input, Table } from "antd";
+import React, { useContext, useRef, useState } from "react";
 import styled from "styled-components";
+import { AddIcon, TrashIcon } from "../../../../assets/icon";
+import { Button, DatePicker, Paging, TextHeader } from "../../../../Component";
+import FloatingActionButton from "../../../../Component/UI/FloatingActionButton";
+import { useRouter } from "../../../../Routes/hooks";
 import { GenreSongDataType } from "../../information-creation";
 import { TypeContract, dataTypeContract } from "../_configTable";
-import { Paging, TextHeader, Button, DatePicker } from "../../../../Component";
-import { useRouter } from "../../../../Routes/hooks";
-import { AddIcon, TrashIcon } from "../../../../assets/icon";
-import FloatingActionButton from "../../../../Component/UI/FloatingActionButton";
 
 const CustomInput = styled(Input)<InputProps>`
   font-weight: 400;
@@ -162,18 +162,33 @@ const EditTypeContract = () => {
       title: "Doanh thu VCPCM/hợp đồng (Đơn vị: %) ",
       dataIndex: "VCPCMRevenue_contract",
       key: "VCPCMRevenue_contract",
-      render: (_, { VCPCMRevenue_contract }) => (
-        <h5>{VCPCMRevenue_contract * 100}%</h5>
-      ),
+      render: (_: any, record: unknown) => {
+        const typeContractRecord = record as TypeContract;
+        return (
+          <h5>
+            {typeContractRecord &&
+              typeContractRecord.VCPCMRevenue_contract &&
+              +typeContractRecord.VCPCMRevenue_contract * 100}
+            %
+          </h5>
+        );
+      },
       editable: true,
     },
     {
       title: "Ngày áp dụng",
       dataIndex: "dateApply",
       key: "dateApply",
-      render: (_, { dateApply }) => (
-        <h5>{dateApply && dateApply.format("DD/MM/YY HH:mm:ss")}</h5>
-      ),
+      render: (_: any, record: unknown) => {
+        const typeContractRecord = record as TypeContract;
+        return (
+          <h5>
+            {typeContractRecord &&
+              typeContractRecord.dateApply &&
+              typeContractRecord.dateApply.format("DD/MM/YY HH:mm:ss")}
+          </h5>
+        );
+      },
       editable: true,
       typeInput: "pickDate",
     },
